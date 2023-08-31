@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+// ignore: unused_import
 import 'package:veli_flutter/pages/onboadring.dart';
+import 'package:veli_flutter/pages/sign_up.dart';
 
 void main() {
   runApp(const MainApp());
@@ -14,7 +16,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: '',
       theme: ThemeData(),
-      home: const Onboadring(
+      home: const SignupPage(
         key: null,
       ),
     );
