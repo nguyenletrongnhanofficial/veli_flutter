@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:veli_flutter/pages/onboadring.dart';
 
 void main() {
   runApp(const MainApp());
@@ -9,11 +10,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Xin chào tôi là Nhân'),
-        ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: '',
+      theme: ThemeData(),
+      home: const Onboadring(
+        key: null,
       ),
     );
   }
