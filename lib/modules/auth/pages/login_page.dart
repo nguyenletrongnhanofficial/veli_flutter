@@ -35,12 +35,12 @@ class LoginPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 50),
-            AuthFormTextField(
+            const AuthFormTextField(
               label: 'Số điện thoại',
               hint: 'Nhập số điện thoại',
             ),
             const SizedBox(height: 10),
-            AuthFormTextField(
+            const AuthFormTextField(
               label: 'Mật khẩu',
               hint: 'Nhập mật khẩu',
               obscureText: true,
