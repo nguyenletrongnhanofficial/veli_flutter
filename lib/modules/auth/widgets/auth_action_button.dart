@@ -21,8 +21,8 @@ class AuthActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 500,
-      height: 100,
-      padding: const EdgeInsets.fromLTRB(40, 20, 40, 20),
+      height: 80,
+      padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(

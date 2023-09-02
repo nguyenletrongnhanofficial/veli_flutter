@@ -35,7 +35,7 @@ class SignupPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 30),
             const AuthFormTextField(
               label: 'Họ và tên',
               hint: 'Nguyễn Văn A',
