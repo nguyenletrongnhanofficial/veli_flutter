@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:veli_flutter/utils/app_color.dart';
 
 import '../../auth/widgets/auth_action_button.dart';
 import '../widgets/post_form_text_field.dart';
@@ -24,14 +25,14 @@ class AddPostPage extends StatelessWidget {
         child: Column(
           children: [
             const Padding(
-              padding: EdgeInsets.fromLTRB(10, 20, 30, 40),
+              padding: EdgeInsets.fromLTRB(15, 20, 30, 40),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'ĐĂNG TÀI LIỆU',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF150b3d),
+                    color: AppColor.darkblueColor,
                     fontSize: 20,
                   ),
                 ),
@@ -48,14 +49,14 @@ class AddPostPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 10),
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       'Name',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF150b3d),
+                        color: AppColor.darkblueColor,
                       ),
                     ),
                     Text(
@@ -69,19 +70,19 @@ class AddPostPage extends StatelessWidget {
                 const SizedBox(width: 10),
               ],
             ),
-            Row(crossAxisAlignment: CrossAxisAlignment.start, children: const [
+            const Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
               PostFormTextField(
                 label: 'Tiêu đề',
                 hint: 'Viết tiêu đề của tài liệu cần bán',
               ),
             ]),
-            Row(crossAxisAlignment: CrossAxisAlignment.start, children: const [
+            const Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
               PostFormTextField(
                 label: 'Mô tả chi tiết',
                 hint: 'Mô tả càng chi tiết sẽ càng giúp bạn bán dễ dàng hơn',
               ),
             ]),
-            Row(crossAxisAlignment: CrossAxisAlignment.start, children: const [
+            const Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
               PostFormTextField(
                 label: 'Giá',
                 hint: 'Nhập giá mà bạn cần bán',
@@ -103,20 +104,23 @@ class AddPostPage extends StatelessWidget {
                 ],
               ),
             ),
-            Row(crossAxisAlignment: CrossAxisAlignment.start, children: const [
+            const Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
               PostFormTextField(
                 label: 'Trường',
                 hint: 'Nhập tên trường để mọi người dễ tìm thấy tài liệu hơn',
               ),
             ]),
-            Row(crossAxisAlignment: CrossAxisAlignment.start, children: const [
+            const Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
               PostFormTextField(
                 label: 'Địa chỉ',
                 hint: 'Nhập địa chỉ bạn cần bán',
               ),
             ]),
+            const SizedBox(
+              height: 40,
+            ),
             AuthActionButton(
-              text: 'Đăng bài',
+              text: 'ĐĂNG BÀI',
               onPressed: () {
                 // Xử lý BE
               },

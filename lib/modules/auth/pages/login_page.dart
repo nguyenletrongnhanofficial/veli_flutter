@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:veli_flutter/modules/auth/pages/forgot_password_page.dart';
+import 'package:veli_flutter/pages/home_page.dart';
+import 'package:veli_flutter/utils/app_color.dart';
 import '../widgets/auth_action_button.dart';
 import '../widgets/auth_form_text_field.dart';
 import '../widgets/auth_page_link.dart';
@@ -20,6 +23,7 @@ class LoginPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
+                color: AppColor.darkblueColor,
               ),
               textAlign: TextAlign.center,
             ),
@@ -30,6 +34,7 @@ class LoginPage extends StatelessWidget {
                 'Veli và nơi để bạn có thể đăng bán bất kỳ tài liệu nào mà bạn không dùng đến',
                 style: TextStyle(
                   fontSize: 12,
+                  color: AppColor.darkblueColor,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -67,10 +72,19 @@ class LoginPage extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.only(right: 35),
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ForgotpassPage()),
+                      );
+                    },
                     child: const Text(
                       'Quên mật khẩu',
                       textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: AppColor.darkblueColor,
+                      ),
                     ),
                   ),
                 ),
@@ -79,7 +93,10 @@ class LoginPage extends StatelessWidget {
             AuthActionButton(
               text: 'Đăng nhập',
               onPressed: () {
-                // Xử lý BE
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
               },
             ),
             AuthActionButton(

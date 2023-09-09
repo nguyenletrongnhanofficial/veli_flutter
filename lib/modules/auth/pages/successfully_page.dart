@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:veli_flutter/modules/auth/pages/login_page.dart';
 
+import '../../../utils/app_color.dart';
 import '../widgets/auth_action_button.dart';
 
 class SuccessfullyPage extends StatelessWidget {
@@ -17,12 +19,16 @@ class SuccessfullyPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
+                color: AppColor.darkblueColor,
               ),
             ),
             const SizedBox(height: 16),
             const Text(
               'Mật khẩu của bạn đã được cập nhật, vui lòng thay đổi mật khẩu thường xuyên để tránh điều này xảy ra',
               textAlign: TextAlign.center,
+              style: TextStyle(
+                color: AppColor.darkblueColor,
+              ),
             ),
             const SizedBox(height: 16),
             Image.asset(
@@ -40,7 +46,10 @@ class SuccessfullyPage extends StatelessWidget {
             AuthActionButton(
               text: 'Đăng nhập',
               onPressed: () {
-                // Xử lý BE
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
               },
               backgroundColor: const Color(0xFFEFEFEF),
               textColor: Colors.black,
