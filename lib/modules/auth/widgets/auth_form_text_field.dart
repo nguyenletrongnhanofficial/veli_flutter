@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../utils/app_color.dart';
+
 class AuthFormTextField extends StatelessWidget {
   const AuthFormTextField({
     required this.label,
@@ -21,8 +23,12 @@ class AuthFormTextField extends StatelessWidget {
           label,
           style: const TextStyle(
             fontSize: 16,
+            color: AppColor.darkblueColor,
           ),
           textAlign: TextAlign.left,
+        ),
+        const SizedBox(
+          height: 15,
         ),
         Container(
           width: 300,

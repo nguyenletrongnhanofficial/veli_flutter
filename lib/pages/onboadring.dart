@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:veli_flutter/modules/auth/pages/login_page.dart';
+
+import '../utils/app_color.dart';
 
 class Onboadring extends StatefulWidget {
   const Onboadring({required key}) : super(key: key);
@@ -34,16 +37,23 @@ class _OnboadringState extends State<Onboadring> {
                   height: 300.0,
                 ),
                 const SizedBox(height: 20.0),
-                const Text(
-                  'Đăng bán tài liệu không dùng đến',
-                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.left,
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: Text(
+                    'Đăng bán tài liệu không dùng đến',
+                    style:
+                        TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.left,
+                  ),
                 ),
                 const SizedBox(height: 10.0),
-                const Text(
-                  'Nếu bạn đang có tài cũ không dùng đến thay vì vứt nó, bạn hãy dùng Veli để đăng và bán nó',
-                  style: TextStyle(fontSize: 15.0),
-                  textAlign: TextAlign.left,
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: Text(
+                    'Nếu bạn đang có tài cũ không dùng đến thay vì vứt nó, bạn hãy dùng Veli để đăng và bán nó',
+                    style: TextStyle(fontSize: 15.0),
+                    textAlign: TextAlign.left,
+                  ),
                 ),
               ],
             ),
@@ -51,8 +61,13 @@ class _OnboadringState extends State<Onboadring> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: const Color(0xFF0EBF7E),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LoginPage()),
+          );
+        },
+        backgroundColor: AppColor.mainColor,
         child: const Icon(
           Icons.arrow_forward,
           color: Colors.white,

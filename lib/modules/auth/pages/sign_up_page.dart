@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:veli_flutter/modules/auth/pages/login_page.dart';
 
+import '../../../utils/app_color.dart';
 import '../widgets/auth_action_button.dart';
 import '../widgets/auth_form_text_field.dart';
 import '../widgets/auth_page_link.dart';
@@ -21,6 +22,7 @@ class SignupPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
+                color: AppColor.darkblueColor,
               ),
               textAlign: TextAlign.center,
             ),

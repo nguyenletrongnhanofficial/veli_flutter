@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:veli_flutter/modules/auth/pages/otp_page.dart';
 import '../widgets/auth_action_button.dart';
 import '../widgets/auth_form_text_field.dart';
 
@@ -60,13 +61,15 @@ class ForgotpassPage extends StatelessWidget {
               child: const AuthFormTextField(
                 label: '',
                 hint: 'Nhập số điện thoại của bạn vào đây',
-                obscureText: true,
               ),
             ),
             AuthActionButton(
               text: 'Tiếp tục',
               onPressed: () {
-                // Xử lý BE
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => OTPPage()),
+                );
               },
             ),
           ],
