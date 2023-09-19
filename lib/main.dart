@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:veli_flutter/modules/auth/pages/login_page.dart';
-import 'package:veli_flutter/modules/auth/pages/otp_page.dart';
+import 'package:veli_flutter/modules/chat/pages/chat_page.dart';
 import 'package:veli_flutter/modules/post/pages/add_post_page.dart';
 import 'package:veli_flutter/pages/home_page.dart';
 import 'package:veli_flutter/pages/onboadring.dart';
-import 'modules/auth/pages/successfully_page.dart';
+
 import 'widgets/nav_bar/nav_bar.dart';
 
 void main() {
@@ -28,7 +28,7 @@ class MainApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: const MainPage(),
+      home: ChatPage(username: 'Bé Liên', state: true),
     );
   }
 }
