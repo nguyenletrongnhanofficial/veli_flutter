@@ -5,7 +5,6 @@ import 'package:veli_flutter/modules/description/description_page.dart';
 import 'package:veli_flutter/modules/post/pages/add_post_page.dart';
 import 'package:veli_flutter/pages/home_page.dart';
 import 'package:veli_flutter/pages/onboadring.dart';
-
 import 'widgets/nav_bar/nav_bar.dart';
 
 void main() {
