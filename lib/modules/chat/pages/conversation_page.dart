@@ -84,13 +84,13 @@ class _ConversationPageState extends State<ConversationPage> {
           ConversationWidget(
             username: 'KimLien',
             message:
-                'Kim Liên dễ thương, xinh đẹp, cute, phô mai que, bánh tráng trộn, hột vịt lộn',
+                'Kim Liên dễ thương, cute, phô mai que, bánh tráng trộn, hột vịt lộn, trứng cút lắc',
             unread: 2,
           ),
           ConversationWidget(
             username: 'KimLien',
             message:
-                'Kim Liên dễ thương, xinh đẹp, cute, phô mai que, bánh tráng trộn, hột vịt lộn',
+                'Kim Liên dễ thương, cute, phô mai que, bánh tráng trộn, hột vịt lộn, trứng cút lắc',
             unread: 2,
           )
         ],
