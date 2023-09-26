@@ -53,10 +53,10 @@ class _MessageWidgetState extends State<MessageWidget> {
                         ? Colors.green
                         : Colors.pink[50],
                     borderRadius: BorderRadius.only(
-                      topLeft:
-                          Radius.circular(widget.position == 'right' ? 8.0 : 0),
+                      topLeft: Radius.circular(8),
                       topRight: Radius.circular(8.0),
-                      bottomLeft: Radius.circular(8.0),
+                      bottomLeft:
+                          Radius.circular(widget.position == 'right' ? 8 : 0),
                       bottomRight:
                           Radius.circular(widget.position == 'right' ? 0 : 8.0),
                     ),

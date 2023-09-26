@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:snippet_coder_utils/FormHelper.dart';
 
 class FilterPage extends StatefulWidget {
   const FilterPage({super.key});
@@ -9,16 +10,27 @@ class FilterPage extends StatefulWidget {
 
 class _FilterPageState extends State<FilterPage> {
   // khai báo list
-  final List<String> schools = [
-    'Trường đại học Khoa học tự nhiên',
-    'Trường đại học Công nghệ thông tin',
-    'Trường đại học Tài nguyên và Môi trường TP.HCM',
-    'Trường đại học Bách khoa TP.HCM',
-    'Trường đại học Sư phạm kỹ thuật',
-    'Cao đẳng Lý Tự Trọng',
-    'Cao đẳng FPT'
-  ];
-  String selectedSchool = ''; // biến lưu trữ giá trị trường đc chọn
+  List<dynamic> schools = [];
+  // String selectedSchool = ''; // biến lưu trữ giá trị trường đc chọn
+  String? schoolsId;
+  void initState() {
+    super.initState();
+    this.schools.add({'id': 1, 'label': 'Trường đại học Công nghệ thông tin'});
+    this.schools.add(
+        {'id': 2, 'label': 'Trường đại học Tài nguyên và Môi trường TPHCM'});
+  }
+
+  TextEditingController _textEditingController = TextEditingController();
+  TextEditingController _addressEditingController = TextEditingController();
+
+  void dispose() {
+    _textEditingController.dispose();
+    _addressEditingController.dispose();
+
+    super.dispose();
+  } // giải phóng bộ nhớ khi ko sử dụng nữa (hàm dispose của state)
+
+  RangeValues _priceRange = RangeValues(0, 1000); // khoảng giá ban đầu
 
   @override
   Widget build(BuildContext context) {
@@ -34,62 +46,164 @@ class _FilterPageState extends State<FilterPage> {
               ),
             ),
           )),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // ô chọn trường
-            Autocomplete<String>(
-              optionsBuilder: (TextEditingValue textEditingValue) {
-                //tìm kiếm theo keyword
-                return schools
-                    .where((school) => school.toLowerCase().contains(
-                          textEditingValue.text.toLowerCase(),
-                        ))
-                    .toList();
+            FormHelper.dropDownWidgetWithLabel(
+              context,
+              'Trường học:',
+              'Chọn trường',
+              this.schoolsId,
+              this.schools,
+              (onChangedVal) {
+                this.schoolsId = onChangedVal;
+                print('Chọn trường: $onChangedVal');
               },
-              onSelected: (String value) {
+              (onValidaVal) {
+                if (onValidaVal == null) {
+                  return 'Vui lòng chọn trường bạn muốn';
+                }
+                return null;
+              },
+              borderColor: Theme.of(context).primaryColor,
+              borderFocusColor: Theme.of(context).primaryColor,
+              borderRadius: 10,
+              contentPadding: 10,
+              optionLabel: 'label',
+              optionValue: 'id',
+            ),
+            SizedBox(height: 25),
+
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 12),
+                  child: Text(
+                    'Môn học:',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 15),
+            Container(
+              padding: EdgeInsets.only(left: 30, right: 30),
+              child: TextField(
+                controller: _textEditingController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide:
+                          BorderSide(color: Color(0xFF0EBF7E), width: 1)),
+                  hintText: 'Nhập tên môn học',
+                  labelText: 'Môn học: ',
+                ),
+              ),
+            ),
+            SizedBox(height: 25),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 12),
+                  child: Text(
+                    'Địa điểm:',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 15),
+            Container(
+              padding: EdgeInsets.only(left: 30, right: 30),
+              child: TextField(
+                controller: _addressEditingController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(color: Colors.green, width: 1)),
+                  hintText: 'Nhập địa điểm',
+                  labelText: 'Địa điểm: ',
+                ),
+              ),
+            ),
+
+            // Text(
+            //     'You entered: ${_textEditingController.text}') //cập nhật &hiển thị VB
+            SizedBox(
+              height: 25,
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 12),
+                  child: Text(
+                    'Lọc theo giá: ',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 25,
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Giá thấp nhất'),
+                Text('Giá cao nhất'),
+              ],
+            ),
+            RangeSlider(
+              values: _priceRange,
+              min: 0,
+              max: 1000,
+              onChanged: (RangeValues newValues) {
                 setState(() {
-                  selectedSchool = value;
+                  _priceRange = newValues;
                 });
               },
-              fieldViewBuilder: (BuildContext context,
-                  TextEditingController textEditingController,
-                  FocusNode focusNode,
-                  void Function() onFieldSubmitted) {
-                return TextFormField(
-                  controller: textEditingController,
-                  decoration: InputDecoration(
-                    hintText: 'Nhập trường học',
-                  ),
-                  onFieldSubmitted: (_) {
-                    onFieldSubmitted();
-                  },
-                );
-              },
-              optionsViewBuilder: (BuildContext context,
-                  AutocompleteOnSelected<String> onSelected,
-                  Iterable<String> options) {
-                return Expanded(
-                  child: Container(
-                    child: Material(
-                      child: ListView(
-                        children: options.map((String option) {
-                          return ListTile(
-                            title: Text(option),
-                            onTap: () {
-                              onSelected(option);
-                            },
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ),
-                );
-              },
+              divisions: 10,
+              labels: RangeLabels(
+                _priceRange.start.round().toString(),
+                _priceRange.end.round().toString(),
+              ),
+              activeColor: Color(0xFF0EBF7E),
             ),
-            // hiển thị trường học đc chọn
-            Text('Trường học: $selectedSchool'),
+            SizedBox(
+              height: 130,
+            ),
+            Center(
+              child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF0EBF7E),
+                  ),
+                  child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: 16,
+                        top: 16,
+                        left: 80,
+                        right: 80,
+                      ),
+                      child: Text(
+                        'ÁP DỤNG',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ))),
+            )
           ],
         ),
       ),
