@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:veli_flutter/modules/auth/pages/login_page.dart';
-import 'package:veli_flutter/modules/description/description_page.dart';
+import 'package:veli_flutter/modules/description/pages/description_page.dart';
+//import 'package:veli_flutter/modules/description/widgets/custom_googlemap.dart';
 import 'package:veli_flutter/modules/post/pages/add_post_page.dart';
 import 'package:veli_flutter/pages/home_page.dart';
 import 'package:veli_flutter/pages/onboadring.dart';
+
 import 'widgets/nav_bar/nav_bar.dart';
 
 void main() {
@@ -28,9 +30,12 @@ class MainApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
 
-      // home: MessageWidget(
-      //     message: 'hello', time: DateTime.now(), position: 'right'),
       home: Descriptionpage(),
+      // home: ChatPage(
+      //   user_id: '1',
+      //   username: 'Bé Liên',
+      //   state: true,
+      // ),
     );
   }
 }

@@ -1,15 +1,18 @@
 name: veli_flutter
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=2.19.4 <3.0.0'
+  sdk: ">=2.19.4 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-
+  google_maps_flutter: ^2.5.0
+  readmore: ^2.2.0 #tự động tóm tắt và hiển thị nội dung với tính năng 'Xem thêm'
+  snippet_coder_utils: ^1.0.14 # customUI (dropdown, textbbox, button)
+  url_launcher: ^6.1.14 # mở các url bên ngoài ứng dụng
 dev_dependencies:
   flutter_test:
     sdk: flutter
