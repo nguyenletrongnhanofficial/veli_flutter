@@ -21,7 +21,7 @@ class _ConversationPageState extends State<ConversationPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              width: width * 0.33,
+              width: width * 0.2,
             ),
             Container(
               width: width * 0.31,

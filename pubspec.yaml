@@ -9,9 +9,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_native_splash: ^2.3.3
+  fluttertoast: 8.0.9
   google_maps_flutter: ^2.5.0
+  http: ^1.1.0
+  intl: ^0.18.1
+  need_resume: ^1.0.7+1
+  page_transition: ^2.1.0
   readmore: ^2.2.0 #tự động tóm tắt và hiển thị nội dung với tính năng 'Xem thêm'
+  shared_preferences: ^2.2.1
   snippet_coder_utils: ^1.0.14 # customUI (dropdown, textbbox, button)
+  socket_io_client: ^2.0.3+1
   url_launcher: ^6.1.14 # mở các url bên ngoài ứng dụng
 dev_dependencies:
   flutter_test:

@@ -7,12 +7,15 @@ class AuthFormTextField extends StatelessWidget {
     required this.label,
     required this.hint,
     this.obscureText = false,
+    this.controller,
     Key? key,
+    // required IconButton suffixIcon,
   }) : super(key: key);
 
   final String label;
   final String hint;
   final bool obscureText;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +43,7 @@ class AuthFormTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: TextField(
+            controller: controller,
             obscureText: obscureText,
             decoration: InputDecoration(
               hintText: hint,
