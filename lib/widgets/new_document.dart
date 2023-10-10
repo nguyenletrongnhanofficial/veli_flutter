@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:veli_flutter/models/user_model.dart';
 import 'package:veli_flutter/utils/app_color.dart';
 
 class NewDocument extends StatelessWidget {
-  const NewDocument({super.key});
+  final String url;
+  // final UserModel? seller;
+  final String sellerName;
+  final String address;
+  final String createdAt;
+  
+  NewDocument({key, 
+    required this.url,
+    required this.sellerName,
+    required this.address,
+    required this.createdAt,
+    });
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +32,7 @@ class NewDocument extends StatelessWidget {
               children: [
                 Container(
                   padding: const EdgeInsets.fromLTRB(10, 20, 15, 15),
-                  child: Image.asset(
-                    'assets/images/image_avt_default.jpg',
+                  child: Image.network(url,
                     width: 120,
                     height: 140,
                   ),
@@ -107,9 +119,9 @@ class NewDocument extends StatelessWidget {
                       height: 5,
                     ),
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      'Tên tôi là',
+                      '$sellerName',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.normal,
@@ -118,9 +130,9 @@ class NewDocument extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 0),
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      'Địa điểm ',
+                      '$address',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.normal,
@@ -129,9 +141,9 @@ class NewDocument extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      'Thời gian',
+                      '${DateFormat('dd/MM/yyyy HH:mm').format(DateTime.parse(createdAt))}',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.normal,
