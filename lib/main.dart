@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:veli_flutter/modules/auth/pages/login_page.dart';
-import 'package:veli_flutter/modules/chat/pages/chat_page.dart';
+import 'package:provider/provider.dart';
 import 'package:veli_flutter/modules/chat/pages/conversation_page.dart';
-import 'package:veli_flutter/modules/description/pages/description_page.dart';
-//import 'package:veli_flutter/modules/description/widgets/custom_googlemap.dart';
-import 'package:veli_flutter/modules/post/pages/add_post_page.dart';
+import 'package:veli_flutter/modules/filter/pages/filter_page.dart';
+import 'package:veli_flutter/modules/save/manage_page.dart';
+//import 'package:veli_flutter/modules/save/save_page.dart';
 import 'package:veli_flutter/pages/home_page.dart';
-import 'package:veli_flutter/pages/onboadring.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:veli_flutter/pages/splash_page.dart';
+import 'package:veli_flutter/providers/filter_provider.dart';
 import 'package:veli_flutter/routes/router.dart' as main_router;
 
 import 'widgets/nav_bar/nav_bar.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MainApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<FilterProvider>.value(value: FilterProvider())
+    ],
+    child: MainApp(),
+  ));
 }
 
 class MainApp extends StatelessWidget {
@@ -27,7 +30,6 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       onGenerateRoute: main_router.Router.generateRoute,
       home: SplashPage(),
-      
 
       // theme: ThemeData(
       //   appBarTheme: const AppBarTheme(
@@ -43,9 +45,12 @@ class MainApp extends StatelessWidget {
 }
 
 List<Widget> _listOfPage = <Widget>[
-  Container(alignment: Alignment.center,child: const HomePage()),
-  Container(alignment: Alignment.center, child: Descriptionpage()),
-  Container(alignment: Alignment.center, child: AddPostPage()),
+  Container(alignment: Alignment.center, child: const HomePage()),
+  Container(
+    alignment: Alignment.center,
+    child: FilterPage(),
+  ),
+  Container(alignment: Alignment.center, child: ManagePage()),
   Container(alignment: Alignment.center, child: ConversationPage()),
 ];
 

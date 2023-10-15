@@ -15,7 +15,7 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends ResumableState<SplashPage> {
   void redirectPage(BuildContext context) async {
-    Timer(const Duration(milliseconds: 500), () {
+    Timer(const Duration(milliseconds: 2000), () {
       navigatorHelper.changeView(context, RouteNames.onboarding,
           isReplaceName: true, type: PageTransitionType.fade);
     });
@@ -27,13 +27,17 @@ class _SplashPageState extends ResumableState<SplashPage> {
     redirectPage(context);
   }
 
+  @override 
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Center(
-        child: Image.asset(
-          'assets/images/veli_splash.png',
-         fit: BoxFit.fill),
+        child: Image.asset('assets/images/veli_splash.png', fit: BoxFit.fill),
       ),
     );
   }

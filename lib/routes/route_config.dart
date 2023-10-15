@@ -66,7 +66,7 @@ class RouteCreator {
       view: ({settings, params}) => OnBoarding(),
     ),
 
-        RouteNames.main: BaseRoute(
+    RouteNames.main: BaseRoute(
       RouteNames.main,
       'Main',
       null,
@@ -128,16 +128,13 @@ class RouteCreator {
       view: ({params, settings}) => Descriptionpage(),
     ),
 
-    RouteNames.filter: BaseRoute(
+     RouteNames.filter: BaseRoute(
       RouteNames.filter,
       'Filter',
       null,
-      view: ({params, settings}) => FilterPage(),
+      view: ({params, settings}) =>
+         FilterPage(),
     ),
-
-    // RouteNames.search: BaseRoute(RouteNames.search, 'Search', null,
-    // view: ({params, settings}) => SearchPage,
-    // ),
 
     RouteNames.message: BaseRoute(
       RouteNames.message,
@@ -160,7 +157,6 @@ class RouteCreator {
       null,
       view: ({params, settings}) => ProfilePage(),
     ),
-    
 
     RouteNames.settings: BaseRoute(
       RouteNames.settings,

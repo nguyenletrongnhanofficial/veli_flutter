@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:veli_flutter/models/user_model.dart';
 import 'package:veli_flutter/utils/app_color.dart';
 
 class NewDocument extends StatelessWidget {
@@ -9,13 +8,14 @@ class NewDocument extends StatelessWidget {
   final String sellerName;
   final String address;
   final String createdAt;
-  
-  NewDocument({key, 
+
+  NewDocument({
+    key,
     required this.url,
     required this.sellerName,
     required this.address,
     required this.createdAt,
-    });
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,8 @@ class NewDocument extends StatelessWidget {
               children: [
                 Container(
                   padding: const EdgeInsets.fromLTRB(10, 20, 15, 15),
-                  child: Image.network(url,
+                  child: Image.network(
+                    url,
                     width: 120,
                     height: 140,
                   ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:veli_flutter/helpers/navigator_helper.dart';
 import 'package:veli_flutter/modules/chat/widgets/conversation_widget.dart';
+import 'package:veli_flutter/routes/route_config.dart';
 import 'package:veli_flutter/utils/app_color.dart';
 
 class ConversationPage extends StatefulWidget {
@@ -81,17 +83,22 @@ class _ConversationPageState extends State<ConversationPage> {
             ],
           ),
           SizedBox(height: 20),
-          ConversationWidget(
-            username: 'KimLien',
-            message:
-                'Kim Liên dễ thương, cute, phô mai que, bánh tráng trộn, hột vịt lộn, trứng cút lắc',
-            unread: 2,
+          GestureDetector(
+            onTap: () {
+              navigatorHelper.changeView(context, RouteNames.message);
+            },
+            child: ConversationWidget(
+              username: 'Kim Lien',
+              message:
+                  'Kim Liên dễ thương, cute, phô mai que, bánh tráng trộn, hột vịt lộn, trứng cút lắc',
+              unread: 2,
+            ),
           ),
           ConversationWidget(
-            username: 'KimLien',
+            username: 'Kim Linh',
             message:
-                'Kim Liên dễ thương, cute, phô mai que, bánh tráng trộn, hột vịt lộn, trứng cút lắc',
-            unread: 2,
+                'Kim Linh dễ thương, cute, phô mai que, bánh tráng trộn, hột vịt lộn, trứng cút lắc',
+            unread: 3,
           )
         ],
       ),

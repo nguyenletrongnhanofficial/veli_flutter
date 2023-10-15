@@ -126,12 +126,12 @@ void signUp(BuildContext context, String userName, String password,
       print('Dang ky thanh cong');
       Navigator.pop(context);
       Fluttertoast.showToast(
-        msg: "Đăng nhập thành công",
+        msg: "Đăng Ký thành công",
       );
     } else {
       print(jsonDecode(response.body)["message"]);
       Fluttertoast.showToast(
-        msg: "Thông tin đăng ký không hợp lệ",
+        msg: jsonDecode(response.body)["message"],
       );
     }
   } catch (e) {
