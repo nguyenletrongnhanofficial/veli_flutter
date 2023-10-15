@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:veli_flutter/modules/chatbot/pages/chatbot_page.dart';
 import 'package:veli_flutter/widgets/cutsom_switch.dart';
-import './update_password.dart';
+
 import './log_out.dart';
+import './update_password.dart';
 
 class RowContent {
   String iconLeadingURL;
@@ -55,7 +57,15 @@ final allRowContent = [
                           0.85,
                   child: const LogOut(),
                 ));
-      })
+      }),
+  RowContent(
+      iconLeadingURL: 'assets/images/changepassword.png',
+      content: 'ChatbotAI',
+      itemFunction: (ctxRoot) {
+        Navigator.of(ctxRoot).push(
+          MaterialPageRoute(builder: (context) => ChatbotPage()),
+        );
+      }),
 ];
 
 class SettingsPage extends StatefulWidget {

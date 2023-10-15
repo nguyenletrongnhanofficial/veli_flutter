@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:veli_flutter/modules/auth/widgets/auth_action_button.dart';
+import 'package:veli_flutter/helpers/navigator_helper.dart';
+import 'package:veli_flutter/routes/route_config.dart';
 
 class ManagePage extends StatelessWidget {
   @override
@@ -19,7 +20,7 @@ class ManagePage extends StatelessWidget {
         child: Row(
           children: [
             Text(
-              'Quản lý bài đăng',
+              'QL bài đăng',
               style: TextStyle(fontSize: 20),
             ),
             SizedBox(width: 16.0),
@@ -30,8 +31,17 @@ class ManagePage extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                // Thực hiện hành động khi biểu tượng được nhấp
-                // Ví dụ: mở trang thêm mới
+                navigatorHelper.changeView(context, RouteNames.addpost);
+              },
+            ),
+            Text(
+              'Lưu',
+              style: TextStyle(fontSize: 20),
+            ),
+            IconButton(
+              icon: Icon(Icons.bookmark),
+              onPressed: () {
+                navigatorHelper.changeView(context, RouteNames.save);
               },
             ),
           ],

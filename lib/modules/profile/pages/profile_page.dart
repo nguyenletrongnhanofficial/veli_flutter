@@ -98,11 +98,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       right: 20,
                       child: IconButton(
                         onPressed: () {
-                          navigatorHelper.changeView(context, RouteNames.manage, isReplaceName: false);
+                          navigatorHelper.changeView(
+                              context, RouteNames.settings,
+                              isReplaceName: false);
                         },
                         icon: const Icon(
-                          Icons.settings_applications,
-                          color: Colors.white,
+                          Icons.settings,
+                          size: 40,
+                          color: Colors.grey,
                         ),
                       ),
                     ),
