@@ -7,7 +7,8 @@ import 'package:veli_flutter/constants/common.constanst.dart';
 import 'package:veli_flutter/helpers/navigator_helper.dart';
 import 'package:veli_flutter/models/user_model.dart';
 import 'package:veli_flutter/modules/auth/pages/forgot_password_page.dart';
-import 'package:veli_flutter/routes/route_config.dart' as customRouter;
+import 'package:veli_flutter/routes/route_config.dart';
+// import 'package:veli_flutter/routes/route_config.dart' as customRouter;
 import 'package:veli_flutter/services/local_storage_service.dart';
 import 'package:veli_flutter/utils/app_color.dart';
 
@@ -142,8 +143,12 @@ class _LoginPageState extends State<LoginPage> {
                   bool loginResult =
                       await login(phoneNumber.text, password.text);
                   if (loginResult) {
-                    navigatorHelper.changeView(
-                        context, customRouter.RouteNames.main,
+                    // navigatorHelper.changeView(
+                    //     context, customRouter.RouteNames.main,
+                    //     isReplaceName: true);
+
+                     navigatorHelper.changeView(
+                        context, RouteNames.addpost,
                         isReplaceName: true);
                   } else {
                     Fluttertoast.showToast(
