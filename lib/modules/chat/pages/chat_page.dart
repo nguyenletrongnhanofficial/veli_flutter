@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:veli_flutter/models/user_model.dart';
 import 'package:veli_flutter/modules/chat/widgets/message_widget.dart';
+import 'package:veli_flutter/services/local_storage_service.dart';
 import 'package:veli_flutter/utils/app_color.dart';
 
 class ChatPage extends StatefulWidget {
@@ -20,6 +22,8 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  LocalStorageService localStorage = LocalStorageService();
+  UserModel? user;
   final List<Map<dynamic, dynamic>> messages = [
     {
       'user_id': '1',
@@ -46,6 +50,20 @@ class _ChatPageState extends State<ChatPage> {
       'time': DateTime(2023, 09, 23, 11, 27),
     },
   ];
+
+  Future<void> getUser() async {
+    UserModel? userStorage = await localStorage.getUserInfo();
+    setState(() {
+      user = userStorage;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getUser();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +110,7 @@ class _ChatPageState extends State<ChatPage> {
                   messages.length - 1 - index; // đảo ngược thứ tự index
               return MessageWidget(
                   message: messages[reversedIndex]['message'],
-                  position: widget.user_id == messages[reversedIndex]['user_id']
+                  position: user?.id == messages[reversedIndex]['user_id']
                       ? 'right'
                       : 'left',
                   time: messages[reversedIndex]['time']);
@@ -114,8 +132,8 @@ class _ChatPageState extends State<ChatPage> {
                 String messageInput = messageController.text.toString();
                 if (messageInput.isNotEmpty) {
                   final newMessage = {
-                    'user_id': '1',
-                    'username': 'Be Lien',
+                    'user_id': user?.id,
+                    'username': user?.username,
                     'message': messageInput,
                     'time': DateTime.now(),
                   };

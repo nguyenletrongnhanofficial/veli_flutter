@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:veli_flutter/helpers/navigator_helper.dart';
+import 'package:veli_flutter/routes/route_config.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -95,10 +97,15 @@ class _ProfilePageState extends State<ProfilePage> {
                       top: 20,
                       right: 20,
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          navigatorHelper.changeView(
+                              context, RouteNames.settings,
+                              isReplaceName: false);
+                        },
                         icon: const Icon(
-                          Icons.settings_applications,
-                          color: Colors.white,
+                          Icons.settings,
+                          size: 40,
+                          color: Colors.grey,
                         ),
                       ),
                     ),
