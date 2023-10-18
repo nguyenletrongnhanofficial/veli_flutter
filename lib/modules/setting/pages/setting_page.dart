@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:veli_flutter/modules/chatbot/pages/chatbot_page.dart';
 import 'package:veli_flutter/widgets/cutsom_switch.dart';
 
-import './log_out.dart';
+
 import './update_password.dart';
 
 class RowContent {
@@ -31,40 +30,6 @@ final allRowContent = [
       itemFunction: (ctxRoot) {
         Navigator.of(ctxRoot).push(
             MaterialPageRoute(builder: (context) => const UpdatePassword()));
-      }),
-  RowContent(
-      iconLeadingURL: 'assets/images/signout.png',
-      content: 'Đăng xuất',
-      itemFunction: (ctxRoot) {
-        showModalBottomSheet(
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(25.0),
-              ),
-            ),
-            backgroundColor: Colors.transparent,
-            barrierColor: const Color(0xFF2C373B).withOpacity(0.6),
-            isScrollControlled: true,
-            context: ctxRoot,
-            builder: (ctx) => SizedBox(
-                  height: !(MediaQuery.of(ctxRoot).orientation ==
-                          Orientation.landscape)
-                      ? (MediaQuery.of(ctxRoot).size.height -
-                              MediaQuery.of(ctxRoot).padding.top) /
-                          2
-                      : (MediaQuery.of(ctxRoot).size.height -
-                              MediaQuery.of(ctxRoot).padding.top) *
-                          0.85,
-                  child: const LogOut(),
-                ));
-      }),
-  RowContent(
-      iconLeadingURL: 'assets/images/changepassword.png',
-      content: 'ChatbotAI',
-      itemFunction: (ctxRoot) {
-        Navigator.of(ctxRoot).push(
-          MaterialPageRoute(builder: (context) => ChatbotPage()),
-        );
       }),
 ];
 

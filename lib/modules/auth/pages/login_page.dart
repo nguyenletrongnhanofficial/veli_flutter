@@ -147,8 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                     //     context, customRouter.RouteNames.main,
                     //     isReplaceName: true);
 
-                     navigatorHelper.changeView(
-                        context, RouteNames.addpost,
+                    navigatorHelper.changeView(context, RouteNames.main,
                         isReplaceName: true);
                   } else {
                     Fluttertoast.showToast(
@@ -187,33 +186,32 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
   Future<bool> login(String phoneNumber, String password) async {
-  try {
-    final response = await http.post(Uri.parse('$apiHost/api/auth/login'),
-        body: {'phone': phoneNumber, 'password': password});
+    try {
+      final response = await http.post(Uri.parse('$apiHost/api/auth/login'),
+          body: {'phone': phoneNumber, 'password': password});
 
-    if (response.statusCode == 200) {
-      final userJson = jsonDecode(response.body)["data"];
-      print(userJson.toString());
-      final user = UserModel.fromJson(userJson);
-      await localStorage.setUserInfo(user);
+      if (response.statusCode == 200) {
+        final userJson = jsonDecode(response.body)["data"];
+        print(userJson.toString());
+        final user = UserModel.fromJson(userJson);
+        await localStorage.setUserInfo(user);
 
-      Fluttertoast.showToast(
-        msg: "Đăng nhập thành công",
-      );
-      return true;
-    } else {
-      print(jsonDecode(response.body)["message"]);
-      Fluttertoast.showToast(
-        msg: jsonDecode(response.body)["message"],
-      );
+        Fluttertoast.showToast(
+          msg: "Đăng nhập thành công",
+        );
+        return true;
+      } else {
+        print(jsonDecode(response.body)["message"]);
+        Fluttertoast.showToast(
+          msg: jsonDecode(response.body)["message"],
+        );
+        return false;
+      }
+    } catch (e) {
+      print(e);
       return false;
     }
-  } catch (e) {
-    print(e);
-    return false;
   }
 }
-
-}
-
