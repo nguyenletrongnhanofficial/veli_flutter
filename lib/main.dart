@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:veli_flutter/modules/account/pages/account_page.dart';
 import 'package:veli_flutter/modules/chat/pages/conversation_page.dart';
-import 'package:veli_flutter/modules/filter/pages/filter_page.dart';
-import 'package:veli_flutter/modules/save/manage_page.dart';
-//import 'package:veli_flutter/modules/save/save_page.dart';
+import 'package:veli_flutter/modules/save/save_page.dart';
 import 'package:veli_flutter/pages/home_page.dart';
 import 'package:veli_flutter/pages/splash_page.dart';
 import 'package:veli_flutter/providers/filter_provider.dart';
@@ -48,10 +47,10 @@ List<Widget> _listOfPage = <Widget>[
   Container(alignment: Alignment.center, child: const HomePage()),
   Container(
     alignment: Alignment.center,
-    child: FilterPage(),
+    child: SavePage(),
   ),
-  Container(alignment: Alignment.center, child: ManagePage()),
   Container(alignment: Alignment.center, child: ConversationPage()),
+  Container(alignment: Alignment.center, child: AccountPage()),
 ];
 
 class MainPage extends StatefulWidget {
@@ -109,16 +108,16 @@ class _MainPageState extends State<MainPage> {
           title: 'Home',
         ),
         BarItem(
-          icon: Icons.search_rounded,
-          title: 'Tìm kiếm',
-        ),
-        BarItem(
-          icon: Icons.my_library_books_outlined,
-          title: 'Đăng bài',
+          icon: Icons.shopping_cart_rounded,
+          title: 'Giỏ hàng',
         ),
         BarItem(
           icon: Icons.message,
           title: 'Tin nhắn',
+        ),
+        BarItem(
+          icon: Icons.account_circle_rounded,
+          title: 'Tài khoản',
         ),
       ],
     );

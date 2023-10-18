@@ -27,6 +27,7 @@ dependencies:
   provider: ^6.0.5
   image_picker: ^0.8.9
   http_parser: ^4.0.2
+  webview_flutter: ^4.4.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
