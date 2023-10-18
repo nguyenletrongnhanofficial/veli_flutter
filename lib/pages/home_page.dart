@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:veli_flutter/modules/profile/pages/profile_page.dart';
+import 'package:veli_flutter/modules/save/save_page.dart';
+import 'package:veli_flutter/modules/setting/pages/setting_page.dart';
 import '../utils/app_color.dart';
 import '../widgets/new_document.dart';
+import 'package:veli_flutter/modules/description/pages/description_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -72,6 +76,7 @@ class _HomePageState extends State<HomePage> {
           height: _showAppbar ? 70 : 0,
           child: AppBar(
             backgroundColor: Colors.white,
+            automaticallyImplyLeading: false,
             elevation: 0,
             title: Row(
               children: [
@@ -99,12 +104,52 @@ class _HomePageState extends State<HomePage> {
                 Expanded(
                   child: Container(
                     alignment: Alignment.centerRight,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image.asset(
-                        'assets/images/image_avt_default.jpg',
-                        width: 50,
-                        height: 50,
+                    child: PopupMenuButton<String>(
+                      onSelected: (value) {
+                        if (value == 'Trang cá nhân') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfilePage(),
+                            ),
+                          );
+                        } else if (value == 'Đã Lưu') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SavePage(),
+                            ),
+                          );
+                        } else if (value == 'Cài đặt') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Settings(),
+                            ),
+                          );
+                        }
+                      },
+                      itemBuilder: (BuildContext context) => [
+                        PopupMenuItem<String>(
+                          value: 'Trang cá nhân',
+                          child: Text('Trang cá nhân'),
+                        ),
+                        PopupMenuItem<String>(
+                          value: 'Đã Lưu',
+                          child: Text('Đã Lưu'),
+                        ),
+                        PopupMenuItem<String>(
+                          value: 'Cài đặt',
+                          child: Text('Cài đặt'),
+                        ),
+                      ],
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Image.asset(
+                          'assets/images/image_avt_default.jpg',
+                          width: 50,
+                          height: 50,
+                        ),
                       ),
                     ),
                   ),
@@ -137,11 +182,21 @@ class _HomePageState extends State<HomePage> {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  return NewDocument();
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Descriptionpage(),
+                        ),
+                      );
+                    },
+                    child: NewDocument(),
+                  );
                 },
                 childCount: 20,
               ),
-            ),
+            )
           ],
         ),
       ),

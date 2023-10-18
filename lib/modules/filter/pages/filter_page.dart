@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
+import 'package:veli_flutter/modules/search/search_page.dart';
+import 'package:veli_flutter/widgets/navbar.dart';
 
 class FilterPage extends StatefulWidget {
-  const FilterPage({super.key});
+  const FilterPage({Key? key}) : super(key: key);
 
   @override
   State<FilterPage> createState() => _FilterPageState();
 }
 
 class _FilterPageState extends State<FilterPage> {
-  // khai báo list
   List<dynamic> schools = [];
-  // String selectedSchool = ''; // biến lưu trữ giá trị trường đc chọn
   String? schoolsId;
+
   void initState() {
     super.initState();
     this.schools.add({'id': 1, 'label': 'Trường đại học Công nghệ thông tin'});
@@ -28,9 +29,9 @@ class _FilterPageState extends State<FilterPage> {
     _addressEditingController.dispose();
 
     super.dispose();
-  } // giải phóng bộ nhớ khi ko sử dụng nữa (hàm dispose của state)
+  }
 
-  RangeValues _priceRange = RangeValues(0, 1000); // khoảng giá ban đầu
+  RangeValues _priceRange = RangeValues(0, 1000);
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,15 @@ class _FilterPageState extends State<FilterPage> {
       appBar: AppBar(
           backgroundColor: Colors.grey[100],
           elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MainPage()),
+              );
+            },
+          ),
           title: Center(
             child: Text(
               'Lọc kết quả',
@@ -185,7 +195,12 @@ class _FilterPageState extends State<FilterPage> {
             ),
             Center(
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SearchPage()),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF0EBF7E),
                   ),

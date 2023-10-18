@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:veli_flutter/modules/auth/pages/forgot_password_page.dart';
 import 'package:veli_flutter/pages/home_page.dart';
 import 'package:veli_flutter/utils/app_color.dart';
+import 'package:veli_flutter/widgets/navbar.dart';
 import '../widgets/auth_action_button.dart';
 import '../widgets/auth_form_text_field.dart';
 import '../widgets/auth_page_link.dart';
@@ -93,9 +94,10 @@ class LoginPage extends StatelessWidget {
             AuthActionButton(
               text: 'Đăng nhập',
               onPressed: () {
-                Navigator.push(
+                Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
+                  MaterialPageRoute(builder: (context) => MainPage()),
+                  (Route<dynamic> route) => false,
                 );
               },
             ),

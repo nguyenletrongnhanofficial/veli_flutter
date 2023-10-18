@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:veli_flutter/widgets/cutsom_switch.dart';
+import 'package:veli_flutter/widgets/navbar.dart';
 import './update_password.dart';
 import './log_out.dart';
 
@@ -111,7 +112,10 @@ class _SettingsState extends State<Settings> {
         margin: const EdgeInsets.fromLTRB(24, 0, 0, 0),
         child: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MainPage()),
+            );
           },
           icon: const Image(image: AssetImage('assets/images/arrow.png')),
         ),
