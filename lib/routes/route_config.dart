@@ -22,6 +22,7 @@ import 'package:veli_flutter/modules/setting/pages/setting_page.dart';
 import 'package:veli_flutter/modules/setting/pages/update_password.dart';
 import 'package:veli_flutter/pages/home_page.dart';
 import 'package:veli_flutter/pages/onboadring.dart';
+import 'package:veli_flutter/widgets/navbar.dart';
 
 /// Hoàn thiện phần router
 /// Viết file navigator_helper ( Dùng để chuyển trang ).
@@ -128,12 +129,11 @@ class RouteCreator {
       view: ({params, settings}) => Descriptionpage(),
     ),
 
-     RouteNames.filter: BaseRoute(
+    RouteNames.filter: BaseRoute(
       RouteNames.filter,
       'Filter',
       null,
-      view: ({params, settings}) =>
-         FilterPage(),
+      view: ({params, settings}) => FilterPage(),
     ),
 
     RouteNames.message: BaseRoute(
