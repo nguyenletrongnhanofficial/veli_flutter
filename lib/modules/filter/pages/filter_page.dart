@@ -7,12 +7,16 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:veli_flutter/constants/common.constanst.dart';
+import 'package:veli_flutter/main.dart';
 import 'package:veli_flutter/models/school_model.dart';
 import 'package:veli_flutter/models/subject_model.dart';
 import 'package:veli_flutter/models/user_model.dart';
+import 'package:veli_flutter/modules/search/search_page.dart';
+import 'package:veli_flutter/pages/home_page.dart';
 import 'package:veli_flutter/providers/filter_provider.dart';
 import 'package:veli_flutter/services/local_storage_service.dart';
 import 'package:veli_flutter/utils/utils.dart';
+import 'package:veli_flutter/widgets/navbar.dart';
 
 class FilterPage extends StatefulWidget {
   const FilterPage({Key? key}) : super(key: key);
@@ -97,6 +101,18 @@ class _FilterPageState extends State<FilterPage> {
       appBar: AppBar(
           backgroundColor: Colors.grey[100],
           elevation: 0,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MainPage()),
+              );
+            },
+          ),
           title: const Center(
             child: Text(
               'Lọc kết quả',
@@ -239,36 +255,42 @@ class _FilterPageState extends State<FilterPage> {
             ),
             Center(
               child: ElevatedButton(
-                  onPressed: () {
-                    final newFilter = {
-                      'schoolId': schoolId,
-                      'subjectId': subjectId,
-                      'price_from': _priceRange.start,
-                      'price_to': _priceRange.end,
-                      'address': _addressEditingController.text
-                    };
+                onPressed: () {
+                  final newFilter = {
+                    'schoolId': schoolId,
+                    'subjectId': subjectId,
+                    'price_from': _priceRange.start,
+                    'price_to': _priceRange.end,
+                    'address': _addressEditingController.text
+                  };
 
-                    filterProvider.setFilter(newFilter);
+                  filterProvider.setFilter(newFilter);
 
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF0EBF7E),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SearchPage()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF0EBF7E),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.only(
+                    bottom: 16,
+                    top: 16,
+                    left: 80,
+                    right: 80,
                   ),
-                  child: const Padding(
-                      padding: EdgeInsets.only(
-                        bottom: 16,
-                        top: 16,
-                        left: 80,
-                        right: 80,
-                      ),
-                      child: Text(
-                        'ÁP DỤNG',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                      ))),
+                  child: Text(
+                    'ÁP DỤNG',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ),
             )
           ],
         ),

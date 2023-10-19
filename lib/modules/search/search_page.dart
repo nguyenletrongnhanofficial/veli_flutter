@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:veli_flutter/helpers/navigator_helper.dart';
 import 'package:veli_flutter/modules/description/pages/description_page.dart';
 import 'package:veli_flutter/modules/filter/pages/filter_page.dart';
+import 'package:veli_flutter/routes/route_config.dart';
 import 'package:veli_flutter/utils/app_color.dart';
 import 'package:veli_flutter/widgets/new_document.dart';
 
@@ -79,19 +81,21 @@ class SearchPage extends StatelessWidget {
                 (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Descriptionpage(),
-                        ),
-                      );
+                      navigatorHelper.changeView(
+                          context, RouteNames.description);
                     },
-                    child: NewDocument(),
+                    child: NewDocument(
+                      sellerName: 'Lien',
+                      createdAt: '${DateTime.now()}',
+                      url:
+                          'https://ngthminhdev-resources.s3.ap-southeast-1.amazonaws.com/chat-app/image_book.jpg',
+                      address: 'HCM',
+                    ),
                   );
                 },
-                childCount: 20,
+                childCount: 1,
               ),
-            )
+            ),
           ],
         ),
       ),

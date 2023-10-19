@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:veli_flutter/modules/profile/pages/profile_page.dart';
 import 'package:veli_flutter/modules/setting/pages/log_out.dart';
 import 'package:veli_flutter/modules/setting/pages/setting_page.dart';
 
@@ -18,7 +19,14 @@ final allRowContent = [
   RowContent(
       iconLeadingURL: 'assets/images/account.jpg',
       content: 'My profile ',
-      itemFunction: () {}),
+      itemFunction: (BuildContext context) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProfilePage(),
+          ),
+        );
+      }),
   RowContent(
       iconLeadingURL: 'assets/images/post_management.jpg',
       content: 'Quản lý bài đăng',
