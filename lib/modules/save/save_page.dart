@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:veli_flutter/modules/description/pages/description_page.dart';
 import 'package:veli_flutter/utils/app_color.dart';
-import 'package:veli_flutter/widgets/navbar.dart';
 import 'package:veli_flutter/widgets/new_document.dart';
 
 class SavePage extends StatelessWidget {
@@ -16,9 +14,6 @@ class SavePage extends StatelessWidget {
       title: 'Flutter App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        appBarTheme: AppBarTheme(
-          iconTheme: IconThemeData(color: Colors.black),
-        ),
       ),
       home: Scaffold(
         appBar: AppBar(
@@ -28,15 +23,6 @@ class SavePage extends StatelessWidget {
             style: TextStyle(color: AppColor.darkblueColor),
           ),
           centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MainPage()),
-              );
-            },
-          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -61,21 +47,11 @@ class SavePage extends StatelessWidget {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Descriptionpage(),
-                          ),
-                        );
-                      },
-                      child: NewDocument(),
-                    );
+                    // return NewDocument();
                   },
-                  childCount: 20,
+                  childCount: 1,
                 ),
-              )
+              ),
             ],
           ),
         ),

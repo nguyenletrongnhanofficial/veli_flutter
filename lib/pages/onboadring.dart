@@ -3,14 +3,14 @@ import 'package:veli_flutter/modules/auth/pages/login_page.dart';
 
 import '../utils/app_color.dart';
 
-class Onboadring extends StatefulWidget {
-  const Onboadring({required key}) : super(key: key);
+class OnBoarding extends StatefulWidget {
+  const OnBoarding({key}) : super(key: key);
 
   @override
-  State<Onboadring> createState() => _OnboadringState();
+  State<OnBoarding> createState() => _OnBoardingState();
 }
 
-class _OnboadringState extends State<Onboadring> {
+class _OnBoardingState extends State<OnBoarding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +50,7 @@ class _OnboadringState extends State<Onboadring> {
                 const Padding(
                   padding: EdgeInsets.only(left: 20.0),
                   child: Text(
-                    'Nếu bạn đang có tài cũ không dùng đến thay vì vứt nó, bạn hãy dùng Veli để đăng và bán nó',
+                    'Veli - Nơi trao đổi và mua bán tài liệu, giáo trình Công nghệ thông tin',
                     style: TextStyle(fontSize: 15.0),
                     textAlign: TextAlign.left,
                   ),

@@ -1,7 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:veli_flutter/models/filter_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
-import 'package:veli_flutter/modules/search/search_page.dart';
-import 'package:veli_flutter/widgets/navbar.dart';
+import 'package:veli_flutter/constants/common.constanst.dart';
+import 'package:veli_flutter/models/school_model.dart';
+import 'package:veli_flutter/models/subject_model.dart';
+import 'package:veli_flutter/models/user_model.dart';
+import 'package:veli_flutter/providers/filter_provider.dart';
+import 'package:veli_flutter/services/local_storage_service.dart';
+import 'package:veli_flutter/utils/utils.dart';
 
 class FilterPage extends StatefulWidget {
   const FilterPage({Key? key}) : super(key: key);
@@ -11,44 +22,82 @@ class FilterPage extends StatefulWidget {
 }
 
 class _FilterPageState extends State<FilterPage> {
+  // khai báo list
   List<dynamic> schools = [];
-  String? schoolsId;
+  // String selectedSchool = ''; // biến lưu trữ giá trị trường đc chọn
+  String? schoolId;
 
+  List<dynamic> subjects = [];
+  String? subjectId;
+
+  LocalStorageService localStorage = LocalStorageService();
+
+  @override
   void initState() {
+    getSchoolList();
+    getSubjectList();
     super.initState();
-    this.schools.add({'id': 1, 'label': 'Trường đại học Công nghệ thông tin'});
-    this.schools.add(
-        {'id': 2, 'label': 'Trường đại học Tài nguyên và Môi trường TPHCM'});
   }
 
-  TextEditingController _textEditingController = TextEditingController();
+  Future<void> getSchoolList() async {
+    try {
+      UserModel? user = await localStorage.getUserInfo();
+      final response = await http.get(
+          headers: {'authorization': 'Bearer ${user!.accessToken}'},
+          Uri.parse('${apiHost}/api/document/schools'));
+      if (response.statusCode == 200) {
+        final List<dynamic> schoolsJson = jsonDecode(response.body)["data"];
+        setState(() {
+          schools = schoolsJson
+              .map((school) => SchoolModel.fromJson(school))
+              .toList();
+        });
+      }
+    } catch (e) {
+      print(e);
+      Fluttertoast.showToast(msg: '$e');
+    }
+  }
+
+  Future<void> getSubjectList() async {
+    try {
+      UserModel? user = await localStorage.getUserInfo();
+      final response = await http.get(
+          headers: {'authorization': 'Bearer ${user!.accessToken}'},
+          Uri.parse('${apiHost}/api/document/subjects'));
+      if (response.statusCode == 200) {
+        final List<dynamic> subjectsJson = jsonDecode(response.body)["data"];
+        setState(() {
+          subjects = subjectsJson
+              .map((subject) => SubjectModel.fromJson(subject))
+              .toList();
+        });
+      }
+    } catch (e) {
+      print(e);
+      Fluttertoast.showToast(msg: '$e');
+    }
+  }
+
   TextEditingController _addressEditingController = TextEditingController();
 
   void dispose() {
-    _textEditingController.dispose();
     _addressEditingController.dispose();
 
     super.dispose();
-  }
+  } // giải phóng bộ nhớ khi ko sử dụng nữa (hàm dispose của state)
 
-  RangeValues _priceRange = RangeValues(0, 1000);
+  RangeValues _priceRange = const RangeValues(0, 1000); // khoảng giá ban đầu
 
   @override
   Widget build(BuildContext context) {
+    final filterProvider = Provider.of<FilterProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.grey[100],
           elevation: 0,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MainPage()),
-              );
-            },
-          ),
-          title: Center(
+          title: const Center(
             child: Text(
               'Lọc kết quả',
               style: TextStyle(
@@ -64,10 +113,10 @@ class _FilterPageState extends State<FilterPage> {
               context,
               'Trường học:',
               'Chọn trường',
-              this.schoolsId,
-              this.schools,
+              schoolId,
+              schools.map((school) => school.toJson()).toList(),
               (onChangedVal) {
-                this.schoolsId = onChangedVal;
+                schoolId = onChangedVal;
                 print('Chọn trường: $onChangedVal');
               },
               (onValidaVal) {
@@ -80,42 +129,37 @@ class _FilterPageState extends State<FilterPage> {
               borderFocusColor: Theme.of(context).primaryColor,
               borderRadius: 10,
               contentPadding: 10,
-              optionLabel: 'label',
+              optionLabel: 'name',
               optionValue: 'id',
             ),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
 
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 12),
-                  child: Text(
-                    'Môn học:',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                  ),
-                ),
-              ],
+            FormHelper.dropDownWidgetWithLabel(
+              context,
+              'Môn học:',
+              'Chọn môn học',
+              subjectId,
+              subjects.map((subject) => subject.toJson()).toList(),
+              (onChangedVal) {
+                subjectId = onChangedVal;
+                print('Chọn môn học: $onChangedVal');
+              },
+              (onValidaVal) {
+                if (onValidaVal == null) {
+                  return 'Vui lòng chọn môn học bạn muốn';
+                }
+                return null;
+              },
+              borderColor: Theme.of(context).primaryColor,
+              borderFocusColor: Theme.of(context).primaryColor,
+              borderRadius: 10,
+              contentPadding: 10,
+              optionLabel: 'name',
+              optionValue: 'id',
             ),
-            SizedBox(height: 15),
-            Container(
-              padding: EdgeInsets.only(left: 30, right: 30),
-              child: TextField(
-                controller: _textEditingController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      borderSide:
-                          BorderSide(color: Color(0xFF0EBF7E), width: 1)),
-                  hintText: 'Nhập tên môn học',
-                  labelText: 'Môn học: ',
-                ),
-              ),
-            ),
-            SizedBox(height: 25),
-            Row(
+            const SizedBox(height: 15),
+
+            const Row(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 12),
@@ -129,12 +173,12 @@ class _FilterPageState extends State<FilterPage> {
                 ),
               ],
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Container(
-              padding: EdgeInsets.only(left: 30, right: 30),
+              padding: const EdgeInsets.only(left: 30, right: 30),
               child: TextField(
                 controller: _addressEditingController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       borderSide: BorderSide(color: Colors.green, width: 1)),
@@ -146,10 +190,10 @@ class _FilterPageState extends State<FilterPage> {
 
             // Text(
             //     'You entered: ${_textEditingController.text}') //cập nhật &hiển thị VB
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
-            Row(
+            const Row(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 12),
@@ -163,11 +207,11 @@ class _FilterPageState extends State<FilterPage> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
 
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Giá thấp nhất'),
@@ -177,7 +221,7 @@ class _FilterPageState extends State<FilterPage> {
             RangeSlider(
               values: _priceRange,
               min: 0,
-              max: 1000,
+              max: 1000000,
               onChanged: (RangeValues newValues) {
                 setState(() {
                   _priceRange = newValues;
@@ -185,26 +229,33 @@ class _FilterPageState extends State<FilterPage> {
               },
               divisions: 10,
               labels: RangeLabels(
-                _priceRange.start.round().toString(),
-                _priceRange.end.round().toString(),
+                Utils.formatMoney(_priceRange.start.round()),
+                Utils.formatMoney(_priceRange.end.round()),
               ),
-              activeColor: Color(0xFF0EBF7E),
+              activeColor: const Color(0xFF0EBF7E),
             ),
-            SizedBox(
+            const SizedBox(
               height: 130,
             ),
             Center(
               child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SearchPage()),
-                    );
+                    final newFilter = {
+                      'schoolId': schoolId,
+                      'subjectId': subjectId,
+                      'price_from': _priceRange.start,
+                      'price_to': _priceRange.end,
+                      'address': _addressEditingController.text
+                    };
+
+                    filterProvider.setFilter(newFilter);
+
+                    Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF0EBF7E),
+                    backgroundColor: const Color(0xFF0EBF7E),
                   ),
-                  child: Padding(
+                  child: const Padding(
                       padding: EdgeInsets.only(
                         bottom: 16,
                         top: 16,

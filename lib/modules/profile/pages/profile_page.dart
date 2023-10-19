@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:veli_flutter/widgets/navbar.dart';
+import 'package:veli_flutter/helpers/navigator_helper.dart';
+import 'package:veli_flutter/routes/route_config.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -96,10 +97,15 @@ class _ProfilePageState extends State<ProfilePage> {
                       top: 20,
                       right: 20,
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          navigatorHelper.changeView(
+                              context, RouteNames.settings,
+                              isReplaceName: false);
+                        },
                         icon: const Icon(
-                          Icons.settings_applications,
-                          color: Colors.white,
+                          Icons.settings,
+                          size: 40,
+                          color: Colors.grey,
                         ),
                       ),
                     ),
@@ -298,14 +304,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   )),
               SizedBox(height: size.height * 0.02),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MainPage(),
-                    ),
-                  );
-                },
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(150, 50),
                   backgroundColor: const Color(0xFF0EBF7E),

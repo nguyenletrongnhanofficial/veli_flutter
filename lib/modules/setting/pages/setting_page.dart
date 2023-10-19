@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:veli_flutter/widgets/cutsom_switch.dart';
-import 'package:veli_flutter/widgets/navbar.dart';
+
+
 import './update_password.dart';
-import './log_out.dart';
 
 class RowContent {
   String iconLeadingURL;
@@ -31,41 +31,15 @@ final allRowContent = [
         Navigator.of(ctxRoot).push(
             MaterialPageRoute(builder: (context) => const UpdatePassword()));
       }),
-  RowContent(
-      iconLeadingURL: 'assets/images/signout.png',
-      content: 'Đăng xuất',
-      itemFunction: (ctxRoot) {
-        showModalBottomSheet(
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(25.0),
-              ),
-            ),
-            backgroundColor: Colors.transparent,
-            barrierColor: const Color(0xFF2C373B).withOpacity(0.6),
-            isScrollControlled: true,
-            context: ctxRoot,
-            builder: (ctx) => SizedBox(
-                  height: !(MediaQuery.of(ctxRoot).orientation ==
-                          Orientation.landscape)
-                      ? (MediaQuery.of(ctxRoot).size.height -
-                              MediaQuery.of(ctxRoot).padding.top) /
-                          2
-                      : (MediaQuery.of(ctxRoot).size.height -
-                              MediaQuery.of(ctxRoot).padding.top) *
-                          0.85,
-                  child: const LogOut(),
-                ));
-      })
 ];
 
-class Settings extends StatefulWidget {
-  const Settings({Key? key}) : super(key: key);
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({Key? key}) : super(key: key);
   @override
-  State<Settings> createState() => _SettingsState();
+  State<SettingsPage> createState() => _SettingsState();
 }
 
-class _SettingsState extends State<Settings> {
+class _SettingsState extends State<SettingsPage> {
   bool isNotification = true;
 
   bool isDarkMode = true;
@@ -112,10 +86,7 @@ class _SettingsState extends State<Settings> {
         margin: const EdgeInsets.fromLTRB(24, 0, 0, 0),
         child: IconButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MainPage()),
-            );
+            Navigator.pop(context);
           },
           icon: const Image(image: AssetImage('assets/images/arrow.png')),
         ),

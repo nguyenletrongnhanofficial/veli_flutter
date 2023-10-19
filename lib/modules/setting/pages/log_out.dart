@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:veli_flutter/modules/auth/pages/login_page.dart';
-import 'package:veli_flutter/modules/setting/pages/setting_page.dart';
+import 'package:veli_flutter/helpers/navigator_helper.dart';
+import 'package:veli_flutter/routes/route_config.dart';
 
 class LogOut extends StatefulWidget {
   const LogOut({Key? key}) : super(key: key);
@@ -76,11 +76,7 @@ class _LogOutState extends State<LogOut> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
-                    (Route<dynamic> route) => false,
-                  );
+                  navigatorHelper.changeView(context, RouteNames.login);
                 },
               ),
               const SizedBox(height: 10),
@@ -105,12 +101,7 @@ class _LogOutState extends State<LogOut> {
                         fontWeight: FontWeight.w700),
                   ),
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Settings()),
-                  );
-                },
+                onPressed: () {},
               ),
             ],
           ),
