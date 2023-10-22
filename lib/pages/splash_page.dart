@@ -36,8 +36,13 @@ class _SplashPageState extends ResumableState<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Center(
-        child: Image.asset('assets/images/veli_splash.png', fit: BoxFit.fill),
+      child: Container(
+        color: Colors.white,
+        height: MediaQuery.sizeOf(context).height,
+        width: MediaQuery.sizeOf(context).width,
+        child: Center(
+          child: Image.asset('assets/images/veli_splash.png', fit: BoxFit.fill),
+        ),
       ),
     );
   }

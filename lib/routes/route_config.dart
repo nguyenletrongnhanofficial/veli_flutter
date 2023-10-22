@@ -20,6 +20,8 @@ import 'package:veli_flutter/modules/save/save_page.dart';
 import 'package:veli_flutter/modules/setting/pages/log_out.dart';
 import 'package:veli_flutter/modules/setting/pages/setting_page.dart';
 import 'package:veli_flutter/modules/setting/pages/update_password.dart';
+import 'package:veli_flutter/modules/chatbot/pages/chatbot_page.dart';
+
 import 'package:veli_flutter/pages/home_page.dart';
 import 'package:veli_flutter/pages/onboadring.dart';
 import 'package:veli_flutter/widgets/navbar.dart';
@@ -55,6 +57,8 @@ class RouteNames {
   static const save = "Save";
   static const nosavings = "Nosavings";
   static const manage = "Manage";
+    static const chatbot = "Chatbot";
+
 }
 
 class RouteCreator {
@@ -100,7 +104,7 @@ class RouteCreator {
       RouteNames.otp,
       'otp',
       null,
-      view: ({params, settings}) => OTPPage(),
+      view: ({params, settings}) => OTPPage(params: params,),
     ),
 
     RouteNames.successfullypage: BaseRoute(
@@ -126,7 +130,7 @@ class RouteCreator {
       RouteNames.description,
       'Description',
       null,
-      view: ({params, settings}) => Descriptionpage(),
+      view: ({params, settings}) => Descriptionpage(params: params),
     ),
 
     RouteNames.filter: BaseRoute(
@@ -206,6 +210,12 @@ class RouteCreator {
       null,
       view: ({params, settings}) => ManagePage(),
     ),
+
+    RouteNames.chatbot: BaseRoute(
+      RouteNames.chatbot,
+       'Chatbot',
+        null,
+        view: ({params, settings}) => ChatbotPage(),)
   };
 }
 

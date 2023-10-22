@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:veli_flutter/modules/account/pages/account_page.dart';
-import 'package:veli_flutter/modules/chat/pages/conversation_page.dart';
-import 'package:veli_flutter/modules/save/save_page.dart';
+//import 'package:veli_flutter/modules/search/search_page.dart';
+import 'package:veli_flutter/modules/chatbot/pages/chatbot_page.dart';
 import 'package:veli_flutter/pages/home_page.dart';
+
 import 'package:veli_flutter/pages/splash_page.dart';
 import 'package:veli_flutter/providers/filter_provider.dart';
 import 'package:veli_flutter/routes/router.dart' as main_router;
+import 'package:veli_flutter/widgets/navbar.dart';
 
-import 'widgets/nav_bar/nav_bar.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +29,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: main_router.Router.generateRoute,
-      home: SplashPage(),
+      home: SplashPage()
 
       // theme: ThemeData(
       //   appBarTheme: const AppBarTheme(

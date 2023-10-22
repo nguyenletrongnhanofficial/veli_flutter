@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:veli_flutter/helpers/navigator_helper.dart';
 import 'package:veli_flutter/models/user_model.dart';
+import 'package:veli_flutter/modules/chatbot/pages/chatbot_page.dart';
 import 'package:veli_flutter/modules/filter/pages/filter_page.dart';
 import 'package:veli_flutter/providers/filter_provider.dart';
 import 'package:veli_flutter/routes/route_config.dart';
@@ -83,10 +84,23 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final filterProvider = Provider.of<FilterProvider>(context);
+    final filterProvider = Provider.of<FilterProvider>(context, listen: false);
 
     print(filterProvider.filter);
     return Scaffold(
+      floatingActionButton: GestureDetector(
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: Container(
+                  width: 50,
+                  height: 50,
+                  child: Image.asset(
+                    "assets/images/iconchatbot.jpeg",
+                    fit: BoxFit.cover,
+                  ))),
+          onTap: () {
+            navigatorHelper.changeView(context, RouteNames.chatbot);
+          }),
       body: Container(
         margin: EdgeInsets.only(top: 20),
         color: AppColor.backgroundColor,
@@ -193,13 +207,7 @@ class _HomePageState extends State<HomePage> {
                       navigatorHelper.changeView(
                           context, RouteNames.description);
                     },
-                    child: NewDocument(
-                      sellerName: 'Lien',
-                      createdAt: '${DateTime.now()}',
-                      url:
-                          'https://ngthminhdev-resources.s3.ap-southeast-1.amazonaws.com/chat-app/image_book.jpg',
-                      address: 'HCM',
-                    ),
+                    child: Container(),
                   );
                 },
                 childCount: 1,

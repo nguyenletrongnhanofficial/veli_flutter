@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:veli_flutter/modules/profile/pages/profile_page.dart';
+import 'package:veli_flutter/modules/save/manage_page.dart';
 import 'package:veli_flutter/modules/setting/pages/log_out.dart';
 import 'package:veli_flutter/modules/setting/pages/setting_page.dart';
 
@@ -30,7 +31,10 @@ final allRowContent = [
   RowContent(
       iconLeadingURL: 'assets/images/post_management.jpg',
       content: 'Quản lý bài đăng',
-      itemFunction: () {}),
+      itemFunction: (BuildContext context) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: ((context) => ManagePage())));
+      }),
   RowContent(
       iconLeadingURL: 'assets/images/salemanagement.jpg',
       content: 'Quản lý hàng bán',
