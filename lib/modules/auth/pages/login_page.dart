@@ -140,19 +140,16 @@ class _LoginPageState extends State<LoginPage> {
                   print(phoneNumber.text);
                   print(password.text);
 
-                  bool loginResult =
-                      await login(phoneNumber.text, password.text);
-                  if (loginResult) {
-                    // navigatorHelper.changeView(
-                    //     context, customRouter.RouteNames.main,
-                    //     isReplaceName: true);
+                  // bool loginResult =
+                  await login(phoneNumber.text, password.text);
+                  // if (loginResult) {
+                  // navigatorHelper.changeView(
+                  //     context, customRouter.RouteNames.main,
+                  //     isReplaceName: true);
 
-                    navigatorHelper.changeView(context, RouteNames.main,
-                        isReplaceName: true);
-                  } else {
-                    Fluttertoast.showToast(
-                        msg: "Vui lòng kiểm tra số điện thoại và password");
-                  }
+                  // } else {
+
+                  // }
                 },
               ),
               AuthActionButton(
@@ -187,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future<bool> login(String phoneNumber, String password) async {
+  Future<void> login(String phoneNumber, String password) async {
     try {
       final response = await http.post(Uri.parse('$apiHost/api/auth/login'),
           body: {'phone': phoneNumber, 'password': password});
@@ -201,17 +198,23 @@ class _LoginPageState extends State<LoginPage> {
         Fluttertoast.showToast(
           msg: "Đăng nhập thành công",
         );
-        return true;
+
+        if (user.status == 0) {
+          navigatorHelper
+              .changeView(context, RouteNames.otp, params: {"userId": user.id});
+        } else {
+          navigatorHelper.changeView(context, RouteNames.main,
+              isReplaceName: true);
+        }
       } else {
-        print(jsonDecode(response.body)["message"]);
         Fluttertoast.showToast(
           msg: jsonDecode(response.body)["message"],
         );
-        return false;
       }
     } catch (e) {
       print(e);
-      return false;
+      Fluttertoast.showToast(
+          msg: "Vui lòng kiểm tra số điện thoại và password");
     }
   }
 }

@@ -435,18 +435,18 @@ class _AddPostPageState extends State<AddPostPage> {
                 isLoading = true;
               });
 
-              Timer(Duration(seconds: 5), () {
-                setState(() {
-                  isLoading = false;
-                });
-              });
-              // Future.delayed(Duration.zero, () {
-              //   createDocument().then((result) {
-              //     setState(() {
-              //       isLoading = false;
-              //     });
+              // Timer(Duration(seconds: 5), () {
+              //   setState(() {
+              //     isLoading = false;
               //   });
               // });
+              Future.delayed(Duration.zero, () {
+                createDocument().then((result) {
+                  setState(() {
+                    isLoading = false;
+                  });
+                });
+              });
             },
           ),
         ],

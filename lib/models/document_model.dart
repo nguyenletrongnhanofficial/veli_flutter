@@ -1,5 +1,6 @@
 import 'package:veli_flutter/models/school_model.dart';
 import 'package:veli_flutter/models/subject_model.dart';
+import 'package:veli_flutter/models/user_model.dart';
 
 class DocumentModel {
   final String id;
@@ -9,7 +10,7 @@ class DocumentModel {
   final bool isSold;
   final bool isFree;
   final String address;
-  final String createdBy;
+  final UserModel? createdBy;
   final String createdAt;
   final List<String> images;
   final SchoolModel? school;
@@ -33,17 +34,18 @@ class DocumentModel {
   factory DocumentModel.fromJson(Map<String, dynamic> json) {
     return DocumentModel(
       id: json['_id'] ?? json['id'],
-      name: json['full_name'] ?? json['name'],
+      name:  json['name'] ?? '',
       description: json['description'] ?? '',
       price: json['price'] ?? 0,
-      isSold: json["is_sold"] ?? '' ,
-      isFree: json["is_free"] ?? '' ,
+      isSold: (json["is_sold"] ?? false) as bool,
+      isFree: (json["is_free"] ?? false) as bool,
       address: json["address"] ?? '' ,
-      createdBy: json["created_by"] ?? '' ,
+      createdBy: UserModel.fromJson(json["created_by"] as Map<String, dynamic>),
       createdAt: json["created_at"] ?? '' ,
-      images: json["images"] ?? [] ,
-      school: SchoolModel.fromJson(json["school"]),
-      subject: SubjectModel.fromJson(json["subject"]),
+      images: json["images"] != null ? (json['images'] as List).map((image) => image as String).toList() : [],
+ //     images: json["images"] ? json['images'].map((image) => image as String).toList() : [],
+      school: SchoolModel.fromJson(json["school"] as Map<String, dynamic>),
+      subject: SubjectModel.fromJson(json["subject"] as Map<String, dynamic>),
     );
   }
 

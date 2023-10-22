@@ -68,7 +68,7 @@ class ForgotpassPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => OTPPage()),
+                  MaterialPageRoute(builder: (context) => OTPPage(params: {},)),
                 );
               },
             ),
