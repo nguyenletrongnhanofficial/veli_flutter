@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:veli_flutter/helpers/navigator_helper.dart';
 import 'package:veli_flutter/modules/auth/pages/login_page.dart';
+import 'package:veli_flutter/routes/route_config.dart';
 
 import '../utils/app_color.dart';
 
@@ -62,10 +64,7 @@ class _OnBoardingState extends State<OnBoarding> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => LoginPage()),
-          );
+          navigatorHelper.changeView(context, RouteNames.login);
         },
         backgroundColor: AppColor.mainColor,
         child: const Icon(

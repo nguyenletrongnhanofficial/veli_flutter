@@ -8,6 +8,7 @@ class DocumentModel {
   final String description;
   final num price;
   final bool isSold;
+  final bool isSaved;
   final bool isFree;
   final String address;
   final UserModel? createdBy;
@@ -22,6 +23,7 @@ class DocumentModel {
     required this.description,
     required this.price,
     required this.isSold,
+    required this.isSaved,
     required this.isFree,
     required this.address,
     required this.createdAt,
@@ -39,6 +41,7 @@ class DocumentModel {
       price: json['price'] ?? 0,
       isSold: (json["is_sold"] ?? false) as bool,
       isFree: (json["is_free"] ?? false) as bool,
+      isSaved: (json["is_saved"] ?? false) as bool,
       address: json["address"] ?? '' ,
       createdBy: UserModel.fromJson(json["created_by"] as Map<String, dynamic>),
       createdAt: json["created_at"] ?? '' ,
@@ -57,6 +60,7 @@ class DocumentModel {
       "price": price,
       "isSold": isSold,
       "isFree": isFree,
+      "isSaved": isSaved,
       "address": address,
       "createdAt": createdAt,
       "createdBy": createdBy,

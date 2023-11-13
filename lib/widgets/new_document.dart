@@ -1,16 +1,53 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:veli_flutter/constants/common.constanst.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:veli_flutter/models/document_model.dart';
+import 'package:veli_flutter/models/user_model.dart';
+import 'package:veli_flutter/services/local_storage_service.dart';
 import 'package:veli_flutter/utils/app_color.dart';
 import 'package:veli_flutter/utils/utils.dart';
 
-class NewDocument extends StatelessWidget {
+class NewDocument extends StatefulWidget {
   final DocumentModel documentModel;
 
   NewDocument({
     key,
     required this.documentModel,
   });
+
+  @override
+  State<NewDocument> createState() => _NewDocumentState();
+}
+
+class _NewDocumentState extends State<NewDocument> {
+  LocalStorageService localStorage = LocalStorageService();
+  bool isSaved = false;
+
+  void addToSave() async {
+    try {
+      UserModel? user = await localStorage.getUserInfo();
+
+      final response = await http.post(
+          headers: {'authorization': 'Bearer ${user!.accessToken}'},
+          Uri.parse('$apiHost/api/document/save/${widget.documentModel.id}'));
+
+      if (response.statusCode == 200) {
+        Fluttertoast.showToast(msg: jsonDecode(response.body)["message"]);
+      }
+    } catch (e) {
+      print('File: lib/widgets/new_document.dart - Line: 42: $e ');
+    }
+  }
+
+  @override
+  void initState() {
+    isSaved = widget.documentModel.isSaved;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +67,7 @@ class NewDocument extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.fromLTRB(10, 20, 15, 15),
                     child: Image.network(
-                      documentModel.images[0],
+                      widget.documentModel.images[0],
                       width: 120,
                       height: 140,
                     ),
@@ -42,12 +79,12 @@ class NewDocument extends StatelessWidget {
                         SizedBox(
                           height: 50,
                           child: Padding(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                               top: 20,
                             ),
                             child: Text(
-                              documentModel.name,
-                              style: TextStyle(
+                              widget.documentModel.name,
+                              style: const TextStyle(
                                 fontSize: 22,
                                 color: AppColor.darkblueColor,
                                 fontWeight: FontWeight.bold,
@@ -57,14 +94,14 @@ class NewDocument extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         SizedBox(
                           height: 30,
                           child: Text(
-                            Utils.formatMoney(documentModel.price),
-                            style: TextStyle(
+                            Utils.formatMoney(widget.documentModel.price),
+                            style: const TextStyle(
                               fontSize: 15,
                               color: AppColor.darkblueColor,
                             ),
@@ -75,8 +112,8 @@ class NewDocument extends StatelessWidget {
                         SizedBox(
                           height: 30,
                           child: Text(
-                            documentModel.school!.name,
-                            style: TextStyle(
+                            widget.documentModel.school!.name,
+                            style: const TextStyle(
                               fontSize: 15,
                               color: AppColor.darkblueColor,
                               fontWeight: FontWeight.bold,
@@ -88,8 +125,8 @@ class NewDocument extends StatelessWidget {
                         SizedBox(
                           height: 50,
                           child: Text(
-                            documentModel.description,
-                            style: TextStyle(
+                            widget.documentModel.description,
+                            style: const TextStyle(
                               fontSize: 15,
                               color: AppColor.darkblueColor,
                             ),
@@ -116,9 +153,9 @@ class NewDocument extends StatelessWidget {
                     ),
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(50),
-                        child: (documentModel.createdBy!.avatar != '')
+                        child: (widget.documentModel.createdBy!.avatar != '')
                             ? Image.network(
-                                documentModel.createdBy!.avatar,
+                                widget.documentModel.createdBy!.avatar,
                                 fit: BoxFit.cover,
                                 width: 5,
                                 height: 5,
@@ -132,8 +169,8 @@ class NewDocument extends StatelessWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      documentModel.createdBy!.username,
-                      style: TextStyle(
+                      widget.documentModel.createdBy!.username,
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.normal,
                         color: AppColor.darkblueColor,
@@ -143,8 +180,8 @@ class NewDocument extends StatelessWidget {
                   const SizedBox(width: 0),
                   Expanded(
                     child: Text(
-                      documentModel.address,
-                      style: TextStyle(
+                      widget.documentModel.address,
+                      style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.normal,
                         color: AppColor.darkblueColor,
@@ -154,9 +191,9 @@ class NewDocument extends StatelessWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      DateFormat('dd/MM/yyyy HH:mm')
-                          .format(DateTime.parse(documentModel.createdAt)),
-                      style: TextStyle(
+                      DateFormat('dd/MM/yyyy HH:mm').format(
+                          DateTime.parse(widget.documentModel.createdAt)),
+                      style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.normal,
                         color: Colors.grey,
@@ -166,11 +203,16 @@ class NewDocument extends StatelessWidget {
                   ),
                   const SizedBox(width: 10),
                   GestureDetector(
-                    child: const Icon(
+                    child: Icon(
                       Icons.bookmark,
-                      color: Colors.grey,
+                      color: isSaved ? Colors.green : Colors.grey,
                     ),
                     onTap: () {
+                      setState(() {
+                        isSaved = !isSaved;
+                      });
+
+                      addToSave();
                       // Xử lý khi nhấp vào kí hiệu Bookmark
                     },
                   ),

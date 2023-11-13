@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:veli_flutter/constants/common.constanst.dart';
 import 'package:veli_flutter/helpers/navigator_helper.dart';
 import 'package:veli_flutter/models/document_model.dart';
 import 'package:veli_flutter/models/user_model.dart';
@@ -32,7 +31,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     final filterProvider = Provider.of<FilterProvider>(context);
 
-    Future<List<DocumentModel>> getSchoolList() async {
+    Future<List<DocumentModel>> getDocuments() async {
       try {
         dynamic filter = filterProvider.filter;
         String url = Utils.generateUrl(filter);
@@ -62,28 +61,17 @@ class _SearchPageState extends State<SearchPage> {
         automaticallyImplyLeading: false,
         elevation: 0,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(150.0),
+          preferredSize: Size.fromHeight(50.0),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextField(
+                  enabled: false,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
-                    hintText: 'Hệ thống nhúng mạng không giây',
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                TextField(
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.location_on),
-                    hintText: 'Trường đại học công nghệ thông tin',
+                    hintText: 'Kết quả tìm kiếm',
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -120,7 +108,7 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
       body: FutureBuilder(
-        future: getSchoolList(),
+        future: getDocuments(),
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             final data = snapshot.data;
