@@ -8,7 +8,7 @@ import 'package:veli_flutter/pages/home_page.dart';
 import 'package:veli_flutter/widgets/nav_bar/nav_bar.dart';
 
 List<Widget> _listOfPage = <Widget>[
-  Container(alignment: Alignment.center, child: const HomePage()),
+  Container(alignment: Alignment.center, child: HomePage()),
   Container(
     alignment: Alignment.center,
     child: SavePage(),

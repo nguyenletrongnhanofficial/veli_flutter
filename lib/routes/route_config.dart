@@ -1,18 +1,21 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
-import 'package:veli_flutter/main.dart';
 import 'package:veli_flutter/modules/auth/pages/forgot_password_page.dart';
 import 'package:veli_flutter/modules/auth/pages/login_page.dart';
+import 'package:veli_flutter/modules/auth/pages/new_password_page.dart';
 import 'package:veli_flutter/modules/auth/pages/otp_page.dart';
 import 'package:veli_flutter/modules/auth/pages/sign_up_page.dart';
 import 'package:veli_flutter/modules/auth/pages/successfully_page.dart';
+import 'package:veli_flutter/modules/auth/pages/update_password_otp_page.dart';
 import 'package:veli_flutter/modules/chat/pages/chat_page.dart';
 import 'package:veli_flutter/modules/chat/pages/conversation_page.dart';
+import 'package:veli_flutter/modules/chatbot/pages/chatbot_page.dart';
 import 'package:veli_flutter/modules/description/pages/description_page.dart';
 import 'package:veli_flutter/modules/filter/pages/filter_page.dart';
 import 'package:veli_flutter/modules/post/pages/add_post_page.dart';
 import 'package:veli_flutter/modules/profile/pages/add_school_page.dart';
+import 'package:veli_flutter/modules/profile/pages/other_profile_page.dart';
 import 'package:veli_flutter/modules/profile/pages/profile_page.dart';
 import 'package:veli_flutter/modules/save/manage_page.dart';
 import 'package:veli_flutter/modules/save/no_saving.dart';
@@ -20,8 +23,6 @@ import 'package:veli_flutter/modules/save/save_page.dart';
 import 'package:veli_flutter/modules/setting/pages/log_out.dart';
 import 'package:veli_flutter/modules/setting/pages/setting_page.dart';
 import 'package:veli_flutter/modules/setting/pages/update_password.dart';
-import 'package:veli_flutter/modules/chatbot/pages/chatbot_page.dart';
-
 import 'package:veli_flutter/pages/home_page.dart';
 import 'package:veli_flutter/pages/onboadring.dart';
 import 'package:veli_flutter/widgets/navbar.dart';
@@ -41,7 +42,9 @@ class RouteNames {
   static const login = 'Login';
   static const signup = 'SignUp';
   static const forgotpassword = "ForgotPassword";
+  static const newPassword = "newPassword";
   static const otp = "Otp";
+  static const updatePasswordOtp = "UpdatePasswrordOtp";
   static const successfullypage = "SuccessfullyPage";
   static const addpost = "Addpost";
   static const description = "Description";
@@ -50,6 +53,7 @@ class RouteNames {
   static const message = "Message ";
   static const chat = "Chat";
   static const myprofile = "Myprofile";
+  static const otherProfile = "OtherProfile";
   static const settings = "Settings";
   static const updatepassword = "Updatepassword";
   static const logout = "Logout";
@@ -57,8 +61,7 @@ class RouteNames {
   static const save = "Save";
   static const nosavings = "Nosavings";
   static const manage = "Manage";
-    static const chatbot = "Chatbot";
-
+  static const chatbot = "Chatbot";
 }
 
 class RouteCreator {
@@ -77,7 +80,12 @@ class RouteCreator {
       null,
       view: ({params, settings}) => MainPage(),
     ),
-
+    RouteNames.main: BaseRoute(
+      RouteNames.main,
+      'Main',
+      null,
+      view: ({params, settings}) => MainPage(),
+    ),
     //authentication
     RouteNames.login: BaseRoute(
       RouteNames.login,
@@ -104,9 +112,28 @@ class RouteCreator {
       RouteNames.otp,
       'otp',
       null,
-      view: ({params, settings}) => OTPPage(params: params,),
+      view: ({params, settings}) => OTPPage(
+        params: params,
+      ),
     ),
 
+    RouteNames.updatePasswordOtp: BaseRoute(
+      RouteNames.updatePasswordOtp,
+      'UpdatePasswrordOtp',
+      null,
+      view: ({params, settings}) => UpdatePasswordOTPPage(
+        params: params,
+      ),
+    ),
+
+    RouteNames.newPassword: BaseRoute(
+      RouteNames.newPassword,
+      'NewPassword',
+      null,
+      view: ({params, settings}) => NewPasswordPage(
+        params: params,
+      ),
+    ),
     RouteNames.successfullypage: BaseRoute(
       RouteNames.successfullypage,
       'SuccessfullyPage',
@@ -144,8 +171,7 @@ class RouteCreator {
       RouteNames.message,
       'Message',
       null,
-      view: ({params, settings}) =>
-          ChatPage(user_id: '123', username: 'Lien', state: true),
+      view: ({params, settings}) => ChatPage(params: params),
     ),
 
     RouteNames.chat: BaseRoute(
@@ -160,6 +186,13 @@ class RouteCreator {
       'MyProfile',
       null,
       view: ({params, settings}) => ProfilePage(),
+    ),
+
+    RouteNames.otherProfile: BaseRoute(
+      RouteNames.otherProfile,
+      'OtherProfile',
+      null,
+      view: ({params, settings}) => OtherProfilePage(params: params),
     ),
 
     RouteNames.settings: BaseRoute(
@@ -213,9 +246,10 @@ class RouteCreator {
 
     RouteNames.chatbot: BaseRoute(
       RouteNames.chatbot,
-       'Chatbot',
-        null,
-        view: ({params, settings}) => ChatbotPage(),)
+      'Chatbot',
+      null,
+      view: ({params, settings}) => ChatbotPage(),
+    )
   };
 }
 

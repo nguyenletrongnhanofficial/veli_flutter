@@ -38,12 +38,6 @@ class SuccessfullyPage extends StatelessWidget {
             ),
             const SizedBox(height: 0),
             AuthActionButton(
-              text: 'Tiếp tục',
-              onPressed: () {
-                // Xử lý BE
-              },
-            ),
-            AuthActionButton(
               text: 'Đăng nhập',
               onPressed: () {
                 Navigator.push(

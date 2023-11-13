@@ -94,21 +94,21 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.only(left: 35),
-                    child: Row(
-                      children: [
-                        Checkbox(
-                          value: false,
-                          onChanged: (value) {},
-                        ),
-                        const Text(
-                          'Nhớ đăng nhập',
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  // padding: const EdgeInsets.only(left: 35),
+                  // child: Row(
+                  // children: [
+                  // Checkbox(
+                  // value: false,
+                  // onChanged: (value) {},
+                  // ),
+                  // const Text(
+                  // 'Nhớ đăng nhập',
+                  // textAlign: TextAlign.center,
+                  // ),
+                  // ],
+                  // ),
+                  // ),
                   Container(
                     padding: const EdgeInsets.only(right: 35),
                     child: TextButton(
@@ -152,19 +152,19 @@ class _LoginPageState extends State<LoginPage> {
                   // }
                 },
               ),
-              AuthActionButton(
-                text: 'Đăng nhập bằng Google',
-                onPressed: () {
-                  // Xử lý BE
-                },
-                backgroundColor: const Color(0xFFEFEFEF),
-                icon: Image.asset(
-                  'assets/images/logo_google.png',
-                  height: 20,
-                  width: 20,
-                ),
-                textColor: Colors.black,
-              ),
+              // AuthActionButton(
+              // text: 'Đăng nhập bằng Google',
+              // onPressed: () {
+              // // Xử lý BE
+              // },
+              // backgroundColor: const Color(0xFFEFEFEF),
+              // icon: Image.asset(
+              // 'assets/images/logo_google.png',
+              // height: 20,
+              // width: 20,
+              // ),
+              // textColor: Colors.black,
+              // ),
               const SizedBox(
                 height: 10,
               ),

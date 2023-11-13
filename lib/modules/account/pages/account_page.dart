@@ -4,6 +4,7 @@ import 'package:veli_flutter/modules/profile/pages/profile_page.dart';
 import 'package:veli_flutter/modules/save/manage_page.dart';
 import 'package:veli_flutter/modules/setting/pages/log_out.dart';
 import 'package:veli_flutter/modules/setting/pages/setting_page.dart';
+import 'package:veli_flutter/modules/setting/pages/update_password.dart';
 
 class RowContent {
   String iconLeadingURL;
@@ -35,18 +36,18 @@ final allRowContent = [
         Navigator.push(
             context, MaterialPageRoute(builder: ((context) => ManagePage())));
       }),
-  RowContent(
-      iconLeadingURL: 'assets/images/salemanagement.jpg',
-      content: 'Quản lý hàng bán',
-      itemFunction: () {}),
-  RowContent(
-      iconLeadingURL: 'assets/images/salemanagement.jpg',
-      content: 'Quản lý hàng mua',
-      itemFunction: () {}),
-  RowContent(
-      iconLeadingURL: 'assets/images/revenuemanagement.jpg',
-      content: 'Quản lý doanh thu',
-      itemFunction: () {}),
+  // RowContent(
+  // iconLeadingURL: 'assets/images/salemanagement.jpg',
+  // content: 'Quản lý hàng bán',
+  // itemFunction: () {}),
+  // RowContent(
+  // iconLeadingURL: 'assets/images/salemanagement.jpg',
+  // content: 'Quản lý hàng mua',
+  // itemFunction: () {}),
+  // RowContent(
+  // iconLeadingURL: 'assets/images/revenuemanagement.jpg',
+  // content: 'Quản lý doanh thu',
+  // itemFunction: () {}),
   RowContent(
       iconLeadingURL: 'assets/images/evaluate.jpg',
       content: 'Phản hồi/ Đánh giá ứng dụng', // link vào gg drive
@@ -56,12 +57,12 @@ final allRowContent = [
       }),
   RowContent(
       iconLeadingURL: 'assets/images/setting.jpg',
-      content: 'Cài đặt',
+      content: 'Đổi mật khẩu',
       itemFunction: (BuildContext context) {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SettingsPage(),
+            builder: (context) => UpdatePassword(),
           ),
         );
       }),
@@ -118,15 +119,6 @@ class _AccountState extends State<AccountPage> {
     final PreferredSizeWidget appBar = AppBar(
       elevation: 0.0,
       backgroundColor: Color(0xFFFAFAFD),
-      leading: Container(
-        margin: const EdgeInsets.fromLTRB(24, 0, 0, 0),
-        child: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Image(image: AssetImage('assets/images/arrow.png')),
-        ),
-      ),
       centerTitle: true,
       title: const Text(
         'Tài khoản',
@@ -137,57 +129,62 @@ class _AccountState extends State<AccountPage> {
       ),
     );
 
-    return Scaffold(
-      backgroundColor: Color(0xFFFAFAFD),
-      appBar: appBar,
-      body: SingleChildScrollView(
-          child: Container(
-        margin: const EdgeInsets.fromLTRB(24, 12, 24, 24),
-        child: Column(children: [
-          for (int i = 0; i < allRowContent.length; i++) ...[
-            Column(
-              children: [
-                ListTile(
-                  tileColor: Colors.white,
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  leading: SizedBox(
-                      width: 30,
-                      height: 30,
-                      child: Image(
-                          image: AssetImage(
-                        allRowContent[i].iconLeadingURL,
-                      ))),
-                  title: Text(
-                    allRowContent[i].content,
-                    style: const TextStyle(
-                        color: Color(0xFF150B3D),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400),
-                  ),
-                  trailing: Container(
-                    margin: const EdgeInsets.fromLTRB(24, 0, 0, 0),
-                    child: IconButton(
-                      onPressed: () async {
-                        if (allRowContent[i].itemFunction != null) {
-                          await allRowContent[i].itemFunction(context);
-                        }
-                      },
-                      icon: const Image(
-                          width: 24,
-                          height: 24,
-                          image: AssetImage('assets/images/Select.png')),
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: Color(0xFFFAFAFD),
+        appBar: appBar,
+        body: SingleChildScrollView(
+            child: Container(
+          margin: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+          child: Column(children: [
+            for (int i = 0; i < allRowContent.length; i++) ...[
+              Column(
+                children: [
+                  ListTile(
+                    tileColor: Colors.white,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    leading: SizedBox(
+                        width: 30,
+                        height: 30,
+                        child: Image(
+                            image: AssetImage(
+                          allRowContent[i].iconLeadingURL,
+                        ))),
+                    title: Text(
+                      allRowContent[i].content,
+                      style: const TextStyle(
+                          color: Color(0xFF150B3D),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400),
+                    ),
+                    trailing: Container(
+                      margin: const EdgeInsets.fromLTRB(24, 0, 0, 0),
+                      child: IconButton(
+                        onPressed: () async {
+                          if (allRowContent[i].itemFunction != null) {
+                            await allRowContent[i].itemFunction(context);
+                          }
+                        },
+                        icon: const Image(
+                            width: 24,
+                            height: 24,
+                            image: AssetImage('assets/images/Select.png')),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 12,
-                )
-              ],
-            )
-          ]
-        ]),
-      )),
+                  const SizedBox(
+                    height: 12,
+                  )
+                ],
+              )
+            ]
+          ]),
+        )),
+      ),
     );
   }
 }
