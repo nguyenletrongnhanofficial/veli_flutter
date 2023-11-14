@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:veli_flutter/modules/account/pages/account_page.dart';
 import 'package:veli_flutter/providers/filter_provider.dart';
 import 'package:veli_flutter/routes/router.dart' as main_router;
 
@@ -27,7 +28,7 @@ class MainApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: main_router.Router.generateRoute,
-      home: TensorFlowPage(),
+      home: AccountPage(),
     );
   }
 }

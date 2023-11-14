@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=C:\flutter"
-export "FLUTTER_APPLICATION_PATH=F:\veli_flutter"
+export "FLUTTER_ROOT=C:\flutter_windows_3.7.12-stable\flutter"
+export "FLUTTER_APPLICATION_PATH=D:\Desktop\abc\veli_flutter"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=0.1.0"

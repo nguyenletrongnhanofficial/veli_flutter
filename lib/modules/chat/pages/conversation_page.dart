@@ -55,7 +55,7 @@ class _ConversationPageState extends State<ConversationPage> {
     setState(() {
       _conversationsFuture = getConversations();
     });
-  } 
+  }
 
   @override
   void initState() {
@@ -76,11 +76,12 @@ class _ConversationPageState extends State<ConversationPage> {
           appBar: AppBar(
             backgroundColor: AppColor.backgroundColor,
             elevation: 0,
+            automaticallyImplyLeading: false,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: width * 0.2,
+                  width: width * 0.4,
                 ),
                 Container(
                   width: width * 0.31,

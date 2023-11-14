@@ -19,8 +19,6 @@ class SavePage extends StatefulWidget {
 }
 
 class _SavePageState extends State<SavePage> {
-  get controllerPagination => null;
-
   LocalStorageService localStorage = LocalStorageService();
   late Future<List<DocumentModel>> future;
   List<DocumentModel> documents = [];
@@ -42,7 +40,6 @@ class _SavePageState extends State<SavePage> {
     } catch (e) {
       print(e);
       return [];
-      // Fluttertoast.showToast(msg: '$e');
     }
   }
 
@@ -57,14 +54,12 @@ class _SavePageState extends State<SavePage> {
       }
     } catch (e) {
       print(e);
-      // Fluttertoast.showToast(msg: '$e');
     }
   }
 
   Future<void> refreshDocuments() async {
     documents = await getDocuments();
     setState(() {
-      // Cập nhật UI sau khi dữ liệu mới được tải
       future = Future.value(documents);
     });
   }
@@ -89,6 +84,7 @@ class _SavePageState extends State<SavePage> {
             style: TextStyle(color: AppColor.darkblueColor),
           ),
           centerTitle: true,
+          automaticallyImplyLeading: false, // Ẩn icon "back"
           actions: [
             TextButton(
               onPressed: () {
@@ -107,6 +103,14 @@ class _SavePageState extends State<SavePage> {
           builder: ((context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               final data = snapshot.data;
+              if (data!.isEmpty) {
+                return Center(
+                  child: Text(
+                    'Chưa có dữ liệu nào được lưu',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                );
+              }
               return Container(
                 color: AppColor.backgroundColor,
                 child: CustomScrollView(
@@ -123,14 +127,20 @@ class _SavePageState extends State<SavePage> {
                               },
                               child: NewDocument(documentModel: data[index]));
                         },
-                        childCount: data!.length,
+                        childCount: data.length,
                       ),
                     ),
                   ],
                 ),
               );
-            } else {
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              // Hiển thị loading indicator khi đang tải dữ liệu
               return const Center(child: CircularProgressIndicator());
+            } else {
+              // Trường hợp khác có thể xử lý tùy ý
+              return const Center(
+                child: Text('Đã xảy ra lỗi khi tải dữ liệu'),
+              );
             }
           }),
         ),

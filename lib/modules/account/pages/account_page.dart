@@ -120,6 +120,7 @@ class _AccountState extends State<AccountPage> {
       elevation: 0.0,
       backgroundColor: Color(0xFFFAFAFD),
       centerTitle: true,
+      automaticallyImplyLeading: false,
       title: const Text(
         'Tài khoản',
         style: TextStyle(
