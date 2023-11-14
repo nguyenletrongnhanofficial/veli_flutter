@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:veli_flutter/helpers/navigator_helper.dart';
 import 'package:veli_flutter/routes/route_config.dart';
 
@@ -45,15 +46,16 @@ class _LogOutState extends State<LogOut> {
               ),
               const SizedBox(height: 11),
               RichText(
-                  text: const TextSpan(
-                    text: 'Bạn có chắn chắc muốn đăng xuất ứng dụng?',
-                    style: TextStyle(
-                        color: Color(0xFF524B6B),
-                        fontSize: 12,
-                        wordSpacing: 2,
-                        fontWeight: FontWeight.w400),
-                  ),
-                  textAlign: TextAlign.center),
+                text: const TextSpan(
+                  text: 'Bạn có chắn chắc muốn đăng xuất ứng dụng?',
+                  style: TextStyle(
+                      color: Color(0xFF524B6B),
+                      fontSize: 12,
+                      wordSpacing: 2,
+                      fontWeight: FontWeight.w400),
+                ),
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: 29),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -75,7 +77,9 @@ class _LogOutState extends State<LogOut> {
                         fontWeight: FontWeight.w700),
                   ),
                 ),
-                onPressed: () {
+                onPressed: () async {
+                  final preferences = await SharedPreferences.getInstance();
+                  await preferences.clear();
                   navigatorHelper.changeView(context, RouteNames.login);
                 },
               ),
@@ -101,7 +105,9 @@ class _LogOutState extends State<LogOut> {
                         fontWeight: FontWeight.w700),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  //
+                },
               ),
             ],
           ),
