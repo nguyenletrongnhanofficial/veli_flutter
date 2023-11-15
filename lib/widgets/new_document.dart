@@ -10,6 +10,7 @@ import 'package:veli_flutter/models/user_model.dart';
 import 'package:veli_flutter/services/local_storage_service.dart';
 import 'package:veli_flutter/utils/app_color.dart';
 import 'package:veli_flutter/utils/utils.dart';
+import 'package:veli_flutter/widgets/zoom_image.dart';
 
 class NewDocument extends StatefulWidget {
   final DocumentModel documentModel;
@@ -64,12 +65,23 @@ class _NewDocumentState extends State<NewDocument> {
               padding: const EdgeInsets.only(right: 10),
               child: Row(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(10, 20, 15, 15),
-                    child: Image.network(
-                      widget.documentModel.images[0],
-                      width: 120,
-                      height: 140,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ZoomImagePage(
+                              imageUrl: widget.documentModel.images[0]),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(10, 20, 15, 15),
+                      child: Image.network(
+                        widget.documentModel.images[0],
+                        width: 120,
+                        height: 140,
+                      ),
                     ),
                   ),
                   Expanded(
