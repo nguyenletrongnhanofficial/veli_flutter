@@ -1,30 +1,37 @@
+import 'package:veli_flutter/models/user_model.dart';
+
 class MessageModel {
-  final String user_id;
-  final String username;
-  final String message;
-  final DateTime time;
+  final String id;
+  final String content;
+  final UserModel? createdBy;
+  final String? createdAt;
+  final String? updatedAt;
 
   MessageModel(
-      {required this.user_id,
-      required this.username,
-      required this.message,
-      required this.time});
+      {required this.id,
+      required this.content,
+      this.createdBy,
+      this.createdAt,
+      this.updatedAt,
+      });
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
     return MessageModel(
-      user_id: json['user_id'],
-      username: json['username'],
-      message: json['message'],
-      time: DateTime.parse(json['time']),
+      id: json['_id'] ?? json['id'],
+      content: json['content'],
+      createdBy: json['created_by'] != null ? UserModel.fromJson(json["created_by"] as Map<String, dynamic>): null,
+      createdAt: json["createdAt"] ?? '',
+      updatedAt: json["updatedAt"] ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'userId': user_id,
-      'username': username,
-      'message': message,
-      'time': time.toIso8601String(),
+      'id': id,
+      'content': content,
+      'createdAt': createdAt,
+      'createdBy': createdBy,
+      'updatedAt': updatedAt,
     };
   }
 }

@@ -1,4 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'package:veli_flutter/constants/common.constanst.dart';
+import 'package:veli_flutter/models/user_model.dart';
+import 'package:veli_flutter/services/local_storage_service.dart';
 
 class UpdatePassword extends StatefulWidget {
   const UpdatePassword({Key? key}) : super(key: key);
@@ -17,13 +24,47 @@ class _UpdatePasswordState extends State<UpdatePassword> {
   bool isPasswordVisibleRepeat = false;
   TextEditingController controllerRepeat = TextEditingController();
 
+  LocalStorageService localStorage = LocalStorageService();
+
+  void updatePassword() async {
+    try {
+      UserModel? user = await localStorage.getUserInfo();
+
+      dynamic body = {
+        'old_password': controllerOld.text,
+        'new_password': controllerNew.text,
+        'new_password_confirm': controllerRepeat.text,
+      };
+
+      final response = await http.post(
+        headers: {'authorization': 'Bearer ${user!.accessToken}'},
+        Uri.parse('$apiHost/api/auth/change-password/'),
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        controllerOld.text = '';
+        controllerNew.text = '';
+        controllerRepeat.text = '';
+        Fluttertoast.showToast(msg: jsonDecode(response.body)["message"]);
+      } else {
+        Fluttertoast.showToast(
+          msg: jsonDecode(response.body)["message"],
+        );
+      }
+    } catch (e) {
+      print(
+          'File: lib/modules/setting/pages/update_password.dart - Line: 37: $e ');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
 
-    controllerOld.text = '12345678';
-    controllerNew.text = '12345678';
-    controllerRepeat.text = '12345678';
+    controllerOld.text = '';
+    controllerNew.text = '';
+    controllerRepeat.text = '';
 
     isPasswordVisibleOld = true;
     isPasswordVisibleNew = true;
@@ -87,12 +128,13 @@ class _UpdatePasswordState extends State<UpdatePassword> {
               if (text == null || text.isEmpty) {
                 return 'Vui lòng nhập mật khẩu';
               }
-              if (text.length < 8) {
-                return 'Mật khẩu phải có ít nhất 8 kí tự';
+              if (text.length < 6) {
+                return 'Mật khẩu phải có ít nhất 6 kí tự';
               }
               return null;
             },
             decoration: InputDecoration(
+              hintText: 'Nhập mật khẩu cũ...',
               filled: true,
               fillColor: Colors.white,
               suffixIcon: IconButton(
@@ -144,12 +186,13 @@ class _UpdatePasswordState extends State<UpdatePassword> {
               if (text == null || text.isEmpty) {
                 return 'Vui lòng nhập mật khẩu';
               }
-              if (text.length < 8) {
-                return 'Mật khẩu phải có ít nhất 8 kí tự';
+              if (text.length < 6) {
+                return 'Mật khẩu phải có ít nhất 6 kí tự';
               }
               return null;
             },
             decoration: InputDecoration(
+              hintText: 'Nhập mật khẩu mới...',
               filled: true,
               fillColor: Colors.white,
               suffixIcon: IconButton(
@@ -201,12 +244,13 @@ class _UpdatePasswordState extends State<UpdatePassword> {
               if (text == null || text.isEmpty) {
                 return 'Vui lòng nhập mật khẩu';
               }
-              if (text.length < 8) {
-                return 'Mật khẩu phải có ít nhất 8 kí tự';
+              if (text.length < 6) {
+                return 'Mật khẩu phải có ít nhất 6 kí tự';
               }
               return null;
             },
             decoration: InputDecoration(
+              hintText: 'Nhập mật khẩu mới...',
               filled: true,
               fillColor: Colors.white,
               suffixIcon: IconButton(
@@ -260,7 +304,8 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                       fontWeight: FontWeight.w700),
                 ),
               ),
-              onPressed: () {
+              onPressed: () async {
+                updatePassword();
                 print('Event: Change password');
                 print('Old password: ${controllerOld.text}');
                 print('New password: Change password ${controllerNew.text}');

@@ -158,6 +158,7 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+<<<<<<< HEAD
                   Container(
                     padding: const EdgeInsets.only(left: 35),
                     // child: Row(
@@ -173,6 +174,23 @@ class _LoginPageState extends State<LoginPage> {
                     //   ],
                     // ),
                   ),
+=======
+                  // Container(
+                  // padding: const EdgeInsets.only(left: 35),
+                  // child: Row(
+                  // children: [
+                  // Checkbox(
+                  // value: false,
+                  // onChanged: (value) {},
+                  // ),
+                  // const Text(
+                  // 'Nhớ đăng nhập',
+                  // textAlign: TextAlign.center,
+                  // ),
+                  // ],
+                  // ),
+                  // ),
+>>>>>>> main
                   Container(
                     padding: const EdgeInsets.only(right: 35),
                     child: TextButton(
@@ -196,6 +214,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               AuthActionButton(
                 text: 'Đăng nhập',
+<<<<<<< HEAD
                 onPressed: onPressedLogin,
               ),
 
@@ -212,6 +231,41 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 textColor: Colors.black,
               ),
+=======
+                onPressed: () async {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => HomePage()),
+                  // );
+                  print(phoneNumber.text);
+                  print(password.text);
+
+                  // bool loginResult =
+                  await login(phoneNumber.text, password.text);
+                  // if (loginResult) {
+                  // navigatorHelper.changeView(
+                  //     context, customRouter.RouteNames.main,
+                  //     isReplaceName: true);
+
+                  // } else {
+
+                  // }
+                },
+              ),
+              // AuthActionButton(
+              // text: 'Đăng nhập bằng Google',
+              // onPressed: () {
+              // // Xử lý BE
+              // },
+              // backgroundColor: const Color(0xFFEFEFEF),
+              // icon: Image.asset(
+              // 'assets/images/logo_google.png',
+              // height: 20,
+              // width: 20,
+              // ),
+              // textColor: Colors.black,
+              // ),
+>>>>>>> main
               const SizedBox(
                 height: 10,
               ),
@@ -230,4 +284,41 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+<<<<<<< HEAD
+=======
+
+  Future<void> login(String phoneNumber, String password) async {
+    try {
+      final response = await http.post(Uri.parse('$apiHost/api/auth/login'),
+          body: {'phone': phoneNumber, 'password': password});
+
+      if (response.statusCode == 200) {
+        final userJson = jsonDecode(response.body)["data"];
+        print(userJson.toString());
+        final user = UserModel.fromJson(userJson);
+        await localStorage.setUserInfo(user);
+
+        Fluttertoast.showToast(
+          msg: "Đăng nhập thành công",
+        );
+
+        if (user.status == 0) {
+          navigatorHelper
+              .changeView(context, RouteNames.otp, params: {"userId": user.id});
+        } else {
+          navigatorHelper.changeView(context, RouteNames.main,
+              isReplaceName: true);
+        }
+      } else {
+        Fluttertoast.showToast(
+          msg: jsonDecode(response.body)["message"],
+        );
+      }
+    } catch (e) {
+      print(e);
+      Fluttertoast.showToast(
+          msg: "Vui lòng kiểm tra số điện thoại và password");
+    }
+  }
+>>>>>>> main
 }

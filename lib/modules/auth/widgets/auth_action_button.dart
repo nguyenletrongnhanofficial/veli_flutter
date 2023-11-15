@@ -8,10 +8,12 @@ class AuthActionButton extends StatelessWidget {
     this.backgroundColor = AppColor.mainColor,
     this.textColor = Colors.white,
     this.icon,
+    this.width = 500,
     Key? key,
   }) : super(key: key);
 
   final String text;
+  final double width;
   final VoidCallback onPressed;
   final Color backgroundColor;
   final Color textColor;
@@ -20,7 +22,8 @@ class AuthActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 500,
+      // alignment: Alignment.center,
+      width: width,
       height: 80,
       padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
       child: ElevatedButton(
@@ -32,9 +35,9 @@ class AuthActionButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (icon != null) icon!,
-            const SizedBox(width: 10),
             Text(
               text,
+              textAlign: TextAlign.center,
               style: TextStyle(color: textColor),
             ),
           ],
