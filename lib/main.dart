@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:veli_flutter/modules/account/pages/account_page.dart';
-import 'package:veli_flutter/modules/chat/pages/conversation_page.dart';
-import 'package:veli_flutter/modules/save/save_page.dart';
-import 'package:veli_flutter/pages/home_page.dart';
-import 'package:veli_flutter/pages/splash_page.dart';
 import 'package:veli_flutter/providers/filter_provider.dart';
 import 'package:veli_flutter/routes/router.dart' as main_router;
 
-import 'widgets/nav_bar/nav_bar.dart';
+import 'modules/tflite/pages/tensorflow_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider<FilterProvider>.value(value: FilterProvider())
-    ],
-    child: MainApp(),
-  ));
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider<FilterProvider>.value(value: FilterProvider())
+      ],
+      child: MainApp(),
+    ));
+  });
 }
 
 class MainApp extends StatelessWidget {
@@ -25,20 +24,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: main_router.Router.generateRoute,
-      home: SplashPage(),
-
-      // theme: ThemeData(
-      //   appBarTheme: const AppBarTheme(
-      //     systemOverlayStyle: SystemUiOverlayStyle(
-      //       statusBarColor: Colors.transparent,
-      //       statusBarIconBrightness: Brightness.dark,
-      //       statusBarBrightness: Brightness.light,
-      //     ),
-      //   ),
-      // ),
+      home: TensorFlowPage(),
     );
   }
 }

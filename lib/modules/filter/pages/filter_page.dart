@@ -91,7 +91,7 @@ class _FilterPageState extends State<FilterPage> {
     super.dispose();
   } // giải phóng bộ nhớ khi ko sử dụng nữa (hàm dispose của state)
 
-  RangeValues _priceRange = const RangeValues(0, 1000); // khoảng giá ban đầu
+  RangeValues _priceRange = const RangeValues(0, 1000000); // khoảng giá ban đầu
 
   @override
   Widget build(BuildContext context) {

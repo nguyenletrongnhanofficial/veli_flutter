@@ -1,19 +1,22 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:veli_flutter/constants/common.constanst.dart';
+import 'package:veli_flutter/models/converation_model.dart';
+import 'package:veli_flutter/models/message_model.dart';
 import 'package:veli_flutter/models/user_model.dart';
 import 'package:veli_flutter/modules/chat/widgets/message_widget.dart';
 import 'package:veli_flutter/services/local_storage_service.dart';
+import 'package:veli_flutter/services/socket_service.dart';
 import 'package:veli_flutter/utils/app_color.dart';
 
 class ChatPage extends StatefulWidget {
-  final String? user_id;
-  final String? username;
-  final bool? state;
-  const ChatPage({
-    required this.user_id,
-    required this.username,
-    required this.state,
-    super.key,
-  });
+  final Map<String, String>? params;
+  ChatPage({
+    Key? key,
+    this.params,
+  }) : super(key: key);
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -23,33 +26,100 @@ class _ChatPageState extends State<ChatPage> {
   final TextEditingController messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   LocalStorageService localStorage = LocalStorageService();
+  late SocketService socket = SocketService.getInstance(authorizationToken: '');
+
+  bool isGetMessage = false;
   UserModel? user;
-  final List<Map<dynamic, dynamic>> messages = [
-    {
-      'user_id': '1',
-      'username': 'Be Lien',
-      'message': 'Hello',
-      'time': DateTime(2023, 09, 23, 11, 25),
-    },
-    {
-      'user_id': '2',
-      'username': 'Be Lien 2',
-      'message': 'hi',
-      'time': DateTime(2023, 09, 23, 11, 26),
-    },
-    {
-      'user_id': '2',
-      'username': 'Be Lien 2',
-      'message': 'I love du',
-      'time': DateTime(2023, 09, 23, 11, 27),
-    },
-    {
-      'user_id': '1',
-      'username': 'Be Lien',
-      'message': 'Cảm ơn bro',
-      'time': DateTime(2023, 09, 23, 11, 27),
-    },
-  ];
+  ConversationModel? conversation;
+  List<MessageModel> messages = [];
+
+  void joinRoom() {
+    print(
+        'File: lib/modules/chat/pages/chat_page.dart - Line: 38: ${widget.params.toString()} ');
+    socket.emitEvent(
+        'join-room', {'conversation_id': widget.params!['conversation_id']});
+    socket.onEvent('chat-message', (data) {
+      MessageModel newMsg = MessageModel.fromJson(data);
+      if (mounted) {
+        setState(() {
+          messages.add(newMsg);
+        });
+      }
+    });
+  }
+
+  void readMessages() async {
+    try {
+      UserModel? user = await localStorage.getUserInfo();
+
+      final response = await http.put(
+          headers: {'authorization': 'Bearer ${user!.accessToken}'},
+          Uri.parse(
+              '$apiHost/api/chat/conversations/${widget.params!["conversation_id"]}'));
+
+      if (response.statusCode == 200) {}
+    } catch (e) {
+      print(
+          'File: lib/modules/chat/pages/conversation_page.dart - Line: 24: $e');
+    }
+  }
+
+  Future<List<MessageModel>> getMessages() async {
+    if (isGetMessage) return [];
+    try {
+      UserModel? user = await localStorage.getUserInfo();
+
+      final response = await http.get(
+          headers: {'authorization': 'Bearer ${user!.accessToken}'},
+          Uri.parse('$apiHost/api/chat/${widget.params!["conversation_id"]}'));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> messagesJson = jsonDecode(response.body)["data"];
+        print('File: lib/modules/chat/pages/chat_page.dart - Line: 78: $messagesJson ');
+
+        final List<MessageModel> result = messagesJson
+            .map((doc) => MessageModel.fromJson(doc as Map<String, dynamic>))
+            .toList();
+
+        setState(() {
+          messages = result;
+          isGetMessage = true;
+        });
+        return result;
+      }
+      return [];
+    } catch (e) {
+      print(
+          'File: lib/modules/chat/pages/conversation_page.dart - Line: 24: $e');
+      return [];
+    }
+  }
+
+  Future<void> getConversations() async {
+    try {
+      UserModel? user = await localStorage.getUserInfo();
+
+      final response = await http.get(
+          headers: {'authorization': 'Bearer ${user!.accessToken}'},
+          Uri.parse(
+              '$apiHost/api/chat/conversations/${widget.params!["conversation_id"]}'));
+
+      if (response.statusCode == 200) {
+        final dynamic conversationsJson = jsonDecode(response.body)["data"];
+        print('File: lib/modules/chat/pages/chat_page.dart - Line: 109: $conversationsJson ');
+
+        final ConversationModel result =
+            ConversationModel.fromJson(conversationsJson);
+
+        setState(() {
+          conversation = result;
+        });
+      }
+    } catch (e) {
+      print(
+          'File: lib/modules/chat/pages/conversation_page.dart - Line: 24: $e');
+    }
+  }
 
   Future<void> getUser() async {
     UserModel? userStorage = await localStorage.getUserInfo();
@@ -60,9 +130,20 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    readMessages();
     getUser();
+    getMessages();
+    getConversations();
+    joinRoom();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    socket.emitEvent(
+        'leave-room', {'conversation_id': widget.params!['conversation_id']});
+    socket.offEvent('chat-message');
+    super.dispose();
   }
 
   @override
@@ -76,54 +157,59 @@ class _ChatPageState extends State<ChatPage> {
             children: [
               IconButton(
                   onPressed: () {},
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.menu,
                     color: Colors.black,
                   ))
             ],
           ),
         ),
-        body: Body());
+        body: !isGetMessage
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : buildBody());
   }
 
-  Container Body() {
+  Container buildBody() {
     return Container(
       padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-      child: SingleChildScrollView(),
+      child: buildChatMessages(),
     );
   }
 
-  Column SingleChildScrollView() {
+  Column buildChatMessages() {
     return Column(
       children: [
-        Header(),
+        buildHeader(),
         Expanded(
-          // height: MediaQuery.of(context).size.height * 0.7,
-          // width: MediaQuery.of(context).size.width,
-
-          child: ListView.builder(
-            controller: _scrollController,
-            reverse: true, // đảo ngược thứ tự của danh sách
-            itemCount: messages.length,
-            itemBuilder: (context, index) {
-              final reversedIndex =
-                  messages.length - 1 - index; // đảo ngược thứ tự index
-              return MessageWidget(
-                  message: messages[reversedIndex]['message'],
-                  position: user?.id == messages[reversedIndex]['user_id']
-                      ? 'right'
-                      : 'left',
-                  time: messages[reversedIndex]['time']);
-            },
-          ),
-        ),
+            // height: MediaQuery.of(context).size.height * 0.7,
+            // width: MediaQuery.of(context).size.width,
+            child: ListView.builder(
+          controller: _scrollController,
+          reverse: true, // đảo ngược thứ tự của danh sách
+          itemCount: messages.length,
+          itemBuilder: (context, index) {
+            final reversedIndex =
+                messages.length - 1 - index; // đảo ngược thứ tự index
+            return  messages[reversedIndex].createdBy != null ?
+            MessageWidget(
+                user: messages[reversedIndex].createdBy,
+                message: messages[reversedIndex].content,
+                position: user?.id == messages[reversedIndex].createdBy!.id
+                    ? 'right'
+                    : 'left',
+                time: messages[reversedIndex].createdAt!) :
+                Container();
+          },
+        )),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
               child: TextField(
                 controller: messageController,
-                decoration: InputDecoration(hintText: 'Nhập tin nhắn...'),
+                decoration: const InputDecoration(hintText: 'Nhập tin nhắn...'),
               ),
             ),
             IconButton(
@@ -132,31 +218,38 @@ class _ChatPageState extends State<ChatPage> {
                 String messageInput = messageController.text.toString();
                 if (messageInput.isNotEmpty) {
                   final newMessage = {
-                    'user_id': user?.id,
-                    'username': user?.username,
-                    'message': messageInput,
-                    'time': DateTime.now(),
+                    'id': DateTime.fromMillisecondsSinceEpoch(1000).toString(),
+                    'created_by': user!.toJson(),
+                    'content': messageInput,
+                    'createdAt': DateTime.now().toString(),
                   };
+                  socket.emitEvent('chat-message', {
+                    'conversation_id': widget.params!['conversation_id'],
+                    'type': 1,
+                    'content': messageInput,
+                  });
+
+                  List<MessageModel> updatedMessages = List.from(messages);
+                  updatedMessages.add(MessageModel.fromJson(newMessage));
 
                   setState(() {
-                    messages.add(newMessage); // thêm vào cuối list
-                    //messages.insert(0, newMessage); // thêm vào đầu list
-                    messageController.text = ''; // xóa nội dung ô nhập VB
+                    messages = updatedMessages;
+                    messageController.text = '';
                   });
                 }
               },
-              icon: Icon(Icons.send),
-            ),
+              icon: const Icon(Icons.send),
+            )
           ],
         )
       ],
     );
   }
 
-  Container Header() {
+  Container buildHeader() {
     return Container(
-      padding: EdgeInsets.only(top: 10, bottom: 10),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.only(top: 10, bottom: 10),
+      decoration: const BoxDecoration(
         color: Colors.white, // Màu nền của Container
         boxShadow: [
           BoxShadow(
@@ -175,20 +268,27 @@ class _ChatPageState extends State<ChatPage> {
             children: [
               Row(
                 children: [
-                  ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image.asset(
-                        'assets/images/image_avt_default.jpg',
-                        height: 50,
-                        width: 50,
-                      )),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    width: 60,
+                    height: 60,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(50)),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: (conversation == null || (conversation != null && conversation!.members[0].avatar == ''))
+                            ? Image.asset('assets/images/image_avt_default.jpg',
+                                height: 55, width: 55, fit: BoxFit.cover)
+                            : Image.network(conversation!.members[0].avatar,
+                                height: 55, width: 55, fit: BoxFit.cover)),
+                  ),
                   Column(
                     // mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${widget.username}',
-                        style: TextStyle(
+                        conversation != null ? conversation!.name : "",
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
@@ -201,16 +301,16 @@ class _ChatPageState extends State<ChatPage> {
                             color: Colors.green[400],
                             size: 10,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
-                          widget.state == true
-                              ? Text('Online',
+                          true == true
+                              ? const Text('Online',
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.black,
                                   ))
-                              : Text(
+                              : const Text(
                                   'Offline',
                                   style: TextStyle(
                                     fontSize: 18,
@@ -225,23 +325,23 @@ class _ChatPageState extends State<ChatPage> {
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.phone,
-                    color: Colors.green[400],
-                  )),
-              IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.search,
-                    color: Colors.green[400],
-                  ))
-            ],
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.end,
+          //   children: [
+          //     IconButton(
+          //         onPressed: () {},
+          //         icon: Icon(
+          //           Icons.phone,
+          //           color: Colors.green[400],
+          //         )),
+          //     IconButton(
+          //         onPressed: () {},
+          //         icon: Icon(
+          //           Icons.search,
+          //           color: Colors.green[400],
+          //         ))
+          //   ],
+          // ),
         ],
       ),
     );

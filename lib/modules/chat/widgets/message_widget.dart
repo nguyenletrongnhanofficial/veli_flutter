@@ -2,14 +2,18 @@
 /// Yêu cầu: nếu truyền position: 'right' thì có background màu xanh, chữ trắng,
 /// bo tròn 3 góc, nếu left thì ngược lại + kèm avatar
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:veli_flutter/models/user_model.dart';
 
 class MessageWidget extends StatefulWidget {
   final String? message;
-  final DateTime time;
+  final String? time;
   final String? position;
+  final UserModel? user;
   const MessageWidget({
     required this.message,
     required this.time,
+    required this.user,
     required this.position,
     Key? key,
   }) : super(key: key);
@@ -28,13 +32,13 @@ class _MessageWidgetState extends State<MessageWidget> {
               : MainAxisAlignment.start,
           children: [
             if (widget.position == 'left')
-              CircleAvatar(
-                backgroundImage: Image.asset(
-                  'assets/images/image_avt_default.jpg',
-                  height: 60,
-                  width: 60,
-                ).image,
-                // radius: 20,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(35),
+                child: widget.user!.avatar == ''
+                    ? Image.asset('assets/images/image_avt_default.jpg',
+                        height: 55, width: 55, fit: BoxFit.cover)
+                    : Image.network(widget.user!.avatar,
+                        height: 55, width: 55, fit: BoxFit.cover),
               ),
             Column(
               crossAxisAlignment: widget.position == 'left'
@@ -78,14 +82,15 @@ class _MessageWidgetState extends State<MessageWidget> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     left: 8,
                     right: 10,
                     bottom: 10,
                   ),
                   child: Text(
-                    '${widget.time.hour} : ${widget.time.minute}', // định dạng giờ:phút
-                    style: TextStyle(
+                    DateFormat('HH:mm')
+                        .format(DateTime.parse(widget.time!).toLocal()),
+                    style: const TextStyle(
                       fontSize: 13,
                       color: Colors.grey,
                       decoration: TextDecoration.none,
