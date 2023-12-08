@@ -7,12 +7,11 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:veli_flutter/constants/common.constanst.dart';
-import 'package:veli_flutter/main.dart';
+import 'package:veli_flutter/models/district_model.dart';
 import 'package:veli_flutter/models/school_model.dart';
 import 'package:veli_flutter/models/subject_model.dart';
 import 'package:veli_flutter/models/user_model.dart';
 import 'package:veli_flutter/modules/search/search_page.dart';
-import 'package:veli_flutter/pages/home_page.dart';
 import 'package:veli_flutter/providers/filter_provider.dart';
 import 'package:veli_flutter/services/local_storage_service.dart';
 import 'package:veli_flutter/utils/utils.dart';
@@ -34,13 +33,37 @@ class _FilterPageState extends State<FilterPage> {
   List<dynamic> subjects = [];
   String? subjectId;
 
+  List<dynamic> districts = [];
+  String? districtId;
+
   LocalStorageService localStorage = LocalStorageService();
 
   @override
   void initState() {
     getSchoolList();
     getSubjectList();
+    getDistrictList();
     super.initState();
+  }
+
+  Future<void> getDistrictList() async {
+    try {
+      UserModel? user = await localStorage.getUserInfo();
+      final response = await http.get(
+          headers: {'authorization': 'Bearer ${user!.accessToken}'},
+          Uri.parse('${apiHost}/api/document/districts'));
+      if (response.statusCode == 200) {
+        final List<dynamic> districtsJson = jsonDecode(response.body)["data"];
+        setState(() {
+          districts = districtsJson
+              .map((school) => DistrictModel.fromJson(school))
+              .toList();
+        });
+      }
+    } catch (e) {
+      print(e);
+      Fluttertoast.showToast(msg: '$e');
+    }
   }
 
   Future<void> getSchoolList() async {
@@ -175,34 +198,58 @@ class _FilterPageState extends State<FilterPage> {
             ),
             const SizedBox(height: 15),
 
-            const Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 12),
-                  child: Text(
-                    'Địa điểm:',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 15),
-            Container(
-              padding: const EdgeInsets.only(left: 30, right: 30),
-              child: TextField(
-                controller: _addressEditingController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      borderSide: BorderSide(color: Colors.green, width: 1)),
-                  hintText: 'Nhập địa điểm',
-                  labelText: 'Địa điểm: ',
-                ),
-              ),
-            ),
+            FormHelper.dropDownWidgetWithLabel(
+              context,
+              'Quận/ Huyện:',
+              'Chọn Quận/ Huyện',
+              districtId,
+              districts.map((district) => district.toJson()).toList(),
+              (onChangedVal) {
+            districtId = onChangedVal;
+            print('Chọn Quận/ huyện: $onChangedVal');
+          }, (onValidaVal) {
+            if (onValidaVal == null) {
+              return 'Vui lòng chọn quận hiện tại của bạn';
+            }
+            return null;
+          },
+              borderColor: Theme.of(context).primaryColor,
+              borderFocusColor: Theme.of(context).primaryColor,
+              borderRadius: 10,
+              contentPadding: 10,
+              optionLabel: 'name',
+              optionValue: 'id',
+              labelFontSize: 16,
+              hintFontSize: 12),
+
+            // const Row(
+            //   children: [
+            //     Padding(
+            //       padding: const EdgeInsets.only(left: 12),
+            //       child: Text(
+            //         'Địa điểm:',
+            //         style: TextStyle(
+            //             color: Colors.black,
+            //             fontWeight: FontWeight.bold,
+            //             fontSize: 20),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            // const SizedBox(height: 15),
+            // Container(
+            //   padding: const EdgeInsets.only(left: 30, right: 30),
+            //   child: TextField(
+            //     controller: _addressEditingController,
+            //     decoration: const InputDecoration(
+            //       border: OutlineInputBorder(
+            //           borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            //           borderSide: BorderSide(color: Colors.green, width: 1)),
+            //       hintText: 'Nhập địa điểm',
+            //       labelText: 'Địa điểm: ',
+            //     ),
+            //   ),
+            // ),
 
             // Text(
             //     'You entered: ${_textEditingController.text}') //cập nhật &hiển thị VB
@@ -258,6 +305,7 @@ class _FilterPageState extends State<FilterPage> {
                 onPressed: () {
                   final newFilter = {
                     'schoolId': schoolId,
+                    'districtId': districtId,
                     'subjectId': subjectId,
                     'price_from': _priceRange.start,
                     'price_to': _priceRange.end,

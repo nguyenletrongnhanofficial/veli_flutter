@@ -87,60 +87,60 @@ class _ConversationPageState extends State<ConversationPage> {
                   child: const Text('Tin nhắn',
                       style: TextStyle(color: Colors.black)),
                 ),
-                Flexible(
-                  flex: 1,
-                  child: Container(
-                      width: width * 0.33,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            constraints: const BoxConstraints(maxWidth: 40),
-                            child: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.book,
-                                  color: Colors.green,
-                                )),
-                          ),
-                          Container(
-                            constraints: const BoxConstraints(maxWidth: 30),
-                            child: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.menu,
-                                color: Colors.black,
-                              ),
-                            ),
-                          )
-                        ],
-                      )),
-                )
+                // Flexible(
+                //   flex: 1,
+                //   child: Container(
+                //       width: width * 0.33,
+                //       child: Row(
+                //         mainAxisAlignment: MainAxisAlignment.end,
+                //         children: [
+                //           Container(
+                //             constraints: const BoxConstraints(maxWidth: 40),
+                //             child: IconButton(
+                //                 onPressed: () {},
+                //                 icon: const Icon(
+                //                   Icons.book,
+                //                   color: Colors.green,
+                //                 )),
+                //           ),
+                //           Container(
+                //             constraints: const BoxConstraints(maxWidth: 30),
+                //             child: IconButton(
+                //               onPressed: () {},
+                //               icon: const Icon(
+                //                 Icons.menu,
+                //                 color: Colors.black,
+                //               ),
+                //             ),
+                //           )
+                //         ],
+                //       )),
+                // )
               ],
             ),
           ),
           body: Column(
             children: [
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide:
-                                  const BorderSide(color: Colors.black)),
-                          hintText: 'Tìm kiếm tin nhắn',
-                          prefixIcon: const Icon(Icons.search),
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 12.0, horizontal: 16.0)),
-                    ),
-                  )),
-                ],
-              ),
+              // const SizedBox(height: 20),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //         child: Padding(
+              //       padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              //       child: TextField(
+              //         decoration: InputDecoration(
+              //             border: OutlineInputBorder(
+              //                 borderRadius: BorderRadius.circular(10),
+              //                 borderSide:
+              //                     const BorderSide(color: Colors.black)),
+              //             hintText: 'Tìm kiếm tin nhắn',
+              //             prefixIcon: const Icon(Icons.search),
+              //             contentPadding: const EdgeInsets.symmetric(
+              //                 vertical: 12.0, horizontal: 16.0)),
+              //       ),
+              //     )),
+              //   ],
+              // ),
               const SizedBox(height: 20),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.65,

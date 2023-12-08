@@ -29,6 +29,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       onGenerateRoute: main_router.Router.generateRoute,
       home: SplashPage(),
+      // home: TensorFlowPage(),
     );
   }
 }

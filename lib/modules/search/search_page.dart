@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:veli_flutter/helpers/navigator_helper.dart';
 import 'package:veli_flutter/models/document_model.dart';
 import 'package:veli_flutter/models/user_model.dart';
+import 'package:veli_flutter/modules/auth/widgets/auth_action_button.dart';
 import 'package:veli_flutter/modules/filter/pages/filter_page.dart';
 import 'package:veli_flutter/providers/filter_provider.dart';
 import 'package:veli_flutter/routes/route_config.dart';
@@ -112,6 +113,52 @@ class _SearchPageState extends State<SearchPage> {
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             final data = snapshot.data;
+            if (data!.isEmpty) {
+              return Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 40),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 100,
+                      ),
+                      Text(
+                        'Không tìm thấy tài liệu nào',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'Trống',
+                        style: TextStyle(fontSize: 12),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 16),
+                      Image.asset(
+                        'assets/images/nosaving.png',
+                        width: 200,
+                        height: 200,
+                      ),
+                      SizedBox(
+                        height: 50,
+                      ),
+                      // AuthActionButton(
+                      //   text: 'TÌM TÀI LIỆU',
+                      //   onPressed: () {
+                      //     navigatorHelper.changeView(
+                      //         context, RouteNames.filter);
+                      //   },
+                      // ),
+                    ],
+                  ),
+                ),
+              );
+            }
             return Container(
               color: AppColor.backgroundColor,
               child: CustomScrollView(

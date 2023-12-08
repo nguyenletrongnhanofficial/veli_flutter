@@ -80,19 +80,19 @@ class SignupPage extends StatelessWidget {
                 // Xử lý BE
               },
             ),
-            AuthActionButton(
-              text: 'Đăng ký bằng Google',
-              onPressed: () {
-                print(userName.text);
-              },
-              backgroundColor: const Color(0xFFEFEFEF),
-              icon: Image.asset(
-                'assets/images/logo_google.png',
-                height: 20,
-                width: 20,
-              ),
-              textColor: Colors.black,
-            ),
+            // AuthActionButton(
+            //   text: 'Đăng ký bằng Google',
+            //   onPressed: () {
+            //     print(userName.text);
+            //   },
+            //   backgroundColor: const Color(0xFFEFEFEF),
+            //   icon: Image.asset(
+            //     'assets/images/logo_google.png',
+            //     height: 20,
+            //     width: 20,
+            //   ),
+            //   textColor: Colors.black,
+            // ),
             const SizedBox(
               height: 10,
             ),

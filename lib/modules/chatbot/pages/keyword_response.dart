@@ -1,25 +1,43 @@
 final List<String> keywords = [
   'Bạn là ai',
-    'bạn là ai',
+  'bạn là ai',
   'flutter là gì?',
   'flutter là gì',
   'CEO của bạn',
-  'Tôi thanh toán bằng cách nào',
-  'hello', 
+  'tôi thanh toán bằng cách nào',
+  'hello',
   'hi',
-  
+  'bạn có thể giúp gì cho tôi?',
+  'công nghệ bạn sử dụng là gì?',
+  'có chính sách hoàn trả không?',
+  'làm thế nào để đặt hàng?',
+  'ứng dụng của bạn hỗ trợ ngôn ngữ nào?',
+  'có chính sách hủy đơn hàng không?',
+  'tôi muốn góp ý',
+  'Bạn có ứng dụng di động trên nền tảng nào?',
+  'Làm thế nào để cập nhật thông tin tài khoản của tôi?',
+  "Làm thế nào để liên hệ với bộ phận hỗ trợ?",
+  "Có dịch vụ hỗ trợ trực tuyến không?",
 ];
 
 final List<String> responses = [
   'Tôi là chatbot Veli, được tạo bởi Tập đoàn Công nghệ Veli - Veli Technology',
   'Tôi là chatbot Veli, được tạo bởi Tập đoàn Công nghệ Veli - Veli Technology',
-
   'Flutter là một framework phát triển ứng dụng di động mã nguồn mở được phát triển bởi Google. Nó cho phép bạn xây dựng ứng dụng di động, web và máy tính từ một mã nguồn duy nhất bằng việc sử dụng ngôn ngữ lập trình Dart. Flutter được thiết kế để giúp bạn xây dựng ứng dụng đa nền tảng, nghĩa là bạn có thể phát triển một ứng dụng và chạy nó trên nhiều nền tảng khác nhau như iOS, Android, web, máy tính và nhiều nền tảng khác..',
   'Flutter là một framework phát triển ứng dụng di động mã nguồn mở được phát triển bởi Google. Nó cho phép bạn xây dựng ứng dụng di động, web và máy tính từ một mã nguồn duy nhất bằng việc sử dụng ngôn ngữ lập trình Dart. Flutter được thiết kế để giúp bạn xây dựng ứng dụng đa nền tảng, nghĩa là bạn có thể phát triển một ứng dụng và chạy nó trên nhiều nền tảng khác nhau như iOS, Android, web, máy tính và nhiều nền tảng khác..',
-
   'CEO của tôi là Đặng Kim Liên, sinh viên trường Đại học Tài nguyên và Môi trường TP.HCM',
   'Bạn có thể thanh toán bằng tiền mặt hoặc chuyển khoản tới người bán',
   'Xin chào, tôi có thể giúp gì cho bạn?',
   'Xin chào, tôi có thể giúp gì cho bạn?',
-
+  'Tôi có thể giúp bạn giải đáp những thắc mắc. Hãy đặt câu hỏi cho tôi nhé',
+  'Tôi sử dụng flutter và Dart',
+  'Hiện tại, ứng dụng không cung cấp tính năng hoàn trả. Nếu bạn muốn hoàn trả, hãy liên hệ trực tiếp với người bán nhé',
+  'Bạn hãy trao đổi trực tiếp với người bán nhé',
+  'hiện tại ứng dụng chỉ cũng cấp ngôn ngữ Tiếng Việt',
+  'Hiện tại, ứng dụng không cung cấp chính sách hủy đơn hàng, hãy liên hệ trực tiếp với người bán nhé',
+  'Bạn hãy vào mục Quản lý tài khoản, chọn tính năng: "Đánh giá/Phản hồi ứng dụng"',
+  'Hiện tại, ứng dụng chỉ có trên hệ điều hành Android',
+  'Bạn hãy vào mục Quản lý tài khoản, chọn tính năng: "My Profile" để cập nhật thông tin cá nhân',
+  'Bạn hãy liên hệ: 18000-2658 để được hỗ trợ',
+  'Bạn hãy liên hệ: 18000-2658 để được hỗ trợ',
 ];

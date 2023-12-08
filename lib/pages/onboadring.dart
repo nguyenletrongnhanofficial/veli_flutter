@@ -24,7 +24,7 @@ class _OnBoardingState extends State<OnBoarding> {
             child: Container(
               padding: const EdgeInsets.fromLTRB(16, 30, 25, 40),
               child: const Text(
-                'Veli',
+                '',
                 style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
               ),
             ),

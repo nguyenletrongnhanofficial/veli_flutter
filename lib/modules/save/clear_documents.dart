@@ -4,10 +4,10 @@ class ClearDocuments extends StatefulWidget {
   const ClearDocuments({Key? key}) : super(key: key);
 
   @override
-  State<ClearDocuments> createState() => _LogOutState();
+  State<ClearDocuments> createState() => _ClearDocumentsState();
 }
 
-class _LogOutState extends State<ClearDocuments> {
+class _ClearDocumentsState extends State<ClearDocuments> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -103,6 +103,60 @@ class _LogOutState extends State<ClearDocuments> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ClearDocumentsDialog extends StatelessWidget {
+  const ClearDocumentsDialog({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.white,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Image.asset('assets/images/divider_bottomsheet.png'),
+          Container(
+                height: 20,
+              ),
+              const Text(
+                'Xóa tài liệu',
+                style: TextStyle(
+                    color: Color(0xFF150B3D),
+                    fontSize: 16,
+                    wordSpacing: 2,
+                    fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(height: 11),
+              RichText(
+                  text: const TextSpan(
+                    text: 'Bạn có chắc xóa tài liệu này không?',
+                    style: TextStyle(
+                        color: Color(0xFF524B6B),
+                        fontSize: 12,
+                        wordSpacing: 2,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  textAlign: TextAlign.center),
+              // const SizedBox(height: 29),
+        ],
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop(true); // Return true if confirmed
+          },
+          child: const Text('CHẮC CHẮN'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop(false); // Return false if cancelled
+          },
+          child: const Text('HỦY'),
+        ),
+      ],
     );
   }
 }
