@@ -2,15 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:veli_flutter/models/document_model.dart';
-import 'package:veli_flutter/helpers/navigator_helper.dart';
-import 'package:veli_flutter/models/user_model.dart';
-import 'package:veli_flutter/services/local_storage_service.dart';
-import 'package:veli_flutter/widgets/new_document.dart';
 import 'package:veli_flutter/constants/common.constanst.dart';
 import 'package:veli_flutter/helpers/navigator_helper.dart';
+import 'package:veli_flutter/models/document_model.dart';
+import 'package:veli_flutter/models/user_model.dart';
 import 'package:veli_flutter/routes/route_config.dart';
+import 'package:veli_flutter/services/local_storage_service.dart';
 import 'package:veli_flutter/utils/app_color.dart';
+import 'package:veli_flutter/widgets/new_document.dart';
 
 class ManagePage extends StatefulWidget {
   @override
@@ -20,6 +19,8 @@ class ManagePage extends StatefulWidget {
 class _ManagePageState extends State<ManagePage> {
   LocalStorageService localStorage = LocalStorageService();
   List<DocumentModel> documents = [];
+  late Future<List<DocumentModel>> future;
+
 
   Future<List<DocumentModel>> getDocuments() async {
     try {
@@ -33,11 +34,6 @@ class _ManagePageState extends State<ManagePage> {
         final List<DocumentModel> result = documentsJson
             .map((doc) => DocumentModel.fromJson(doc as Map<String, dynamic>))
             .toList();
-        if (mounted) {
-          setState(() {
-            documents = result;
-          });
-        }
         return result;
       }
       return [];
@@ -47,6 +43,12 @@ class _ManagePageState extends State<ManagePage> {
       // Fluttertoast.showToast(msg: '$e');
     }
   }
+
+  @override
+    void initState() {
+      future = getDocuments();
+      super.initState();
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +122,7 @@ class _ManagePageState extends State<ManagePage> {
             ),
             Expanded(
               child: FutureBuilder(
-                future: getDocuments(),
+                future: future,
                 builder: ((context, snapshot) {
                   if (snapshot.hasData) {
                     final List<DocumentModel> data = snapshot.data!;
@@ -133,7 +135,7 @@ class _ManagePageState extends State<ManagePage> {
                                   context, RouteNames.description,
                                   params: {'documentId': data[index].id});
                             },
-                            child: NewDocument(documentModel: data[index]));
+                            child: NewDocument(documentModel: data[index], canDelete: true,));
                       }),
                     );
                   } else if (snapshot.connectionState ==

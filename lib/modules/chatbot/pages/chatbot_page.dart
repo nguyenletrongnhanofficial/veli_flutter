@@ -20,12 +20,13 @@ class ChatbotPage extends StatelessWidget {
       ratingIconColor: Colors.black,
       ratingBackgroundColor: Colors.white,
       ratingButtonText: 'Submit Rating',
-      
+
       thankyouText: 'Cảm ơn bạn đã đánh giá!', // cảm ơn sau khi user rating
       // thankyouText: '', // cảm ơn sau khi user rating
       ratingText: 'Đánh giá trải nghiệm của bạn:',
       ratingTitle: 'Cảm ơn bạn đã sử dụng chatbot!',
-      body: 'This is a test email sent from Flutter and Dart.',//Nội dung email (nếu muốn chatbot gửi email).
+      body:
+          'This is a test email sent from Flutter and Dart.', //Nội dung email (nếu muốn chatbot gửi email).
       subject: 'Test Rating', //Chủ đề (subject) của email.
       recipient: 'recipient@example.com', // địa chỉ email người nhận
       isSecure:
@@ -35,13 +36,14 @@ class ChatbotPage extends StatelessWidget {
       smtpUsername: 'Your Email',
       smtpPassword: 'your password',
       smtpServer: 'stmp.gmail.com', // Địa chỉ máy chủ SMTP và cổng kết nối.
-      smtpPort: 587,// Địa chỉ cổng kết nối.
+      smtpPort: 587, // Địa chỉ cổng kết nối.
       //Settings to your system Configurations
       sendIcon: const Icon(Icons.send, color: Colors.black),
       userIcon: const Icon(Icons.animation, color: Colors.white),
       botIcon: const Icon(Icons.android, color: Colors.white),
       botChatColor: Color.fromARGB(255, 104, 0, 101),
-      delayBot: 100, //sau khi chatbot trả lời, nó sẽ chờ 100 mili giây -> hiển thị câu trả lời tiếp theo.
+      delayBot:
+          100, //sau khi chatbot trả lời, nó sẽ chờ 100 mili giây -> hiển thị câu trả lời tiếp theo.
       closingTime: 1, // ko tương tác -> cuộc trò chuyện sẽ tự động kết thúc.
       delayResponse: 1,
       userChatColor: const Color.fromARGB(255, 103, 0, 0),
@@ -53,7 +55,8 @@ class ChatbotPage extends StatelessWidget {
       backgroundAssetimage: "assets/images/1.webp",
       initialGreeting: "Xin chào bạn.Trợ lý Veli có thể giúp gì được cho bạn?",
       defaultResponse:
-          "Xin lỗi, tôi chưa được huấn luyện để trả lời vấn đề của bạn. Bạn hãy liên hệ: 18000-2658 để được tư vấn hoặc nhắn trực tiếp đến người bán mà bạn quan tâm ",
+          "Xin lỗi, tôi chưa được huấn luyện để trả lời vấn đề của bạn. Bạn hãy liên hệ: 18000-2658 để được tư vấn hoặc nhắn trực tiếp đến người bán mà bạn quan tâm. Nếu bạn muốn tìm bất cứ tài liệu, vui lòng vào trang chủ và thực hiện tìm kiếm sản phẩm",
+
       inactivityMessage: "Bạn còn cần giúp gì nữa không??",
       closingMessage: "Cuộc hội thoại này sẽ được đóng ngay bây giờ.",
       inputHint: 'Gửi tin nhắn',

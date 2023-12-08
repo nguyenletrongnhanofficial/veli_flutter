@@ -54,16 +54,14 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  Future<bool> login(String phoneNumber, String password) async {
+  Future<void> login(String phoneNumber, String password) async {
     try {
-      final response =
-          await http.post(Uri.parse('$apiHost/api/auth/login'), body: {
-        'phone': phoneNumber,
-        'password': password,
-      });
+      final response = await http.post(Uri.parse('$apiHost/api/auth/login'),
+          body: {'phone': phoneNumber, 'password': password});
 
       if (response.statusCode == 200) {
         final userJson = jsonDecode(response.body)["data"];
+        print(userJson.toString());
         final user = UserModel.fromJson(userJson);
         await localStorage.setUserInfo(user);
 
@@ -71,34 +69,29 @@ class _LoginPageState extends State<LoginPage> {
           msg: "Đăng nhập thành công",
         );
 
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setBool('isLoggedIn', true);
-
-        return true;
+        if (user.status == 0) {
+          navigatorHelper
+              .changeView(context, RouteNames.otp, params: {"userId": user.id});
+        } else {
+          navigatorHelper.changeView(context, RouteNames.main,
+              isReplaceName: true);
+        }
       } else {
         Fluttertoast.showToast(
           msg: jsonDecode(response.body)["message"],
         );
-        return false;
       }
     } catch (e) {
       print(e);
-      return false;
+      Fluttertoast.showToast(
+          msg: "Vui lòng kiểm tra số điện thoại và password");
     }
   }
 
   void onPressedLogin() async {
     print(phoneNumberController.text);
     print(passwordController.text);
-
-    bool loginResult =
-        await login(phoneNumberController.text, passwordController.text);
-    if (loginResult) {
-      navigatorHelper.changeView(context, RouteNames.main, isReplaceName: true);
-    } else {
-      Fluttertoast.showToast(
-          msg: "Vui lòng kiểm tra số điện thoại và password");
-    }
+    await login(phoneNumberController.text, passwordController.text);
   }
 
   @override
@@ -199,19 +192,19 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: onPressedLogin,
               ),
 
-              AuthActionButton(
-                text: 'Đăng nhập bằng Google',
-                onPressed: () {
-                  // Xử lý BE
-                },
-                backgroundColor: const Color(0xFFEFEFEF),
-                icon: Image.asset(
-                  'assets/images/logo_google.png',
-                  height: 20,
-                  width: 20,
-                ),
-                textColor: Colors.black,
-              ),
+              // AuthActionButton(
+              //   text: 'Đăng nhập bằng Google',
+              //   onPressed: () {
+              //     // Xử lý BE
+              //   },
+              //   backgroundColor: const Color(0xFFEFEFEF),
+              //   icon: Image.asset(
+              //     'assets/images/logo_google.png',
+              //     height: 20,
+              //     width: 20,
+              //   ),
+              //   textColor: Colors.black,
+              // ),
 
               const SizedBox(
                 height: 10,

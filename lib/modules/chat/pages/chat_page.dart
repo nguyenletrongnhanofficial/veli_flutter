@@ -75,7 +75,8 @@ class _ChatPageState extends State<ChatPage> {
 
       if (response.statusCode == 200) {
         final List<dynamic> messagesJson = jsonDecode(response.body)["data"];
-        print('File: lib/modules/chat/pages/chat_page.dart - Line: 78: $messagesJson ');
+        print(
+            'File: lib/modules/chat/pages/chat_page.dart - Line: 78: $messagesJson ');
 
         final List<MessageModel> result = messagesJson
             .map((doc) => MessageModel.fromJson(doc as Map<String, dynamic>))
@@ -106,7 +107,8 @@ class _ChatPageState extends State<ChatPage> {
 
       if (response.statusCode == 200) {
         final dynamic conversationsJson = jsonDecode(response.body)["data"];
-        print('File: lib/modules/chat/pages/chat_page.dart - Line: 109: $conversationsJson ');
+        print(
+            'File: lib/modules/chat/pages/chat_page.dart - Line: 109: $conversationsJson ');
 
         final ConversationModel result =
             ConversationModel.fromJson(conversationsJson);
@@ -185,24 +187,61 @@ class _ChatPageState extends State<ChatPage> {
         Expanded(
             // height: MediaQuery.of(context).size.height * 0.7,
             // width: MediaQuery.of(context).size.width,
-            child: ListView.builder(
-          controller: _scrollController,
-          reverse: true, // đảo ngược thứ tự của danh sách
-          itemCount: messages.length,
-          itemBuilder: (context, index) {
-            final reversedIndex =
-                messages.length - 1 - index; // đảo ngược thứ tự index
-            return  messages[reversedIndex].createdBy != null ?
-            MessageWidget(
-                user: messages[reversedIndex].createdBy,
-                message: messages[reversedIndex].content,
-                position: user?.id == messages[reversedIndex].createdBy!.id
-                    ? 'right'
-                    : 'left',
-                time: messages[reversedIndex].createdAt!) :
-                Container();
-          },
-        )),
+            child: messages.isEmpty
+                ? Container(
+                    color: Colors.grey[50],
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/image_nomesage.jpg',
+                          height: 300,
+                          width: 300,
+                        ),
+                        const SizedBox(
+                          height: 80,
+                        ),
+                        const Text(
+                          'Không có tin nhắn',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              decoration: TextDecoration.none,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const Text(
+                          'Bạn không có tin nhắn mua bán nào ở đây',
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black87,
+                              decoration: TextDecoration.none,
+                              fontWeight: FontWeight.normal),
+                        ),
+                      ],
+                    ),
+                  )
+                :  ListView.builder(
+                    controller: _scrollController,
+                    reverse: true, // đảo ngược thứ tự của danh sách
+                    itemCount: messages.length,
+                    itemBuilder: (context, index) {
+                      final reversedIndex =
+                          messages.length - 1 - index; // đảo ngược thứ tự index
+                      return messages[reversedIndex].createdBy != null
+                          ? MessageWidget(
+                              user: messages[reversedIndex].createdBy,
+                              message: messages[reversedIndex].content,
+                              position: user?.id ==
+                                      messages[reversedIndex].createdBy!.id
+                                  ? 'right'
+                                  : 'left',
+                              time: messages[reversedIndex].createdAt!)
+                          : Container();
+                    },
+                  )),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -276,7 +315,9 @@ class _ChatPageState extends State<ChatPage> {
                         BoxDecoration(borderRadius: BorderRadius.circular(50)),
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(50),
-                        child: (conversation == null || (conversation != null && conversation!.members[0].avatar == ''))
+                        child: (conversation == null ||
+                                (conversation != null &&
+                                    conversation!.members[0].avatar == ''))
                             ? Image.asset('assets/images/image_avt_default.jpg',
                                 height: 55, width: 55, fit: BoxFit.cover)
                             : Image.network(conversation!.members[0].avatar,

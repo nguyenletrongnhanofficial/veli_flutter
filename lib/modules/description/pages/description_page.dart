@@ -15,7 +15,6 @@ import 'package:veli_flutter/modules/description/widgets/custom_googlemap.dart';
 import 'package:veli_flutter/routes/route_config.dart';
 import 'package:veli_flutter/services/local_storage_service.dart';
 import 'package:veli_flutter/utils/utils.dart';
-import 'package:veli_flutter/widgets/zoom_image.dart';
 
 class Descriptionpage extends StatefulWidget {
   final Map<String, String>? params;
@@ -95,7 +94,7 @@ class _DescriptionpageState extends State<Descriptionpage> {
     } catch (e) {
       print(
           'File: lib/modules/chat/pages/conversation_page.dart - Line: 24: $e');
-    }
+    }	
   }
 
   @override
@@ -262,25 +261,12 @@ class _DescriptionpageState extends State<Descriptionpage> {
                                     spacing: 10,
                                     runSpacing: 10,
                                     children: document.images
-                                        .map((url) => GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ZoomImagePage(
-                                                      imageUrl: url,
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                              child: Container(
+                                        .map((url) => Container(
+                                              child: Image.network(
+                                                url,
+                                                fit: BoxFit.cover,
                                                 width: 250,
                                                 height: 250,
-                                                child: Image.network(
-                                                  url,
-                                                  fit: BoxFit.cover,
-                                                ),
                                               ),
                                             ))
                                         .toList(),

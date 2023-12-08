@@ -13,6 +13,7 @@ class DocumentModel {
   final String address;
   final UserModel? createdBy;
   final String createdAt;
+  final String districtId;
   final List<String> images;
   final SchoolModel? school;
   final SubjectModel? subject;
@@ -26,8 +27,9 @@ class DocumentModel {
     required this.isSaved,
     required this.isFree,
     required this.address,
-    required this.createdAt,
     required this.createdBy,
+    required this.createdAt,
+    required this.districtId,
     required this.images,
     required this.school,
     required this.subject,
@@ -45,6 +47,7 @@ class DocumentModel {
       address: json["address"] ?? '' ,
       createdBy: UserModel.fromJson(json["created_by"] as Map<String, dynamic>),
       createdAt: json["created_at"] ?? '' ,
+      districtId: json["district_id"] ?? '' ,
       images: json["images"] != null ? (json['images'] as List).map((image) => image as String).toList() : [],
  //     images: json["images"] ? json['images'].map((image) => image as String).toList() : [],
       school: SchoolModel.fromJson(json["school"] as Map<String, dynamic>),

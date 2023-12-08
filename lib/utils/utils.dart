@@ -20,6 +20,10 @@ class Utils {
     url += 'subject_id=${filter['subjectId']}&';
   }
 
+  if (filter['districtId'] != null) {
+    url += 'district_id=${filter['districtId']}&';
+  }
+
   if (filter['price_from'] != null) {
     url += 'price_from=${filter['price_from']}&'; 
   }

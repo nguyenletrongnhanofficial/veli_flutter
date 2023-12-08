@@ -286,22 +286,22 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                   ),
                                 ),
-                                Positioned(
-                                  top: 20,
-                                  right: 20,
-                                  child: IconButton(
-                                    onPressed: () {
-                                      navigatorHelper.changeView(
-                                          context, RouteNames.settings,
-                                          isReplaceName: false);
-                                    },
-                                    icon: const Icon(
-                                      Icons.settings,
-                                      size: 40,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
+                                // Positioned(
+                                //   top: 20,
+                                //   right: 20,
+                                //   child: IconButton(
+                                //     onPressed: () {
+                                //       navigatorHelper.changeView(
+                                //           context, RouteNames.settings,
+                                //           isReplaceName: false);
+                                //     },
+                                //     icon: const Icon(
+                                //       Icons.settings,
+                                //       size: 40,
+                                //       color: Colors.grey,
+                                //     ),
+                                //   ),
+                                // ),
                                 Positioned(
                                     top: 45,
                                     left: 20,

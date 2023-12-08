@@ -14,6 +14,7 @@ import 'package:veli_flutter/modules/chatbot/pages/chatbot_page.dart';
 import 'package:veli_flutter/modules/description/pages/description_page.dart';
 import 'package:veli_flutter/modules/filter/pages/filter_page.dart';
 import 'package:veli_flutter/modules/post/pages/add_post_page.dart';
+import 'package:veli_flutter/modules/post/pages/edit_post_page.dart';
 import 'package:veli_flutter/modules/profile/pages/add_school_page.dart';
 import 'package:veli_flutter/modules/profile/pages/other_profile_page.dart';
 import 'package:veli_flutter/modules/profile/pages/profile_page.dart';
@@ -43,10 +44,11 @@ class RouteNames {
   static const signup = 'SignUp';
   static const forgotpassword = "ForgotPassword";
   static const newPassword = "newPassword";
-  static const otp = "Otp";
+  static const otp = "Otp"; 
   static const updatePasswordOtp = "UpdatePasswrordOtp";
   static const successfullypage = "SuccessfullyPage";
   static const addpost = "Addpost";
+  static const editpost = "Editpost";
   static const description = "Description";
   static const filter = "Filter";
   static const search = "Search";
@@ -151,6 +153,13 @@ class RouteCreator {
       'AddPost',
       null,
       view: ({params, settings}) => AddPostPage(),
+    ),
+
+    RouteNames.editpost: BaseRoute(
+      RouteNames.editpost,
+      'EditPost',
+      null,
+      view: ({params, settings}) => EditPostPage(params: params),
     ),
 
     RouteNames.description: BaseRoute(

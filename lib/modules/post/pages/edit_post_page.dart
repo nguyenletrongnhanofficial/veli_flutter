@@ -8,6 +8,7 @@ import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:veli_flutter/constants/common.constanst.dart';
 import 'package:veli_flutter/helpers/navigator_helper.dart';
 import 'package:veli_flutter/models/district_model.dart';
+import 'package:veli_flutter/models/document_model.dart';
 import 'package:veli_flutter/models/school_model.dart';
 import 'package:veli_flutter/models/subject_model.dart';
 import 'package:veli_flutter/models/user_model.dart';
@@ -23,17 +24,18 @@ import 'package:veli_flutter/widgets/loading.dart';
 import '../../auth/widgets/auth_action_button.dart';
 import '../widgets/post_form_text_field.dart';
 
-class AddPostPage extends StatefulWidget {
-  AddPostPage({Key? key}) : super(key: key);
+class EditPostPage extends StatefulWidget {
+  final Map<String, String>? params;
+  EditPostPage({Key? key, this.params}) : super(key: key);
 
   @override
-  State<AddPostPage> createState() => _AddPostPageState();
+  State<EditPostPage> createState() => _EditPostPageState();
 }
 
-class _AddPostPageState extends State<AddPostPage> {
+class _EditPostPageState extends State<EditPostPage> {
   ImageClassification? imageClassificationHelper;
   LocalStorageService localStorage = LocalStorageService();
-  bool isLoading = false;
+  bool isLoading = true;
 
   TextEditingController name = TextEditingController(text: '');
   TextEditingController description = TextEditingController(text: '');
@@ -43,6 +45,7 @@ class _AddPostPageState extends State<AddPostPage> {
 
   final ImagePicker _picker = ImagePicker();
   List<XFile>? _pickedImages = [];
+  List<String> documentImages = [];
 
   UserModel? user;
   List<dynamic> schools = [];
@@ -53,6 +56,8 @@ class _AddPostPageState extends State<AddPostPage> {
 
   List<dynamic> districts = [];
   String? districtId;
+
+  DocumentModel? documentModel;
 
   void resetForm() {
     setState(() {
@@ -71,6 +76,39 @@ class _AddPostPageState extends State<AddPostPage> {
     setState(() {
       user = userStorage;
     });
+  }
+
+  Future<void> getDocuments() async {
+    try {
+      UserModel? user = await localStorage.getUserInfo();
+      final response = await http.get(
+          headers: {'authorization': 'Bearer ${user!.accessToken}'},
+          Uri.parse('${apiHost}/api/document/${widget.params!['documentId']}'));
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> json = jsonDecode(response.body)["data"];
+
+        print(json);
+        final DocumentModel document = DocumentModel.fromJson(json);
+        setState(() {
+          documentModel = document;
+          schoolId = document.school!.id;
+          description.text = document.description;
+          districtId = document.districtId;
+          subjectId = document.subject!.id;
+          name.text = document.name;
+          price.text = document.price.toString();
+          address.text = document.address;
+          isFree = document.isFree;
+          documentImages = document.images;
+          isLoading = false;
+        });
+        
+      }
+    } catch (e) {
+      print(e);
+      Fluttertoast.showToast(msg: '$e');
+      // return null;
+    }
   }
 
   Future<void> getSchoolList() async {
@@ -93,7 +131,7 @@ class _AddPostPageState extends State<AddPostPage> {
     }
   }
 
-    Future<void> getDistrictList() async {
+  Future<void> getDistrictList() async {
     try {
       UserModel? user = await localStorage.getUserInfo();
       final response = await http.get(
@@ -138,6 +176,7 @@ class _AddPostPageState extends State<AddPostPage> {
 
     if (pickedImages != null) {
       setState(() {
+        documentImages = [];
         _pickedImages = pickedImages;
       });
     }
@@ -146,8 +185,7 @@ class _AddPostPageState extends State<AddPostPage> {
   bool _isValidImage(Map<String, double>? classification) {
     if (classification == null) return false;
 
-    const String validLabel =
-        "0 document"; 
+    const String validLabel = "0 document";
     return classification.containsKey(validLabel) &&
         classification[validLabel]! > 0.5; // Threshold can be adjusted
   }
@@ -164,7 +202,7 @@ class _AddPostPageState extends State<AddPostPage> {
 
       var classification =
           await imageClassificationHelper?.inferenceImage(imgData!);
-    setState(() {});
+      setState(() {});
 
       if (!_isValidImage(classification)) {
         Fluttertoast.showToast(msg: "Hình ảnh không hợp lệ, vui lòng thử lại!");
@@ -174,10 +212,10 @@ class _AddPostPageState extends State<AddPostPage> {
     return true;
   }
 
-  Future<void> createDocument() async {
+  Future<void> updateDocument() async {
     try {
       UserModel? user = await localStorage.getUserInfo();
-      final List<dynamic> images = await _uploadImages();
+      final List<dynamic> images = documentImages.isEmpty ? await _uploadImages(): documentImages;
       final body = jsonEncode({
         "school_id": schoolId,
         "subject_id": subjectId,
@@ -187,13 +225,13 @@ class _AddPostPageState extends State<AddPostPage> {
         "price": int.tryParse(price.text) ?? 0,
         "is_free": isFree,
         "address": address.text,
-        "images": images,
+        // "images": images,
       });
 
-      final response = await http.post(headers: {
+      final response = await http.put(headers: {
         'authorization': 'Bearer ${user!.accessToken}',
         "Content-Type": "application/json"
-      }, Uri.parse('${apiHost}/api/document'), body: body);
+      }, Uri.parse('${apiHost}/api/document/${widget.params!['documentId']}'), body: body);
       if (response.statusCode == 201) {
         Fluttertoast.showToast(
           msg: jsonDecode(response.body)["message"],
@@ -253,6 +291,7 @@ class _AddPostPageState extends State<AddPostPage> {
   @override
   void initState() {
     _initializeImageClassification();
+    getDocuments();
     getUser();
     getSchoolList();
     getSubjectList();
@@ -283,14 +322,14 @@ class _AddPostPageState extends State<AddPostPage> {
 
   SingleChildScrollView buildBody(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
+      child: documentModel != null ? Column(
         children: [
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'ĐĂNG TÀI LIỆU',
+                'CHỈNH SỬA TÀI LIỆU',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: AppColor.darkblueColor,
@@ -508,6 +547,23 @@ class _AddPostPageState extends State<AddPostPage> {
                           .toList(),
                     )
                   ]),
+                ),
+              if (documentImages.isNotEmpty)
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.65,
+                  child: Column(children: [
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: documentImages
+                          .map((String image) => Container(
+                                // margin: EdgeInsets.only(right: 10, bottom: 10),
+                                child: Image.network(image,
+                                    width: 65, height: 65, fit: BoxFit.cover),
+                              ))
+                          .toList(),
+                    )
+                  ]),
                 )
             ]),
           ),
@@ -515,7 +571,7 @@ class _AddPostPageState extends State<AddPostPage> {
           //   height: 40,
           // ),
           AuthActionButton(
-            text: 'ĐĂNG BÀI',
+            text: 'LƯU LẠI',
             onPressed: () async {
               setState(() {
                 isLoading = true;
@@ -523,7 +579,7 @@ class _AddPostPageState extends State<AddPostPage> {
               bool isValid = await validateAndProcessImages();
               if (isValid) {
                 Future.delayed(Duration.zero, () {
-                  createDocument().then((result) {
+                  updateDocument().then((result) {
                     setState(() {
                       isLoading = false;
                     });
@@ -533,10 +589,11 @@ class _AddPostPageState extends State<AddPostPage> {
               setState(() {
                 isLoading = false;
               });
+              // navigatorHelper.popView(context, {});
             },
           ),
         ],
-      ),
+      ): null,
     );
   }
 }

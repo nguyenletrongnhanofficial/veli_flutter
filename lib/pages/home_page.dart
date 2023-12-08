@@ -206,35 +206,33 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     const SizedBox(height: 20),
+                    Image.asset(
+                      "assets/images/home_banner.jpg",
+                      fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width,
+                    )
                   ]),
                 ),
               ),
               SliverToBoxAdapter(
-                child: isFilterVisible
-                    ? const FilterPage()
-                    : GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isFilterVisible = true; // Filterpage
-                          });
-                        },
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const FilterPage(),
-                              ));
-                            },
-                            child: Image.asset(
-                              "assets/images/home_banner.jpg",
-                              fit: BoxFit.cover,
-                              width: MediaQuery.of(context).size.width,
-                            ),
-                          ),
-                        ),
-                      ),
-              ),
+                  child: isFilterVisible
+                      ? const FilterPage()
+                      : GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isFilterVisible = true; //Hiện Filterpage
+                            });
+                          },
+                          child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => const FilterPage()));
+                              },
+                              child: const Text(
+                                'Lọc kết quả',
+                                style: TextStyle(fontSize: 16),
+                              )),
+                        )),
               const SliverToBoxAdapter(
                 // padding: EdgeInsets.fromLTRB(20, 15, 15, 0),
                 // sliver: SliverToBoxAdapter(
