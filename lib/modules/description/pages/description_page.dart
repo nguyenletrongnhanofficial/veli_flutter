@@ -94,7 +94,7 @@ class _DescriptionpageState extends State<Descriptionpage> {
     } catch (e) {
       print(
           'File: lib/modules/chat/pages/conversation_page.dart - Line: 24: $e');
-    }	
+    }
   }
 
   @override
@@ -208,7 +208,16 @@ class _DescriptionpageState extends State<Descriptionpage> {
                                       ),
                                       const SizedBox(height: 10),
                                       Text(
-                                        'Đã đăng: ${DateFormat('dd/MM/yyyy HH:mm').format(DateTime.parse(document.createdAt))}',
+                                        document.district!.name,
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                        'Đã đăng: ${DateFormat('dd/MM/yyyy HH:mm').format(DateTime.parse(document.createdAt).toLocal())}',
                                         style: const TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.w400,
@@ -273,20 +282,24 @@ class _DescriptionpageState extends State<Descriptionpage> {
                                   ),
                                 ),
                                 const SizedBox(height: 20),
-                                const Text(
-                                  'Vị trí',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                                const SizedBox(height: 10),
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 300,
-                                  child: const CustomGoogleMap(),
-                                ),
-                                const SizedBox(height: 20),
+                                // const Text(
+                                //   'Vị trí',
+                                //   style: TextStyle(
+                                //       color: Colors.black,
+                                //       fontWeight: FontWeight.bold,
+                                //       fontSize: 18),
+                                // ),
+                                // const SizedBox(height: 10),
+                                // Container(
+                                //   width: MediaQuery.of(context).size.width,
+                                //   // height: 300,
+                                //   child: Text(
+                                //     document.district.name,
+                                //     style: const TextStyle(
+                                //         color: Colors.black, fontSize: 18),
+                                //   ),
+                                // ),
+                                // const SizedBox(height: 20),
                                 Center(
                                   child: ElevatedButton(
                                     onPressed: () {

@@ -1,3 +1,4 @@
+import 'package:veli_flutter/models/district_model.dart';
 import 'package:veli_flutter/models/school_model.dart';
 import 'package:veli_flutter/models/subject_model.dart';
 import 'package:veli_flutter/models/user_model.dart';
@@ -13,7 +14,7 @@ class DocumentModel {
   final String address;
   final UserModel? createdBy;
   final String createdAt;
-  final String districtId;
+  final DistrictModel district;
   final List<String> images;
   final SchoolModel? school;
   final SubjectModel? subject;
@@ -29,7 +30,7 @@ class DocumentModel {
     required this.address,
     required this.createdBy,
     required this.createdAt,
-    required this.districtId,
+    required this.district,
     required this.images,
     required this.school,
     required this.subject,
@@ -47,7 +48,7 @@ class DocumentModel {
       address: json["address"] ?? '' ,
       createdBy: UserModel.fromJson(json["created_by"] as Map<String, dynamic>),
       createdAt: json["created_at"] ?? '' ,
-      districtId: json["district_id"] ?? '' ,
+      district: DistrictModel.fromJson(json["district"] as Map<String, dynamic>) ,
       images: json["images"] != null ? (json['images'] as List).map((image) => image as String).toList() : [],
  //     images: json["images"] ? json['images'].map((image) => image as String).toList() : [],
       school: SchoolModel.fromJson(json["school"] as Map<String, dynamic>),

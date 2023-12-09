@@ -180,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                               },
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
-                                  child: user != null
+                                  child: user!.avatar != ''
                                       ? Image.network(user!.avatar,
                                           height: 55,
                                           width: 55,
