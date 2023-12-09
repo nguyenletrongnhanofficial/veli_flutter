@@ -135,156 +135,158 @@ class _HomePageState extends State<HomePage> {
             onTap: () {
               navigatorHelper.changeView(context, RouteNames.chatbot);
             }),
-        body: CustomScrollView(
-          controller: controllerPagination,
-          cacheExtent: 100,
-          slivers: [
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Column(children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Xin Chào',
-                              style: TextStyle(
-                                color: AppColor.darkblueColor,
-                                fontSize: 22,
+        body: Padding(
+            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            child: CustomScrollView(
+              controller: controllerPagination,
+              cacheExtent: 100,
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
+                    child: Column(children: [
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Xin Chào',
+                                style: TextStyle(
+                                  color: AppColor.darkblueColor,
+                                  fontSize: 22,
+                                ),
                               ),
-                            ),
-                            Text(
-                              '${user?.username}',
-                              style: const TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: AppColor.darkblueColor,
+                              Text(
+                                '${user?.username}',
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColor.darkblueColor,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Container(
-                            alignment: Alignment.centerRight,
-                            child: GestureDetector(
-                              onTap: () {
-                                navigatorHelper.changeView(
-                                    context, RouteNames.myprofile,
-                                    isReplaceName: false);
-                              },
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: user!.avatar != ''
-                                      ? Image.network(user!.avatar,
-                                          height: 55,
-                                          width: 55,
-                                          fit: BoxFit.cover)
-                                      : Image.asset(
-                                          'assets/images/image_avt_default.jpg',
-                                          height: 55,
-                                          width: 55,
-                                          fit: BoxFit.cover)),
+                            ],
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.centerRight,
+                              child: GestureDetector(
+                                onTap: () {
+                                  navigatorHelper.changeView(
+                                      context, RouteNames.myprofile,
+                                      isReplaceName: false);
+                                },
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: user != null && user?.avatar != ''
+                                        ? Image.network(user!.avatar,
+                                            height: 55,
+                                            width: 55,
+                                            fit: BoxFit.cover)
+                                        : Image.asset(
+                                            'assets/images/image_avt_default.jpg',
+                                            height: 55,
+                                            width: 55,
+                                            fit: BoxFit.cover)),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+                      const Divider(),
+                      const SizedBox(height: 10),
+                      Image.asset(
+                        "assets/images/home_banner.jpg",
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width,
+                      )
+                    ]),
                   ),
-                  const Divider(),
-                  const SizedBox(height: 10),
-                  Image.asset(
-                    "assets/images/banner.jpg",
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width,
-                  )
-                ]),
-              ),
-            ),
-            SliverToBoxAdapter(
-                child: isFilterVisible
-                    ? const FilterPage()
-                    : GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isFilterVisible = true; //Hiện Filterpage
-                          });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => const FilterPage()),
-                              );
+                ),
+                SliverToBoxAdapter(
+                    child: isFilterVisible
+                        ? const FilterPage()
+                        : GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isFilterVisible = true; //Hiện Filterpage
+                              });
                             },
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                  const Color(
-                                      0xFF0EBF7E)), // Set the button color
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      15), // Set the border radius
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => const FilterPage()),
+                                );
+                              },
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    const Color(
+                                        0xFF0EBF7E)), // Set the button color
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        15), // Set the border radius
+                                  ),
                                 ),
                               ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    'assets/svgs/filter_3_line.svg',
+                                    height: 20.0,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  const Text(
+                                    'Lọc kết quả',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
                             ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                SvgPicture.asset(
-                                  'assets/svgs/filter_3_line.svg',
-                                  height: 20.0,
-                                ),
-                                const SizedBox(width: 8),
-                                const Text(
-                                  'Lọc kết quả',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
+                          )),
+                documents.isNotEmpty
+                    ? SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                            if (index < documents.length) {
+                              return GestureDetector(
+                                onTap: () {
+                                  navigatorHelper.changeView(
+                                      context, RouteNames.description, params: {
+                                    'documentId': documents[index].id
+                                  });
+                                },
+                                child: NewDocument(
+                                    documentModel: documents[index]),
+                              );
+                            } else {
+                              return null;
+                            }
+                          },
+                          childCount: documents.length,
                         ),
-                      )),
-            // const SliverToBoxAdapter(
-            //   child: Padding(
-            //     padding: EdgeInsets.only(top: 5),
-            //     child: Text(
-            //       'Tài liệu mới',
-            //       textAlign: TextAlign.left,
-            //       style: TextStyle(
-            //         fontWeight: FontWeight.bold,
-            //         color: AppColor.darkblueColor,
-            //         fontSize: 20,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  return GestureDetector(
-                      onTap: () {
-                        navigatorHelper.changeView(
-                            context, RouteNames.description,
-                            params: {'documentId': documents[index].id});
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 7),
-                        child: NewDocument(documentModel: documents[index]),
-                      ));
-                },
-                childCount: documents.length,
-              ),
-            ),
-          ],
-        ),
+                      )
+                    : SliverToBoxAdapter(
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // Lottie.asset('assets/lotties/robot.json', height: 200),
+                                const SizedBox(height: 20),
+                                const Text(
+                                  'Không có bài đăng nào',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ]),
+                        ),
+                      ),
+              ],
+            )),
       ),
     );
   }

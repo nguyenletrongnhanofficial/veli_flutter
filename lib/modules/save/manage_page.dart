@@ -62,6 +62,7 @@ class _ManagePageState extends State<ManagePage> {
             color: Colors.black,
           ),
           onPressed: () {
+            navigatorHelper.popView(context, {});
             // Thực hiện hành động khi nút quay lại được nhấp
             // Ví dụ: quay lại màn hình trước đó
           },
@@ -124,7 +125,8 @@ class _ManagePageState extends State<ManagePage> {
               child: FutureBuilder(
                 future: future,
                 builder: ((context, snapshot) {
-                  if (snapshot.hasData) {
+                  if (snapshot.connectionState ==
+                      ConnectionState.done && snapshot.hasData) {
                     final List<DocumentModel> data = snapshot.data!;
                     return ListView.builder(
                       itemCount: data.length,

@@ -225,7 +225,7 @@ class _NewDocumentState extends State<NewDocument> {
                     Expanded(
                       child: Text(
                         DateFormat('dd/MM/yyyy HH:mm').format(
-                            DateTime.parse(widget.documentModel.createdAt)),
+                            DateTime.parse(widget.documentModel.createdAt).toLocal()),
                         style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.normal,
