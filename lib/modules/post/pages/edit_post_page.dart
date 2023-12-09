@@ -93,7 +93,7 @@ class _EditPostPageState extends State<EditPostPage> {
           documentModel = document;
           schoolId = document.school!.id;
           description.text = document.description;
-          districtId = document.districtId;
+          districtId = document.district.id;
           subjectId = document.subject!.id;
           name.text = document.name;
           price.text = document.price.toString();
