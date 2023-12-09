@@ -55,7 +55,7 @@ class _ConversationPageState extends State<ConversationPage> {
     setState(() {
       _conversationsFuture = getConversations();
     });
-  } 
+  }
 
   @override
   void initState() {
@@ -65,7 +65,6 @@ class _ConversationPageState extends State<ConversationPage> {
 
   @override
   Widget build(BuildContext context) {
-    num width = MediaQuery.of(context).size.width;
     return WillPopScope(
       onWillPop: () async {
         return false;
@@ -74,50 +73,19 @@ class _ConversationPageState extends State<ConversationPage> {
         onRefresh: _onRefresh,
         child: Scaffold(
           appBar: AppBar(
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(1.0),
+              child: Container(
+                color: const Color.fromARGB(255, 238, 238, 238),
+                height: 1.0,
+              ),
+            ),
+            automaticallyImplyLeading: false,
             backgroundColor: AppColor.backgroundColor,
             elevation: 0,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: width * 0.2,
-                ),
-                Container(
-                  width: width * 0.31,
-                  child: const Text('Tin nhắn',
-                      style: TextStyle(color: Colors.black)),
-                ),
-                // Flexible(
-                //   flex: 1,
-                //   child: Container(
-                //       width: width * 0.33,
-                //       child: Row(
-                //         mainAxisAlignment: MainAxisAlignment.end,
-                //         children: [
-                //           Container(
-                //             constraints: const BoxConstraints(maxWidth: 40),
-                //             child: IconButton(
-                //                 onPressed: () {},
-                //                 icon: const Icon(
-                //                   Icons.book,
-                //                   color: Colors.green,
-                //                 )),
-                //           ),
-                //           Container(
-                //             constraints: const BoxConstraints(maxWidth: 30),
-                //             child: IconButton(
-                //               onPressed: () {},
-                //               icon: const Icon(
-                //                 Icons.menu,
-                //                 color: Colors.black,
-                //               ),
-                //             ),
-                //           )
-                //         ],
-                //       )),
-                // )
-              ],
-            ),
+            centerTitle: true,
+            title:
+                const Text('Tin nhắn', style: TextStyle(color: Colors.black)),
           ),
           body: Column(
             children: [

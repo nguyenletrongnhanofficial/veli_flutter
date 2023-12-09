@@ -1,5 +1,5 @@
+// ignore_for_file: must_be_immutable
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -64,7 +64,7 @@ class _NewDocumentState extends State<NewDocument> {
     }
   }
 
-   Future<void> _showClearDocumentsDialog() async {
+  Future<void> _showClearDocumentsDialog() async {
     bool? result = await showDialog<bool>(
       context: context,
       builder: (BuildContext context) => const ClearDocumentsDialog(),
@@ -85,10 +85,8 @@ class _NewDocumentState extends State<NewDocument> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
-      child: Stack(
-        children: [
-			
-         Container(
+      child: Stack(children: [
+        Container(
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -246,7 +244,7 @@ class _NewDocumentState extends State<NewDocument> {
                         setState(() {
                           isSaved = !isSaved;
                         });
-      
+
                         addToSave();
                         // Xử lý khi nhấp vào kí hiệu Bookmark
                       },
@@ -257,32 +255,38 @@ class _NewDocumentState extends State<NewDocument> {
             ],
           ),
         ),
-        widget.canDelete ? Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            GestureDetector(
-              onTap: () {
-                navigatorHelper.changeView(context, RouteNames.editpost, params: {'documentId': widget.documentModel.id});
-              },
-              child: Container(
-                alignment: Alignment.topRight,
-                    child: Icon(Icons.edit_note_outlined, color: Colors.black, size: 25),
+        widget.canDelete
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      navigatorHelper.changeView(context, RouteNames.editpost,
+                          params: {'documentId': widget.documentModel.id});
+                    },
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      child: Icon(Icons.edit_note_outlined,
+                          color: Colors.black, size: 25),
                     ),
-            ),
-            SizedBox(width: 10,),
-            GestureDetector(
-              onTap: () async{
-                await _showClearDocumentsDialog();
-              },
-              child: Container(
-                alignment: Alignment.topRight,
-                    child: Icon(Icons.highlight_remove_rounded, color: Colors.black, size: 25),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      await _showClearDocumentsDialog();
+                    },
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      child: Icon(Icons.highlight_remove_rounded,
+                          color: Colors.black, size: 25),
                     ),
-            ),
-          ],
-        ): Container(),
-        ]
-      ),
+                  ),
+                ],
+              )
+            : Container(),
+      ]),
     );
   }
 }

@@ -32,6 +32,7 @@ dependencies:
   camera: ^0.10.5+5
   tflite_flutter: ^0.10.3
   flutter_svg: ^2.0.9
+  lottie: ^2.7.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -44,3 +45,4 @@ flutter:
     - assets/images/
     - assets/svgs/
     - assets/tflite/
+    - assets/lotties/

@@ -83,11 +83,20 @@ class _SavePageState extends State<SavePage> {
       },
       child: Scaffold(
         appBar: AppBar(
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(1.0),
+            child: Container(
+              color: const Color.fromARGB(255, 238, 238, 238),
+              height: 1.0,
+            ),
+          ),
+          automaticallyImplyLeading: false,
           backgroundColor: AppColor.backgroundColor,
           title: const Text(
             'Lưu',
             style: TextStyle(color: AppColor.darkblueColor),
           ),
+          elevation: 0,
           centerTitle: true,
           actions: [
             TextButton(

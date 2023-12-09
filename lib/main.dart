@@ -5,8 +5,6 @@ import 'package:veli_flutter/pages/splash_page.dart';
 import 'package:veli_flutter/providers/filter_provider.dart';
 import 'package:veli_flutter/routes/router.dart' as main_router;
 
-import 'modules/tflite/pages/tensorflow_page.dart';
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
@@ -15,7 +13,7 @@ void main() {
       providers: [
         ChangeNotifierProvider<FilterProvider>.value(value: FilterProvider())
       ],
-      child: MainApp(),
+      child: const MainApp(),
     ));
   });
 }
@@ -29,7 +27,6 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       onGenerateRoute: main_router.Router.generateRoute,
       home: SplashPage(),
-      // home: TensorFlowPage(),
     );
   }
 }

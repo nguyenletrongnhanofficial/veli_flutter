@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:veli_flutter/helpers/navigator_helper.dart';
-import 'package:veli_flutter/modules/auth/pages/login_page.dart';
 import 'package:veli_flutter/routes/route_config.dart';
 
 import '../utils/app_color.dart';

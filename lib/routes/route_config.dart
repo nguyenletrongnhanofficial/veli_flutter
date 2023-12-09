@@ -44,7 +44,7 @@ class RouteNames {
   static const signup = 'SignUp';
   static const forgotpassword = "ForgotPassword";
   static const newPassword = "newPassword";
-  static const otp = "Otp"; 
+  static const otp = "Otp";
   static const updatePasswordOtp = "UpdatePasswrordOtp";
   static const successfullypage = "SuccessfullyPage";
   static const addpost = "Addpost";
@@ -82,12 +82,7 @@ class RouteCreator {
       null,
       view: ({params, settings}) => MainPage(),
     ),
-    RouteNames.main: BaseRoute(
-      RouteNames.main,
-      'Main',
-      null,
-      view: ({params, settings}) => MainPage(),
-    ),
+
     //authentication
     RouteNames.login: BaseRoute(
       RouteNames.login,
