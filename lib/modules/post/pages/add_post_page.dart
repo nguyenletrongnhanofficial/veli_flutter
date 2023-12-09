@@ -93,7 +93,7 @@ class _AddPostPageState extends State<AddPostPage> {
     }
   }
 
-    Future<void> getDistrictList() async {
+  Future<void> getDistrictList() async {
     try {
       UserModel? user = await localStorage.getUserInfo();
       final response = await http.get(
@@ -146,15 +146,15 @@ class _AddPostPageState extends State<AddPostPage> {
   bool _isValidImage(Map<String, double>? classification) {
     if (classification == null) return false;
 
-    const String validLabel =
-        "0 document"; 
+    const String validLabel = "0 document";
     return classification.containsKey(validLabel) &&
         classification[validLabel]! > 0.5; // Threshold can be adjusted
   }
 
   Future<bool> validateAndProcessImages() async {
-    if (_pickedImages == null) {
-      Fluttertoast.showToast(msg: "No images selected");
+    if (_pickedImages == null ||
+        (_pickedImages != null && _pickedImages!.isEmpty)) {
+      Fluttertoast.showToast(msg: "Vui lòng chọn ít nhất 1 hình ảnh");
       return false;
     }
 
@@ -164,7 +164,7 @@ class _AddPostPageState extends State<AddPostPage> {
 
       var classification =
           await imageClassificationHelper?.inferenceImage(imgData!);
-    setState(() {});
+      setState(() {});
 
       if (!_isValidImage(classification)) {
         Fluttertoast.showToast(msg: "Hình ảnh không hợp lệ, vui lòng thử lại!");
@@ -303,16 +303,12 @@ class _AddPostPageState extends State<AddPostPage> {
             children: [
               const SizedBox(width: 20),
               ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: Image.network(
-                  (user?.avatar) != null
-                      ? user!.avatar
-                      : 'assets/images/image_avt_default.jpg',
-                  width: 56,
-                  height: 56,
-                  fit: BoxFit.cover,
-                ),
-              ),
+                  borderRadius: BorderRadius.circular(50),
+                  child: user != null && user?.avatar != ''
+                      ? Image.network(user!.avatar,
+                          height: 55, width: 55, fit: BoxFit.cover)
+                      : Image.asset('assets/images/image_avt_default.jpg',
+                          height: 55, width: 55, fit: BoxFit.cover)),
               const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
