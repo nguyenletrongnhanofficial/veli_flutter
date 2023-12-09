@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:need_resume/need_resume.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:veli_flutter/helpers/navigator_helper.dart';
@@ -46,13 +47,18 @@ class _SplashPageState extends ResumableState<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        color: Colors.white,
+    return Scaffold(
+      body: Container(
+        color: const Color(0xff3c6a60),
         height: MediaQuery.sizeOf(context).height,
         width: MediaQuery.sizeOf(context).width,
         child: Center(
-          child: Image.asset('assets/images/veli_splash.png', fit: BoxFit.fill),
+          child: Column(
+            children: [
+              Image.asset('assets/images/veli_logo.png', fit: BoxFit.fill),
+              Lottie.asset('assets/lotties/loading.json', height: 100),
+            ],
+          ),
         ),
       ),
     );
