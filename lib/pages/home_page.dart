@@ -135,18 +135,17 @@ class _HomePageState extends State<HomePage> {
             onTap: () {
               navigatorHelper.changeView(context, RouteNames.chatbot);
             }),
-        body: Padding(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-          child: CustomScrollView(
-            controller: controllerPagination,
-            cacheExtent: 100,
-            slivers: [
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Column(children: [
-                    Row(
+        body: CustomScrollView(
+          controller: controllerPagination,
+          cacheExtent: 100,
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Column(children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,25 +194,28 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-                    const Divider(),
-                    const SizedBox(height: 10),
-                    Image.asset(
-                      "assets/images/home_banner.jpg",
-                      fit: BoxFit.cover,
-                      width: MediaQuery.of(context).size.width,
-                    )
-                  ]),
-                ),
+                  ),
+                  const Divider(),
+                  const SizedBox(height: 10),
+                  Image.asset(
+                    "assets/images/banner.jpg",
+                    fit: BoxFit.cover,
+                    width: MediaQuery.of(context).size.width,
+                  )
+                ]),
               ),
-              SliverToBoxAdapter(
-                  child: isFilterVisible
-                      ? const FilterPage()
-                      : GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isFilterVisible = true; //Hiện Filterpage
-                            });
-                          },
+            ),
+            SliverToBoxAdapter(
+                child: isFilterVisible
+                    ? const FilterPage()
+                    : GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isFilterVisible = true; //Hiện Filterpage
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
                           child: ElevatedButton(
                             onPressed: () {
                               Navigator.of(context).push(
@@ -247,37 +249,41 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                           ),
-                        )),
-              // const SliverToBoxAdapter(
-              //   child: Padding(
-              //     padding: EdgeInsets.only(top: 5),
-              //     child: Text(
-              //       'Tài liệu mới',
-              //       textAlign: TextAlign.left,
-              //       style: TextStyle(
-              //         fontWeight: FontWeight.bold,
-              //         color: AppColor.darkblueColor,
-              //         fontSize: 20,
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return GestureDetector(
-                        onTap: () {
-                          navigatorHelper.changeView(
-                              context, RouteNames.description,
-                              params: {'documentId': documents[index].id});
-                        },
-                        child: NewDocument(documentModel: documents[index]));
-                  },
-                  childCount: documents.length,
-                ),
+                        ),
+                      )),
+            // const SliverToBoxAdapter(
+            //   child: Padding(
+            //     padding: EdgeInsets.only(top: 5),
+            //     child: Text(
+            //       'Tài liệu mới',
+            //       textAlign: TextAlign.left,
+            //       style: TextStyle(
+            //         fontWeight: FontWeight.bold,
+            //         color: AppColor.darkblueColor,
+            //         fontSize: 20,
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  return GestureDetector(
+                      onTap: () {
+                        navigatorHelper.changeView(
+                            context, RouteNames.description,
+                            params: {'documentId': documents[index].id});
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 7),
+                        child: NewDocument(documentModel: documents[index]),
+                      ));
+                },
+                childCount: documents.length,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
