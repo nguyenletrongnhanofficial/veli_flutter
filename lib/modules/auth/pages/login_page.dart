@@ -2,17 +2,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:veli_flutter/constants/common.constanst.dart';
 import 'package:veli_flutter/helpers/navigator_helper.dart';
 import 'package:veli_flutter/models/user_model.dart';
 import 'package:veli_flutter/modules/auth/pages/forgot_password_page.dart';
-import 'package:veli_flutter/pages/home_page.dart';
 import 'package:veli_flutter/routes/route_config.dart';
 import 'package:veli_flutter/services/local_storage_service.dart';
 import 'package:veli_flutter/utils/app_color.dart';
-import 'package:veli_flutter/widgets/navbar.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/auth_action_button.dart';
 import '../widgets/auth_form_text_field.dart';
 import '../widgets/auth_page_link.dart';
@@ -34,18 +31,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    checkLoginStatus();
-  }
-
-  void checkLoginStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-
-    if (isLoggedIn) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => MainPage()),
-      );
-    }
   }
 
   void _togglePasswordVisibility() {
@@ -64,7 +49,8 @@ class _LoginPageState extends State<LoginPage> {
         print(userJson.toString());
         final user = UserModel.fromJson(userJson);
         await localStorage.setUserInfo(user);
-
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool('isLoggedIn', true);
         Fluttertoast.showToast(
           msg: "Đăng nhập thành công",
         );

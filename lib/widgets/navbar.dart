@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:veli_flutter/modules/account/pages/account_page.dart';
 import 'package:veli_flutter/modules/chat/pages/conversation_page.dart';
-import 'package:veli_flutter/modules/filter/pages/filter_page.dart';
-import 'package:veli_flutter/modules/post/pages/add_post_page.dart';
 import 'package:veli_flutter/modules/save/save_page.dart';
 import 'package:veli_flutter/pages/home_page.dart';
 import 'package:veli_flutter/widgets/nav_bar/nav_bar.dart';
@@ -11,10 +9,10 @@ List<Widget> _listOfPage = <Widget>[
   Container(alignment: Alignment.center, child: HomePage()),
   Container(
     alignment: Alignment.center,
-    child: SavePage(),
+    child: const SavePage(),
   ),
   Container(alignment: Alignment.center, child: ConversationPage()),
-  Container(alignment: Alignment.center, child: AccountPage()),
+  Container(alignment: Alignment.center, child: const AccountPage()),
 ];
 
 class MainPage extends StatefulWidget {

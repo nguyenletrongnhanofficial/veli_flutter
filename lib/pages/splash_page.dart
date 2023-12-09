@@ -5,6 +5,9 @@ import 'package:need_resume/need_resume.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:veli_flutter/helpers/navigator_helper.dart';
 import 'package:veli_flutter/routes/route_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../widgets/navbar.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -15,9 +18,17 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends ResumableState<SplashPage> {
   void redirectPage(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
     Timer(const Duration(milliseconds: 2000), () {
-      navigatorHelper.changeView(context, RouteNames.onboarding,
-          isReplaceName: true, type: PageTransitionType.fade);
+      if (isLoggedIn) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => MainPage()),
+        );
+      } else {
+        navigatorHelper.changeView(context, RouteNames.onboarding,
+            isReplaceName: true, type: PageTransitionType.fade);
+      }
     });
   }
 
@@ -27,7 +38,7 @@ class _SplashPageState extends ResumableState<SplashPage> {
     redirectPage(context);
   }
 
-  @override 
+  @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();

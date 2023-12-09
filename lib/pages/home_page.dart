@@ -1,8 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'package:veli_flutter/constants/common.constanst.dart';
 import 'package:veli_flutter/helpers/navigator_helper.dart';
 import 'package:veli_flutter/models/document_model.dart';
@@ -24,7 +25,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   double appBarHeight = 70.0;
-  bool _showAppbar = true;
   bool isScrollingDown = false;
   bool isFilterVisible = false;
   ScrollController controllerPagination = ScrollController();
@@ -35,7 +35,6 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> initializeSocketService() async {
     UserModel? user = await localStorage.getUserInfo();
-
     socket = SocketService.getInstance(authorizationToken: user!.accessToken);
     socket.onEvent(
         'connect',
@@ -78,10 +77,15 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    initializeSocketService();
-    getUser();
-    getDocuments();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await localStorage.init();
+      initializeSocketService();
+      getUser();
+      getDocuments();
+      setState(() {});
+    });
+
     controllerPagination.addListener(myScroll);
   }
 
@@ -98,14 +102,12 @@ class _HomePageState extends State<HomePage> {
       if (direction == ScrollDirection.reverse) {
         if (!isScrollingDown) {
           isScrollingDown = true;
-          _showAppbar = false;
           hideBottomBar();
         }
       }
       if (direction == ScrollDirection.forward) {
         if (isScrollingDown) {
           isScrollingDown = false;
-          _showAppbar = true;
           showBottomBar();
         }
       }
@@ -113,15 +115,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   void hideBottomBar() {
-    setState(() {
-      _showAppbar = false;
-    });
+    setState(() {});
   }
 
   void showBottomBar() {
-    setState(() {
-      _showAppbar = true;
-    });
+    setState(() {});
   }
 
   @override
@@ -131,22 +129,14 @@ class _HomePageState extends State<HomePage> {
         return false;
       },
       child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: GestureDetector(
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: Container(
-                    width: 50,
-                    height: 50,
-                    child: Image.asset(
-                      "assets/images/iconchatbot.jpeg",
-                      fit: BoxFit.cover,
-                    ))),
+            child: Lottie.asset('assets/lotties/robot.json', height: 65),
             onTap: () {
               navigatorHelper.changeView(context, RouteNames.chatbot);
             }),
-        body: Container(
-          margin: const EdgeInsets.only(top: 20),
-          color: AppColor.backgroundColor,
+        body: Padding(
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
           child: CustomScrollView(
             controller: controllerPagination,
             cacheExtent: 100,
@@ -205,7 +195,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
+                    const Divider(),
+                    const SizedBox(height: 10),
                     Image.asset(
                       "assets/images/home_banner.jpg",
                       fit: BoxFit.cover,
@@ -224,28 +215,53 @@ class _HomePageState extends State<HomePage> {
                             });
                           },
                           child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => const FilterPage()));
-                              },
-                              child: const Text(
-                                'Lọc kết quả',
-                                style: TextStyle(fontSize: 16),
-                              )),
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => const FilterPage()),
+                              );
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  const Color(
+                                      0xFF0EBF7E)), // Set the button color
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      15), // Set the border radius
+                                ),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                  'assets/svgs/filter_3_line.svg',
+                                  height: 20.0,
+                                ),
+                                const SizedBox(width: 8),
+                                const Text(
+                                  'Lọc kết quả',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                          ),
                         )),
-              const SliverToBoxAdapter(
-                // padding: EdgeInsets.fromLTRB(20, 15, 15, 0),
-                // sliver: SliverToBoxAdapter(
-                child: Text(
-                  'Tài liệu mới',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: AppColor.darkblueColor,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
+              // const SliverToBoxAdapter(
+              //   child: Padding(
+              //     padding: EdgeInsets.only(top: 5),
+              //     child: Text(
+              //       'Tài liệu mới',
+              //       textAlign: TextAlign.left,
+              //       style: TextStyle(
+              //         fontWeight: FontWeight.bold,
+              //         color: AppColor.darkblueColor,
+              //         fontSize: 20,
+              //       ),
+              //     ),
+              //   ),
+              // ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {

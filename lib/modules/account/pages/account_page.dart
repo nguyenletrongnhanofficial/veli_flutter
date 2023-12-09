@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:veli_flutter/modules/profile/pages/profile_page.dart';
 import 'package:veli_flutter/modules/save/manage_page.dart';
 import 'package:veli_flutter/modules/setting/pages/log_out.dart';
-import 'package:veli_flutter/modules/setting/pages/setting_page.dart';
 import 'package:veli_flutter/modules/setting/pages/update_password.dart';
 
 class RowContent {
@@ -19,8 +19,8 @@ class RowContent {
 
 final allRowContent = [
   RowContent(
-      iconLeadingURL: 'assets/images/account.jpg',
-      content: 'My profile ',
+      iconLeadingURL: 'assets/svgs/user_edit_fill.svg',
+      content: 'Thông tin cá nhân',
       itemFunction: (BuildContext context) {
         Navigator.push(
           context,
@@ -30,7 +30,7 @@ final allRowContent = [
         );
       }),
   RowContent(
-      iconLeadingURL: 'assets/images/post_management.jpg',
+      iconLeadingURL: 'assets/svgs/grid_2_fill.svg',
       content: 'Quản lý bài đăng',
       itemFunction: (BuildContext context) {
         Navigator.push(
@@ -49,14 +49,14 @@ final allRowContent = [
   // content: 'Quản lý doanh thu',
   // itemFunction: () {}),
   RowContent(
-      iconLeadingURL: 'assets/images/evaluate.jpg',
+      iconLeadingURL: 'assets/svgs/thumb_up_2_fill.svg',
       content: 'Phản hồi/ Đánh giá ứng dụng', // link vào gg drive
 
       itemFunction: (BuildContext context) {
         openFeedback();
       }),
   RowContent(
-      iconLeadingURL: 'assets/images/setting.jpg',
+      iconLeadingURL: 'assets/svgs/lock_fill.svg',
       content: 'Đổi mật khẩu',
       itemFunction: (BuildContext context) {
         Navigator.push(
@@ -67,7 +67,7 @@ final allRowContent = [
         );
       }),
   RowContent(
-      iconLeadingURL: 'assets/images/signout.png',
+      iconLeadingURL: 'assets/svgs/exit_fill.svg',
       content: 'Đăng xuất',
       itemFunction: (ctxRoot) {
         showModalBottomSheet(
@@ -117,15 +117,20 @@ class _AccountState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     final PreferredSizeWidget appBar = AppBar(
-      elevation: 0.0,
-      backgroundColor: Color(0xFFFAFAFD),
+      elevation: 0,
+      backgroundColor: const Color(0xFFFAFAFD),
       centerTitle: true,
+      automaticallyImplyLeading: false,
       title: const Text(
         'Tài khoản',
-        style: TextStyle(
-            color: Color(0xFF0D0D26),
-            fontSize: 16,
-            fontWeight: FontWeight.w600),
+        style: TextStyle(color: Color(0xFF0D0D26), fontWeight: FontWeight.w600),
+      ),
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(1.0),
+        child: Container(
+          color: const Color.fromARGB(255, 238, 238, 238),
+          height: 1.0,
+        ),
       ),
     );
 
@@ -148,18 +153,20 @@ class _AccountState extends State<AccountPage> {
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     leading: SizedBox(
-                        width: 30,
-                        height: 30,
-                        child: Image(
-                            image: AssetImage(
-                          allRowContent[i].iconLeadingURL,
-                        ))),
+                      width: 25,
+                      height: 25,
+                      child: SvgPicture.asset(
+                        allRowContent[i].iconLeadingURL,
+                        width: 25,
+                        height: 25,
+                      ),
+                    ),
                     title: Text(
                       allRowContent[i].content,
                       style: const TextStyle(
                           color: Color(0xFF150B3D),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
                     ),
                     trailing: Container(
                       margin: const EdgeInsets.fromLTRB(24, 0, 0, 0),
