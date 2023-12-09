@@ -73,6 +73,9 @@ class _LoginPageState extends State<LoginPage> {
           navigatorHelper
               .changeView(context, RouteNames.otp, params: {"userId": user.id});
         } else {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setBool('isLoggedIn', true);
+
           navigatorHelper.changeView(context, RouteNames.main,
               isReplaceName: true);
         }
